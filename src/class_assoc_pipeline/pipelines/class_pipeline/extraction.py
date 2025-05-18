@@ -86,19 +86,6 @@ def process_file(model: str, dataset: str, exp_round: int) -> None:
             flags=re.IGNORECASE|re.VERBOSE
         ).strip()
         core = remove_trailing_notes(core)
-        # core = re.sub(
-        # r"""
-        # (?! # negative lookahead to protect these cases
-        #     \( \s* optional \) |
-        #     \( \s* or\b       |
-        #     \( \s* and\b
-        # )
-        # \([^)]*\)   # any other parenthesis group
-        # """,
-        # "",
-        # core,
-        # flags=re.IGNORECASE | re.VERBOSE
-        # ).strip()
 
         # -- handle "and", "or" 
         if ',' in core:
