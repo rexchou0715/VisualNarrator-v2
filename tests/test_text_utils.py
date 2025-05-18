@@ -5,7 +5,10 @@ from class_assoc_pipeline.utils.text_utils import (
     remove_trailing_notes,
     split_mandatory_entities,
     clean_association_line,
-    expand_or_variants
+    expand_or_variants,
+    flatten_or_variants,
+    dedupe_preserve_optional_first,
+    flatten_and_variants
 )
 
 def test_clean_class_name():
@@ -19,6 +22,7 @@ def test_format_optional_line():
 def test_remove_trailing_notes():
     assert remove_trailing_notes("Foo: details") == "Foo"
     assert remove_trailing_notes("Bar - reason") == "Bar"
+    assert remove_trailing_notes("(optional) `Material`") == "(optional) Material"
     # assert remove_trailing_notes("`Baz` extra") == "Baz extra"
 
 def test_split_mandatory_entities():
@@ -42,3 +46,33 @@ def test_expand_or_variants():
     assert expand_or_variants(inp3) == ["AttendanceRecord", "Attendance"]
     # result = expand_or_variants(inp3)
     # print("debug: ", result)
+
+
+def test_flatten_or_variants():
+    inp = "Group (or “CampGroup”)"
+    inp2 = "Group (often “CampGroup”)"
+    inp3 = "Activity (or “Event” / “Task”)"
+    inp4 = "AttendanceRecord (or “Attendance”)"
+    inp5 = "(Optional) Profile (or “Account”)"
+    assert flatten_or_variants(inp) == "Group/CampGroup"
+    assert flatten_or_variants(inp2) == "Group/CampGroup"
+    assert flatten_or_variants(inp3) == "Activity/Event/Task"
+    assert flatten_or_variants(inp4) == "AttendanceRecord/Attendance"
+    assert flatten_or_variants(inp5) == "(Optional) Profile/Account"
+
+
+def test_dedupe_preserve_optional_first():
+    ls1 = ["Event", "Company", "Transaction"]
+    ls2 = ["(optional)Company", "(optional)Transaction"]
+    assert dedupe_preserve_optional_first(ls1, ls2) == ["Event", "Company", "Transaction"]
+
+def test_flatten_and_variants():
+    inp1 = "(Optional) Question (and Answer)"
+    inp2 = "Question (and Answer)"
+    inp3 = "(Optional) SomethingElse"
+    inp4 = "Maps and Locations"
+    print(flatten_and_variants(inp1))
+    assert flatten_and_variants(inp1) == ["(Optional) Question", "(Optional) Answer"]
+    assert flatten_and_variants(inp2) == ["Question", "Answer"]
+    assert flatten_and_variants(inp3) == ["(Optional) SomethingElse"]
+    assert flatten_and_variants(inp4) == ["Maps", "Locations"]

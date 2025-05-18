@@ -1,5 +1,8 @@
 import re
+from typing import List
+import inflect
 
+_p = inflect.engine()
 
 def clean_class_name(content: str) -> str:
     """
@@ -30,10 +33,13 @@ def remove_trailing_notes(line: str) -> str:
     """
     Strips trailing notes or formatting characters such as ':', '-', and '`' from a line.
     """
-    # Split and keep only the part before ':', '-', or '`'
-    for sep in [":", "-"]:
+    # Split and keep only the part before ':', '-', '–' (- and – are different), and '`'
+    for sep in [":", "-", "–"]:
         if sep in line:
             line = line.split(sep, 1)[0]
+
+    # ASCII and typographic quotes:
+    line = re.sub(r"[`“”‘’]", "", line)
     return line.strip()
 
 
@@ -109,3 +115,101 @@ def expand_or_variants(entity: str) -> list[str]:
                 variants.append(cleaned)
     return variants
 
+
+def flatten_or_variants(entity: str) -> str:
+    """
+    Transform strings like:
+        "(Optional) Profile (or “Account”)"
+    Into:
+        "(Optional) Profile/Account"
+    """
+    # Detect and remove leading "(Optional)"
+    opt_match = re.match(r'^\(\s*optional\)\s*', entity, flags=re.IGNORECASE)
+    is_optional = bool(opt_match)
+    if is_optional:
+        # strip off the exact prefix we matched
+        entity = entity[opt_match.end():]
+
+    # Split off at the first "("
+    head, *rest = re.split(r'\(', entity, 1)
+    # Clean up any Markdown bold around the head
+    head = re.sub(r'\*{1,2}(.*?)\*{1,2}', r'\1', head).strip()
+    variants = [head]
+
+    if rest:
+        inside = rest[0].rstrip(')')
+        inside = re.sub(r'^(?:or\s*simply|or|often)\s*', '', inside, flags=re.IGNORECASE)
+        parts = re.split(r'\s*/\s*|\s+or\s+', inside, flags=re.IGNORECASE)
+
+        for p in parts:
+            cleaned = p.strip().strip('“”"\' ')
+            if cleaned:
+                variants.append(cleaned.replace(" ", ""))
+
+    joined = "/".join(variants)
+    # 3) Re-add the "(Optional)" prefix if needed
+    return f"(Optional) {joined}" if is_optional else joined
+
+
+def normalize_word(word: str) -> str:
+    """
+    Normalize a word to its lowercase singular form, preserving certain keywords.
+    """
+    if not isinstance(word, str):
+        return ""
+    lowered = word.lower().strip()
+    # Keywords to preserve as-is
+    keywords = {"class", "process", "progress", "academic progress", "address"}
+    if lowered in keywords:
+        return lowered
+    # Attempt singularization; fallback to original lowercase
+    return _p.singular_noun(lowered) or lowered
+
+
+def flatten_and_variants(entity: str) -> List[str]:
+    """
+    Only handles strings of the form:
+        "(Optional) X (and Y)"
+    Returns:
+        ["(Optional) X", "(Optional) Y"]
+    """
+    # 1) pull off an "(optional)" prefix if it’s there
+    opt_match = re.match(r'^\(\s*optional\)\s*', entity, flags=re.IGNORECASE)
+    prefix = ""
+    if opt_match:
+        prefix = opt_match.group(0).strip() + " "
+        entity = entity[opt_match.end():]
+
+    # 2) first, the parenthesized-and rule: e.g. "X (and Y)"
+    m = re.match(r'^(.*?)\s*\(\s*and\s*(.*?)\s*\)\s*$', entity, re.IGNORECASE)
+    if m:
+        return [
+            f"{prefix}{m.group(1).strip()}",
+            f"{prefix}{m.group(2).strip()}"
+        ]
+
+    # 3) **new** plain-and rule: e.g. "A and B" (no parentheses)
+    m2 = re.match(r'^(.*?)\s+and\s+(.*?)$', entity, re.IGNORECASE)
+    if m2:
+        return [
+            f"{prefix}{m2.group(1).strip()}",
+            f"{prefix}{m2.group(2).strip()}"
+        ]
+
+    # 4) fallback: nothing to split on
+    return [f"{prefix}{entity.strip()}"]
+
+def dedupe_preserve_optional_first(mandatory: list[str], optional: list[str]) -> list[str]:
+    """
+    Merge mandatory + optional lists, but if an item appears in both (ignoring "(optional) "),
+    only keep whichever came first in the combined sequence.
+    """
+    seen = set()
+    combined = []
+    for item in (mandatory + optional):
+        # strip off the optional prefix for the purpose of deduplication
+        key = item.lower().replace("(optional)", "").strip()
+        if key not in seen:
+            seen.add(key)
+            combined.append(item)
+    return combined
