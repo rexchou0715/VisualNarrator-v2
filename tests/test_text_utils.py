@@ -8,7 +8,8 @@ from class_assoc_pipeline.utils.text_utils import (
     expand_or_variants,
     flatten_or_variants,
     dedupe_preserve_optional_first,
-    flatten_and_variants
+    flatten_and_variants,
+    flatten_comma_variants
 )
 
 def test_clean_class_name():
@@ -71,8 +72,20 @@ def test_flatten_and_variants():
     inp2 = "Question (and Answer)"
     inp3 = "(Optional) SomethingElse"
     inp4 = "Maps and Locations"
+    inp5 = "(Optional) UI and UX"
     print(flatten_and_variants(inp1))
     assert flatten_and_variants(inp1) == ["(Optional) Question", "(Optional) Answer"]
     assert flatten_and_variants(inp2) == ["Question", "Answer"]
     assert flatten_and_variants(inp3) == ["(Optional) SomethingElse"]
     assert flatten_and_variants(inp4) == ["Maps", "Locations"]
+    assert flatten_and_variants(inp5) == ["(Optional) UI", "(Optional) UX"]
+
+def test_flatten_comma_variants():
+    inp1 = "(optional) Counselor, CampAdministrator, Photo"
+    inp2 = "Counselor, CampAdministrator, Photo"
+    assert flatten_comma_variants(inp1) == ["(optional) Counselor", 
+                                            "(optional) CampAdministrator",
+                                            "(optional) Photo"]
+    assert flatten_comma_variants(inp2) == ["Counselor", 
+                                            "CampAdministrator",
+                                            "Photo"]

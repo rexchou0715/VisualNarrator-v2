@@ -173,31 +173,23 @@ def flatten_and_variants(entity: str) -> List[str]:
     Returns:
         ["(Optional) X", "(Optional) Y"]
     """
-    # 1) pull off an "(optional)" prefix if it’s there
-    opt_match = re.match(r'^\(\s*optional\)\s*', entity, flags=re.IGNORECASE)
-    prefix = ""
-    if opt_match:
-        prefix = opt_match.group(0).strip() + " "
-        entity = entity[opt_match.end():]
+   # 1) strip off optional prefix
+    opt_match = re.match(r'^\(\s*optional\)\s*', entity, re.IGNORECASE)
+    prefix = opt_match.group(0).strip() + " " if opt_match else ""
+    core   = entity[opt_match.end():] if opt_match else entity
 
-    # 2) first, the parenthesized-and rule: e.g. "X (and Y)"
-    m = re.match(r'^(.*?)\s*\(\s*and\s*(.*?)\s*\)\s*$', entity, re.IGNORECASE)
+    # 2) first try parenthesized "(and Y)" form
+    m = re.match(r'^(.*?)\s*\(\s*and\s*(.*?)\s*\)\s*$', core, re.IGNORECASE)
     if m:
-        return [
-            f"{prefix}{m.group(1).strip()}",
-            f"{prefix}{m.group(2).strip()}"
-        ]
+        return [f"{prefix}{m.group(1).strip()}", f"{prefix}{m.group(2).strip()}"]
 
-    # 3) **new** plain-and rule: e.g. "A and B" (no parentheses)
-    m2 = re.match(r'^(.*?)\s+and\s+(.*?)$', entity, re.IGNORECASE)
+    # 3) then plain "X and Y"
+    m2 = re.match(r'^(.*?)\s+and\s+(.*?)$', core, re.IGNORECASE)
     if m2:
-        return [
-            f"{prefix}{m2.group(1).strip()}",
-            f"{prefix}{m2.group(2).strip()}"
-        ]
+        return [f"{prefix}{m2.group(1).strip()}", f"{prefix}{m2.group(2).strip()}"]
 
-    # 4) fallback: nothing to split on
-    return [f"{prefix}{entity.strip()}"]
+    # 4) nothing to split
+    return [f"{prefix}{core.strip()}"]
 
 def dedupe_preserve_optional_first(mandatory: list[str], optional: list[str]) -> list[str]:
     """
@@ -213,3 +205,36 @@ def dedupe_preserve_optional_first(mandatory: list[str], optional: list[str]) ->
             seen.add(key)
             combined.append(item)
     return combined
+
+
+import re
+from typing import List
+
+def flatten_comma_variants(entity: str) -> List[str]:
+    """
+    Given a comma-separated list, possibly prefixed by ANY (...) group,
+    return each item as its own entity, preserving that exact prefix.
+
+    Examples:
+        "(optional) A, B, C"    -> ["(optional) A", " (optional) B", "(optional) C"]
+        "(Opt) X, Y, Z"         -> ["(Opt) X", "(Opt) Y", "(Opt) Z"]
+        "(Foo) 1, 2, 3"         -> ["(Foo) 1", "(Foo) 2", "(Foo) 3"]
+        "Alpha, Beta, Gamma"    -> ["Alpha", "Beta", "Gamma"]
+    """
+    # 1) extract any leading "(...)" prefix (not just "optional"):
+    m = re.match(r'^\(\s*[^)]+\)\s*', entity)
+    if m:
+        prefix = m.group(0).strip() # e.g. "(optional)" or "(Opt)" or "(Foo)"
+        rest = entity[m.end():]
+    else:
+        prefix = ""
+        rest = entity
+
+    # 2) split on commas
+    parts = [p.strip() for p in rest.split(',') if p.strip()]
+
+    # 3) re-attach the exact prefix (if any) to each
+    if prefix:
+        return [f"{prefix} {p}" for p in parts]
+    else:
+        return parts
