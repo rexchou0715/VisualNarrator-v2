@@ -85,7 +85,7 @@ def extract_qwen14b_content(content: str, exp_round: int) -> str:
 EXTRACTORS = {
     "gpt-o1": extract_gpt_o1_content,
     "llama3-8b": extract_llama3_8b_content,
-    "qwen14b": extract_qwen14b_content,
+    "qwen-14b": extract_qwen14b_content,
 }
 
 def extract_content_by_model(content: str, model: str, exp_round: int) -> str:
