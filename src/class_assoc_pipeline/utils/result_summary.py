@@ -170,10 +170,10 @@ if __name__ == "__main__":
     # Run comparison for class experiments
     out_dir = Path(EXPERIMENT_OUTPUT_DIR)
     run_experiment_comparison(
-        experiment_type="Class",
-        output_file= out_dir / "Class_experiment_comparison_result.xlsx",
+        experiment_type="Association",
+        output_file= out_dir / "Association_experiment_comparison_result.xlsx",
         models=list(MODELS.keys())
     )
     # To compare association experiments
     # run_experiment_comparison(experiment_type="Association", output_file="Association_experiment_comparison_result.xlsx")
-    aggregate_unmatched_results("class", models=list(MODELS.keys()))
+    aggregate_unmatched_results("association", models=list(MODELS.keys()))

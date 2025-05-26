@@ -90,7 +90,7 @@ def process_dataset(model: str, rounds: int) -> None:
             'count': list(counter.values())
         })
         df_unmatched_log.sort_values(by=["count"], ascending=False, inplace=True)
-        df_unmatched_log.to_excel(os.path.join(out_dir, "unmatch.xlsx"), index=False)
+        df_unmatched_log.to_excel(os.path.join(out_dir, "unmatched.xlsx"), index=False)
 
         # Write experiment log and results
         write_experiment_log(out_dir, full_log)
