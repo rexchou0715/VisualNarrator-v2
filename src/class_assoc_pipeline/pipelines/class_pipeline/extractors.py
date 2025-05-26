@@ -1,5 +1,3 @@
-# src/class_assoc_pipeline/pipelines/class_pipeline/extractors.py
-
 import re
 
 def extract_gpt_o1_content(content: str, exp_round: int) -> str:

@@ -1,5 +1,3 @@
-# src/class_assoc_pipeline/pipelines/class_pipeline/extraction.py
-
 import os
 import re
 import pandas as pd

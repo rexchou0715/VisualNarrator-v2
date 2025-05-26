@@ -43,6 +43,54 @@ def remove_trailing_notes(line: str) -> str:
     return line.strip()
 
 
+def remove_trailing_notes_association(line: str) -> str:
+    """
+    Strips leading/trailing formatting and trailing notes from an association line.
+
+    1. Trim whitespace.
+    2. Remove Markdown bold markers (“**”).
+    3. Normalize any “ - ” to “-”.
+    4. Drop everything after the first colon.
+    5. Remove ASCII and typographic quotes.
+    """
+    # 1) Trim and remove bold markers, 2) normalize " - " → "-"
+    line = line.strip().replace("**", "").replace(" - ", "-")
+
+    # 3) Drop any trailing notes after a colon
+    if ":" in line:
+        line = line.split(":", 1)[0]
+
+    # 4) Remove any backticks or typographic quotes
+    line = re.sub(r"[`“”‘’]", "", line)
+
+    return line.strip()
+
+
+def clean_association_line(line: str, force_optional: bool = False) -> str:
+    """
+    Normalize one association line:
+      - Remove leading bullets/numbers
+      - Strip Explanation(...) parentheticals
+      - Keep only the first and last parts around '-'
+      - Remove any leftover parentheses
+      - Prefix '(optional)' if needed
+    """
+    # 1) strip leading “1. ”, “* ” or “- ”
+    line = re.sub(r"^(\d+\.\s*|\*\s*|\-\s*)", "", line)
+    # 2) detect optional
+    opt = force_optional or ("(optional" in line.lower()) or ("(opt)" in line.lower())
+    # 3) remove Explanation(...) groups
+    line = re.sub(r"\(Explanation:.*?\)", "", line, flags=re.IGNORECASE)
+    # 4) split on hyphen, keep first & last segment
+    parts = [p.strip() for p in line.split('-')]
+    cleaned = f"{parts[0]}-{parts[-1]}" if len(parts) >= 2 else line.strip()
+    # 5) strip any remaining parentheses
+    cleaned = re.sub(r"\([^)]*\)", "", cleaned).strip()
+    # 6) prefix “(optional) ”
+    return f"(optional) {cleaned}" if opt else cleaned
+
+
+
 def split_mandatory_entities(text: str) -> list[str]:
     """
     Splits a combined class description into individual entities by 'and', commas, and
@@ -166,6 +214,14 @@ def normalize_word(word: str) -> str:
     return _p.singular_noun(lowered) or lowered
 
 
+def normalize_assoc(assoc: list[str]) -> tuple[str,str]:
+    left, right = assoc
+    left = re.sub(r'^\(Opt\)\s*', '', left, flags=re.IGNORECASE)
+    left = clean_class_name(left)
+    right = clean_association_line(right)
+    return left, right
+
+
 def flatten_and_variants(entity: str) -> List[str]:
     """
     Only handles strings of the form:
@@ -173,23 +229,43 @@ def flatten_and_variants(entity: str) -> List[str]:
     Returns:
         ["(Optional) X", "(Optional) Y"]
     """
-   # 1) strip off optional prefix
-    opt_match = re.match(r'^\(\s*optional\)\s*', entity, re.IGNORECASE)
-    prefix = opt_match.group(0).strip() + " " if opt_match else ""
-    core   = entity[opt_match.end():] if opt_match else entity
+    # 1) pull off an "(optional)" prefix if it’s there
+    opt_match = re.match(r'^\(\s*optional\)\s*', entity, flags=re.IGNORECASE)
+    prefix = ""
+    if opt_match:
+        prefix = opt_match.group(0).strip() + " "
+        entity = entity[opt_match.end():]
 
-    # 2) first try parenthesized "(and Y)" form
-    m = re.match(r'^(.*?)\s*\(\s*and\s*(.*?)\s*\)\s*$', core, re.IGNORECASE)
+    # 2) first, the parenthesized-and rule: e.g. "X (and Y)"
+    m = re.match(r'^(.*?)\s*\(\s*and\s*(.*?)\s*\)\s*$', entity, re.IGNORECASE)
+    print(f"m {m}")
     if m:
-        return [f"{prefix}{m.group(1).strip()}", f"{prefix}{m.group(2).strip()}"]
+        return [
+            f"{prefix}{m.group(1).strip()}",
+            f"{prefix}{m.group(2).strip()}"
+        ]
 
-    # 3) then plain "X and Y"
-    m2 = re.match(r'^(.*?)\s+and\s+(.*?)$', core, re.IGNORECASE)
+    # 3) **new** plain-and rule: e.g. "A and B" (no parentheses)
+    m2 = re.match(r'^(.*?)\s+and\s+(.*?)$', entity, re.IGNORECASE)
+    print(f"m2 {m2}, prefix: {prefix}")
     if m2:
-        return [f"{prefix}{m2.group(1).strip()}", f"{prefix}{m2.group(2).strip()}"]
+        return [
+            f"{prefix}{m2.group(1).strip()}",
+            f"{prefix}{m2.group(2).strip()}"
+        ]
 
-    # 4) nothing to split
-    return [f"{prefix}{core.strip()}"]
+    # 4) fallback: nothing to split on
+    return [f"{prefix}{entity.strip()}"]
+
+def deduplicate_associations(assocs: list[list[str]]) -> list[list[str]]:
+    seen = set()
+    out = []
+    for a in assocs:
+        key = normalize_assoc(a)
+        if key not in seen:
+            seen.add(key)
+            out.append(a)
+    return out
 
 def dedupe_preserve_optional_first(mandatory: list[str], optional: list[str]) -> list[str]:
     """
@@ -205,10 +281,6 @@ def dedupe_preserve_optional_first(mandatory: list[str], optional: list[str]) ->
             seen.add(key)
             combined.append(item)
     return combined
-
-
-import re
-from typing import List
 
 def flatten_comma_variants(entity: str) -> List[str]:
     """
@@ -238,3 +310,24 @@ def flatten_comma_variants(entity: str) -> List[str]:
         return [f"{prefix} {p}" for p in parts]
     else:
         return parts
+    
+
+
+def parse_association_line(line: str) -> list[list[str]]:
+    line = line.strip()
+    if not line or '-' not in line:
+        return []
+    is_opt = bool(re.match(r'^\((?:optional|opt)\)', line, re.IGNORECASE))
+    if is_opt:
+        line = re.sub(r'^\((?:optional|opt)\)\s*', '', line, flags=re.IGNORECASE)
+    line = line.replace('"','').strip()
+    left, right = [p.strip() for p in line.split('-',1)]
+    # split on or/and
+    parts = re.split(r'\s+or\s+|\s+and\s+', right, flags=re.IGNORECASE)
+    pairs = []
+    for part in parts:
+        # handle commas
+        for sub in [s.strip() for s in part.split(',')]:
+            tag_left = f"(Opt) {left}" if is_opt else left
+            pairs.append([ tag_left, sub ])
+    return deduplicate_associations(pairs)
