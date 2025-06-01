@@ -189,12 +189,14 @@ SILVER_STANDARD_CLASS = {
     "school": [
     ],
     "sports": [
-        "timeslot"
+        "timeslot",
+        "fine"
     ],
     "supermarket": [
         "payment"
     ],
     "ticket": [
+        "seat"
     ]
 }
 
@@ -239,7 +241,9 @@ SYNONYM_DICT_CLASS = {
     "fish&chips": { 'delivery person': ['deliveryperson', 'home delivery person', 'delivery-person', 'deliveryemployee', 'delivery driver', 'delivery employee'],
                    'request': ['special request', 'specialrequest']
     },
-    "grocery": {'salary statement': ['employeepay', 'financial statement', 'salary', 'salarystatement', 'Financial Annual Statement', 'financialstatement', 'financial annual statement'],
+    "grocery": {'salary statement': ['employeepay', 'financial statement', 'salary', 'salarystatement', 
+                                    'Financial Annual Statement', 'financialstatement', 'financial annual statement',
+                                    'statement'],
                 'working hour': ["scheduled Wwrk hours", "workhour", "work hour", "workinghour"],
                 'schedule': ['work schedule'],
                 'contract': ["employeecontract", "employee contract"],
@@ -250,34 +254,39 @@ SYNONYM_DICT_CLASS = {
                       'estimate': ["estimation"],
                       'round': ['gameround', 'current round']
     },
-    "recycling": {'recycling facility': ['recycling center', 'special waste drop off site', 'recycling bin', 'facility'],
+    "recycling": {'recycling facility': ['recycling center', 'special waste drop off site', 'recycling bin', 
+                                         'facility','wastedropoffsite', 'waste drop off site', "recyclingfacility",
+                                         "special waste drop off sites"],
                   'waste type': ['recyclable waste type', 'recyclable material', 'non-recycllable material', 'material', 'type of waste'],
-                  'feedback': ['question']
+                  'feedback': ['question', "userquestion"],
+                  "safe disposal event": ["disposal event", "safedisposalevent"]
     },
     "school": {"class": ["subject", "course"],
-               "attendance": ["absence", "student absence", "student attendance", "academic attendance", "attendance record"],
+               "attendance": ["absence", "student absence", "student attendance", 
+                              "academic attendance", "attendance record"],
                "student": ["child"],
                "assignment": ["homework", "submission element"],
-               "submission": ["answer submission"],
+               "submission": ["answer submission", "homework submission"],
                "administrator": ["administrative staff"],
                "timetable": ["schedule"],
                "digital learning module": ["DLM", "digital learning modules (dlm)", "dlm (digital learning module)"],
-               "question": ["open question"],
-               "message": ["broadcast message"],
-               "disciplinary action": ["disciplinary record", "academic disciplinary action", "disciplinaryaction"],
-               "grade": ["academic grade"],
-               "behavior": ["academic behavior"]
+               "question": ["open question", "multiple-choice question"],
+               "disciplinary action": ["disciplinary record", "academic disciplinary action", 
+                                       "disciplinaryaction",],
+               "grade": ["academic grade",],
+               "behavior": ["academic behavior"],
+               "material": ["text", "video", "picture"],
     },
-    "sports":{"family membership": ["membership", "Session", "PersonalTrainingSession", 
-                                    "personal training session", "personaltrainingsession", "familymembership",
-                                    "training"],
+    "sports":{"family membership": ["membership", "familymembership"],
               "booking": ['book'],
-              "training sessions": ["trainingsession", "session"],
+              "training sessions": ["trainingsession", "session", "PersonalTrainingSession", 
+                                    "personal training session", "personaltrainingsession", "training"],
               "Payment Information": ["paymentinformation"],
-              "timeslot": ["time slot"], 
+              "timeslot": ["time slot", "lessontimeslot"], 
+              "room": ["practicearea", "practice area", "free practice area"]
     },
     "supermarket": {"delivery": ["grocery delivery", "delivery service", "expressdelivery", "deliveryservice", "grocerydelivery"],
-                    "recipe": ["product reciprocal recipe"],
+                    "recipe": ["product reciprocal recipe", "meal idea", "recipe idea"],
                     "personal discount": ["discount", "special personal discount", "personaldiscount",],
                     "loyalty card": ["loyaltycard", "loyalty_card", "card"],
                     "newsletter": ["news letter"],
@@ -288,7 +297,8 @@ SYNONYM_DICT_CLASS = {
     "ticket": {"order": ["ticket order", "ticketorder"],
                "event type": ["eventtype"],
                "user": ["attendance"],
-               "event": ["show"]
+               "event": ["show"],
+               "seat": ["seating place"],
     }
 }
 
@@ -298,5 +308,12 @@ NON_PUNISH_CLASS = {
                  "consent form", "medical form", "registration form",
                  "medical form"],
     },
+    "sports": {
+        "room": ["practicearea", "practice area", "free practice area"]
+    },
+    "school": {
+        "material": ["text", "video", "picture"],
+        "question": ["open question", "multiple-choice question"],
+    }
 }
 
