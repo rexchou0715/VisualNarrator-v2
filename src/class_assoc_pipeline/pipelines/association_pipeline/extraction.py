@@ -7,6 +7,8 @@ from class_assoc_pipeline.utils.text_utils import (
     remove_trailing_notes_association,
     clean_association_line,
     parse_association_line,
+    deduplicate_associations,
+    combine_and_deduplicate_associations
 )
 
 # === Extractor functions for different model outputs ===
@@ -43,13 +45,13 @@ def extract_gpt_o1_associations(content: str) -> tuple[list[str], list[str]]:
             reading_mand = False
             continue
         if complex_pat.match(ln) or simple_pat.match(ln):
-            if "(optional" in ln.lower() or "(opt)" in ln.lower():
+            if re.search(r'\((optional|opt)\)', ln, flags=re.IGNORECASE):
+                ln = re.sub(r'^\d+\.\s*', '', ln)
                 optional.append(ln)
             elif reading_mand:
+                ln = re.sub(r'^\d+\.\s*', '', ln)
                 refined.append(ln)
-            else:
-                optional.append(ln)
-
+    refined, optional = combine_and_deduplicate_associations(refined, optional)
     return refined, optional
 
 
@@ -77,11 +79,14 @@ def extract_llama3_8b_associations(content: str) -> tuple[list[str], list[str]]:
         if ln == "":
             reading_mand = False
             continue
-        if reading_mand and xy_pat.match(ln):
-            refined.append(ln)
-        elif "(optional" in ln.lower() and xy_pat.match(ln):
+        if re.search(r'\((optional|opt)\)', ln, flags=re.IGNORECASE) and xy_pat.match(ln):
+            ln = re.sub(r'^\d+\.\s*', '', ln)
             optional.append(ln)
+        elif reading_mand and xy_pat.match(ln):
+            ln = re.sub(r'^\d+\.\s*', '', ln)
+            refined.append(ln)
 
+    refined, optional = combine_and_deduplicate_associations(refined, optional)
     return refined, optional
 
 
@@ -116,11 +121,14 @@ def extract_qwen14b_associations(content: str) -> tuple[list[str], list[str]]:
         if ln == "":
             reading_mand = False
             continue
-        if reading_mand and xy_pat.match(ln):
-            refined.append(ln)
-        elif "(optional" in ln.lower() and xy_pat.match(ln):
+        if re.search(r'\((optional|opt)\)', ln, flags=re.IGNORECASE) and xy_pat.match(ln):
+            ln = re.sub(r'^\d+\.\s*', '', ln)
             optional.append(ln)
+        elif reading_mand and xy_pat.match(ln):
+            ln = re.sub(r'^\d+\.\s*', '', ln)
+            refined.append(ln)
 
+    refined, optional = combine_and_deduplicate_associations(refined, optional)
     return refined, optional
 
 
@@ -157,7 +165,7 @@ def process_file(input_file: str, output_file: str, model: str) -> None:
     if not refined and not optional:
         print(f"⚠️ No associations found in {input_file}")
         return
-
+    print(optional)
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, "w", encoding="utf-8") as out:
         for ln in refined:

@@ -61,7 +61,11 @@ def process_dataset(model: str, rounds: int) -> None:
             df["opt"] = df["X"].str.contains(r'^\((?:opt|optional)\)', case=False, regex=True)
             df["X"] = df["X"].str.replace(r'^\(opt\)\s*', "", regex=True)
 
-            pairs = list(df[["X", "Y"]].itertuples(index=False, name=None))
+            pairs = [
+                tuple(sorted((x, y)))
+                for x, y in df[["X", "Y"]].itertuples(index=False, name=None)
+            ]
+            # print(pairs)
             is_option = df["opt"].tolist()
 
             # Perform matching and collect results
