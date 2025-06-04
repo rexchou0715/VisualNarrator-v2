@@ -1,6 +1,19 @@
 import os
 from typing import List
 import pandas as pd
+import ast
+
+
+def normalize_association_key(raw: str | tuple) -> tuple:
+    if isinstance(raw, str):
+        try:
+            raw = ast.literal_eval(raw)  # safely convert string to tuple
+        except Exception as e:
+            print(f"⚠️ Could not parse: {raw} — {e}")
+            return ("INVALID",)  # or raise
+
+    return tuple(sorted([x.strip().lower() for x in raw]))
+
 
 def aggregate_unmatched_results(
     experiment_type: str,
@@ -42,6 +55,8 @@ def aggregate_unmatched_results(
             rel_path = template.format(model=model, dataset=dataset)
             full_path = os.path.join(base_dir, rel_path)
             df = pd.read_excel(full_path)
+            if key_col == "association":
+                df[key_col] = df[key_col].apply(normalize_association_key)
             # rename count column
             count_col = f"count_{model}"
             df = df.rename(columns={"count": count_col, key_col: key_col})

@@ -171,7 +171,7 @@ if __name__ == "__main__":
     out_dir = Path(EXPERIMENT_OUTPUT_DIR)
     run_experiment_comparison(
         experiment_type="Association",
-        output_file= out_dir / "Association_experiment_comparison_result.xlsx",
+        output_file= out_dir / f"Association_experiment_comparison_result.xlsx",
         models=list(MODELS.keys())
     )
     # To compare association experiments
