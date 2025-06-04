@@ -1,5 +1,6 @@
 import re
 from typing import List
+from typing import List, Tuple
 import inflect
 
 _p = inflect.engine()
@@ -13,8 +14,8 @@ def clean_class_name(content: str) -> str:
     content = re.sub(r"\*{1,2}(.*?)\*{1,2}", r"\1", content)
     # Remove leading '*' characters
     content = re.sub(r"^\*+\s*", "", content)
+    content = normalize_word(content)
     return content.strip()
-
 
 def format_optional_line(content: str) -> str:
     """
@@ -66,31 +67,6 @@ def remove_trailing_notes_association(line: str) -> str:
     return line.strip()
 
 
-def clean_association_line(line: str, force_optional: bool = False) -> str:
-    """
-    Normalize one association line:
-      - Remove leading bullets/numbers
-      - Strip Explanation(...) parentheticals
-      - Keep only the first and last parts around '-'
-      - Remove any leftover parentheses
-      - Prefix '(optional)' if needed
-    """
-    # 1) strip leading “1. ”, “* ” or “- ”
-    line = re.sub(r"^(\d+\.\s*|\*\s*|\-\s*)", "", line)
-    # 2) detect optional
-    opt = force_optional or ("(optional" in line.lower()) or ("(opt)" in line.lower())
-    # 3) remove Explanation(...) groups
-    line = re.sub(r"\(Explanation:.*?\)", "", line, flags=re.IGNORECASE)
-    # 4) split on hyphen, keep first & last segment
-    parts = [p.strip() for p in line.split('-')]
-    cleaned = f"{parts[0]}-{parts[-1]}" if len(parts) >= 2 else line.strip()
-    # 5) strip any remaining parentheses
-    cleaned = re.sub(r"\([^)]*\)", "", cleaned).strip()
-    # 6) prefix “(optional) ”
-    return f"(optional) {cleaned}" if opt else cleaned
-
-
-
 def split_mandatory_entities(text: str) -> list[str]:
     """
     Splits a combined class description into individual entities by 'and', commas, and
@@ -121,9 +97,9 @@ def clean_association_line(line: str, force_optional: bool = False) -> str:
     line = re.sub(r"^(?:\d+\.\s*|\*\s*|\-\s*)", "", line)
     is_opt = force_optional or bool(re.search(r"\(opt(?:ional)?\)", line, re.IGNORECASE))
     line = re.sub(r"\(opt(?:ional)?\)", "", line, flags=re.IGNORECASE).strip()
-    line = re.sub(r"\([^)]*?Explanation:[^)]*\)", "", line, flags=re.IGNORECASE)
+    # line = re.sub(r"\([^)]*?Explanation:[^)]*\)", "", line, flags=re.IGNORECASE)
     core = line.split(' - ', 1)[0]
-    parts = [seg.strip() for seg in core.split('-')]
+    parts = [normalize_word(seg.strip()) for seg in core.split('-')]
     if len(parts) >= 2:
         cleaned = f"{parts[0]}-{parts[-1]}"
     else:
@@ -206,8 +182,19 @@ def normalize_word(word: str) -> str:
     if not isinstance(word, str):
         return ""
     lowered = word.lower().strip()
+    if not lowered:
+        return ''
     # Keywords to preserve as-is
-    keywords = {"class", "process", "progress", "academic progress", "address"}
+    keywords = {"class",
+                "process",
+                "progress",
+                "academic progress",
+                "address",
+                "delivery address",
+                "deliveryaddres",
+                "status",
+                "order status",
+                "business",}
     if lowered in keywords:
         return lowered
     # Attempt singularization; fallback to original lowercase
@@ -216,10 +203,10 @@ def normalize_word(word: str) -> str:
 
 def normalize_assoc(assoc: list[str]) -> tuple[str,str]:
     left, right = assoc
-    left = re.sub(r'^\(Opt\)\s*', '', left, flags=re.IGNORECASE)
-    left = clean_class_name(left)
-    right = clean_association_line(right)
-    return left, right
+    left = re.sub(r'^\(Opt(?:ional)?\)\s*', '', left, flags=re.IGNORECASE)
+    cleaned = [clean_class_name(left), clean_association_line(right)]
+    return '-'.join(sorted(s.lower().strip() for s in cleaned))
+    # return left, right
 
 
 def flatten_and_variants(entity: str) -> List[str]:
@@ -257,15 +244,38 @@ def flatten_and_variants(entity: str) -> List[str]:
     # 4) fallback: nothing to split on
     return [f"{prefix}{entity.strip()}"]
 
+
 def deduplicate_associations(assocs: list[list[str]]) -> list[list[str]]:
-    seen = set()
+    seen = dict()  # key -> index of the preferred version
     out = []
+    mandatory = []
+    optional = []
+
     for a in assocs:
         key = normalize_assoc(a)
+        is_optional = any(re.search(r"\(opt(?:ional)?\)", s, flags=re.IGNORECASE) for s in a)
+
         if key not in seen:
-            seen.add(key)
+            seen[key] = len(out)
             out.append(a)
+            if is_optional:
+                optional.append(a)
+            else:
+                mandatory.append(a)
+        else:
+            existing_index = seen[key]
+            existing = out[existing_index]
+            existing_is_optional = any(re.search(r"\(opt(?:ional)?\)", s, flags=re.IGNORECASE) for s in existing)
+
+            # Prefer mandatory version if one exists
+            if existing_is_optional and not is_optional:
+                out[existing_index] = a  # replace optional with mandatory
+                if existing in optional:
+                    optional.remove(existing)
+                mandatory.append(a)
+
     return out
+
 
 def dedupe_preserve_optional_first(mandatory: list[str], optional: list[str]) -> list[str]:
     """
@@ -313,6 +323,22 @@ def flatten_comma_variants(entity: str) -> List[str]:
     
 
 
+def clean_brackets(item: str) -> str:
+    if not isinstance(item, str):
+        return ""
+    
+    # If starting with (optioanl), record it
+    prefix_optional = ''
+    match = re.match(r'^\(optional\)\s*', item, flags=re.IGNORECASE)
+    if match:
+        prefix_optional = match.group(0).lower()  
+        item = item[match.end():]  
+    
+    item = re.sub(r'\s*\([^)]*\)', '', item).strip()
+
+    return f"{prefix_optional}{item}".strip()
+
+
 def parse_association_line(line: str) -> list[list[str]]:
     line = line.strip()
     if not line or '-' not in line:
@@ -331,3 +357,68 @@ def parse_association_line(line: str) -> list[list[str]]:
             tag_left = f"(Opt) {left}" if is_opt else left
             pairs.append([ tag_left, sub ])
     return deduplicate_associations(pairs)
+
+def combine_and_deduplicate_associations(
+    refined: List[str], 
+    optional: List[str]
+) -> Tuple[List[str], List[str], List[str]]:
+    """
+    Combine refined and optional association lists, clean tags like (Optional)/(Opt),
+    deduplicate (A-B == B-A), and return cleaned lists split into refined and optional.
+
+    Args:
+        refined: List of non-optional associations.
+        optional: List of optional associations (may include (Optional)/(Opt) tags).
+
+    Returns:
+        final_refined: Subset of final_list originally from refined.
+        final_optional: Subset of final_list originally from optional.
+    """
+    combined = refined + optional
+    is_optional_mask = [False] * len(refined) + [True] * len(optional)
+
+    # Clean optional tags (case-insensitive)
+    cleaned = [
+        re.sub(r'\((optional|opt)\)', '', item, flags=re.IGNORECASE).strip()
+        for item in combined
+    ]
+    # Step 2: Normalize each side of the association
+    normalized = []
+    for assoc in cleaned:
+        if assoc.startswith('- '):
+            assoc = assoc[2:].strip()
+        parts = assoc.split('-')
+        if len(parts) == 2:
+            left = normalize_word(parts[0])
+            right = normalize_word(parts[1])
+            normalized.append(f"{left}-{right}")
+        else:
+            print(f"fallback!{assoc}")
+            normalized.append(assoc.lower().strip())  # fallback if malformed
+
+    seen = set()
+    final_list = []
+    final_refined = []
+    final_optional = []
+
+    for item, is_optional in zip(normalized, is_optional_mask):
+        key = '-'.join(sorted(item.split('-')))
+        if key not in seen:
+            seen.add(key)
+            final_list.append(item)
+            if is_optional:
+                final_optional.append(f"(Optional) {item}")
+            else:
+                final_refined.append(item)
+
+    final_refined = [re.sub(r'\(Optional\)\s*\*\s*', '(Optional)', item) for item in final_refined]
+    final_optional = [re.sub(r'\(Optional\)\s*\*\s*', '(Optional)', item) for item in final_optional]
+
+    final_refined = [
+        clean_brackets(item) for item in final_refined
+    ]
+    final_optional = [
+        clean_brackets(item) for item in final_optional
+    ]
+
+    return final_refined, final_optional
