@@ -9,12 +9,14 @@ from class_assoc_pipeline.utils.text_utils import (
     flatten_or_variants,
     dedupe_preserve_optional_first,
     flatten_and_variants,
-    flatten_comma_variants
+    flatten_comma_variants,
+    deduplicate_associations,
+    combine_and_deduplicate_associations
 )
 
 def test_clean_class_name():
-    assert clean_class_name("**Foo**") == "Foo"
-    assert clean_class_name("*Bar*") == "Bar"
+    assert clean_class_name("**Foo**") == "foo"
+    assert clean_class_name("*Bar*") == "bar"
 
 def test_format_optional_line():
     # assert format_optional_line("Class A (optional) - note") == "(optional) Class A - note"
@@ -34,7 +36,7 @@ def test_clean_association_line():
     line = "1. X-(type)-Y (optional) - extra"
     result = clean_association_line(line)
     # print("DEBUG:", repr(result))
-    assert result == "(optional) X-Y"
+    assert result == "(optional) x-y"
     # assert clean_association_line(line) == "(optional) X-Y"
 
 
@@ -89,3 +91,17 @@ def test_flatten_comma_variants():
     assert flatten_comma_variants(inp2) == ["Counselor", 
                                             "CampAdministrator",
                                             "Photo"]
+    
+def test_deduplicate_associations():
+    asso = [["(optional) event", "artist"], ["event", "artist"], ["artist", "event"], ["event", "genre"]]
+    print(deduplicate_associations(asso))
+    assert deduplicate_associations(asso) == [["event", "artist"], ["event", "genre"]]
+
+
+
+def test_combine_and_deduplicate_associations():
+    refined = ['User-Event', 'Event-Venue', 'Event-Artists', 'Event-Genre', 'Ticket-Event', 'Payment-User', 'Order-User', 'Reseller-User', 'Order-Ticket', 'Artist-Event', 'User-Payment']
+    optional = ['(Optional) Artist-Event', '(Optional) User-Genre', '(Optional) Order-Payment', '(Optional) Reseller-Ticket']
+    new_refined, new_optional = combine_and_deduplicate_associations(refined, optional)
+    print(new_refined)
+    print(new_optional)
