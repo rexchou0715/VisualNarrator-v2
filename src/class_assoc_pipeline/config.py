@@ -254,12 +254,15 @@ SYNONYM_DICT_CLASS = {
                       'estimate': ["estimation"],
                       'round': ['gameround', 'current round']
     },
-    "recycling": {'recycling facility': ['recycling center', 'special waste drop off site', 'recycling bin', 
+    "recycling": {'recycling facility': ['recycling center', 'special waste drop off site', 
                                          'facility','wastedropoffsite', 'waste drop off site', "recyclingfacility",
-                                         "special waste drop off sites"],
-                  'waste type': ['recyclable waste type', 'recyclable material', 'non-recycllable material', 'material', 'type of waste'],
+                                         "special waste drop off sites", "center", "facility"],
+                  'waste type': ['recyclable waste type', 'recyclable material', 'non-recycllable material', 
+                                 'material', 'type of waste', 'type of recyclable waste', "recyclable waste",
+                                 "recyclable waste"],
                   'feedback': ['question', "userquestion"],
-                  "safe disposal event": ["disposal event", "safedisposalevent"]
+                  "safe disposal event": ["disposal event", "safedisposalevent"],
+                  'activity fee': ["fee"]
     },
     "school": {"class": ["subject", "course"],
                "attendance": ["absence", "student absence", "student attendance", 
