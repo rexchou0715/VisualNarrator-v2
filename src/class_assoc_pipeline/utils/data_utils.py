@@ -13,7 +13,19 @@ def normalize_word(word: str) -> str:
         return ""
     lowered = word.lower().strip()
     # Keywords to preserve as-is
-    keywords = {"class", "process", "progress", "academic progress", "address"}
+    keywords = {"class",
+                "process",
+                "progress",
+                "academic progress",
+                "address",
+                "delivery address",
+                "deliveryaddres",
+                "status",
+                "order status",
+                "business",
+                "scheduling process",
+                "payment process",
+                "hiring process"}
     if lowered in keywords:
         return lowered
     # Attempt singularization; fallback to original lowercase
