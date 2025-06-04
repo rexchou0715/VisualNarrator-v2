@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import List, Tuple, Set, Dict
 import copy
 from .data_utils import normalize_word
 
@@ -27,11 +27,12 @@ def remove_non_punished_from_unmatched(
     children_map = non_punishment_mapping.get(dataset, {})
     if not children_map:
         return unmatched, log
-
+    # print(non_punishment_mapping[dataset])
     # Normalize matched items for membership checks
     normalized_matched = {normalize_word(item.replace("(opt)", "").replace("(sil)", "").strip()) for item in matched}
 
     pruned_unmatched = []
+    # print("new round")
     for item in unmatched:
         # Clean markers and normalize
         clean_item = normalize_word(item.replace("(opt)", "").replace("(sil)", "").strip())
@@ -39,11 +40,16 @@ def remove_non_punished_from_unmatched(
         # Determine if this item is in any matched parent's child list
         skip = False
         for parent, children in children_map.items():
-            if normalize_word(parent) in normalized_matched:
+            # if dataset == "school":
+            #     print(f"matched: {matched}")
+            #     print(f"parent: {parent}, children: {children}")
+            norm_parent = normalize_word(parent)
+            if norm_parent in normalized_matched or any(normalize_word(child) in normalized_matched for child in children):
                 # Normalize all children for comparison
                 child_norms = {normalize_word(child) for child in children}
+                # print(f"Current item: {item}")
                 if clean_item in child_norms:
-                    print("Remove!")
+                    print(f"Remove! {item}")
                     log += f"Non-punish: '{item}' removed because its parent '{parent}' was matched.\n"
                     skip = True
                     break
@@ -118,12 +124,13 @@ def perform_matching(words, is_optional, gold_standard, silver_standard, synonym
     mand_un,   opt_un      = [], []
     log = ""
 
-    for w, opt in zip(words, is_optional):
-        # 1) break your “compound” form into variants
+    # 1) Exact-match pass
+    unmatched_indices = []
+    for i, (w, opt) in enumerate(zip(words, is_optional)):
         variants = w.split("/") if "/" in w else [w]
-
         matched = False
-        # 2) try each variant in turn for exact‐gold
+
+        # Try exact against gold and silver
         for var in variants:
             if var in remaining_gold_all:
                 remaining_gold_all.remove(var)
@@ -134,22 +141,23 @@ def perform_matching(words, is_optional, gold_standard, silver_standard, synonym
                     opt_matched.append(w)
                 matched = True
                 break
-        if matched:
-            continue
-
-        # 3) exact silver
-        for var in variants:
             if var in remaining_silv:
                 remaining_silv.remove(var)
                 target = opt_matched if opt else mand_matched
                 target.append(f"(sil){w}")
-                log += f"[Silver exact matched] {'(Opt) ' if opt else ''}{w} \n"
+                log += f"[Silver exact matched] {'(Opt) ' if opt else ''}{w}\n"
                 matched = True
                 break
-        if matched:
-            continue
 
-        # 4) synonym→gold
+        if not matched:
+            unmatched_indices.append(i)
+
+    # 2) Synonym-match pass (only for those still unmatched)
+    for i in unmatched_indices:
+        w, opt = words[i], is_optional[i]
+        variants = w.split("/") if "/" in w else [w]
+        matched = False
+
         for var in variants:
             cands = generate_candidates(var, synonym_map)
             for c in cands:
@@ -163,15 +171,7 @@ def perform_matching(words, is_optional, gold_standard, silver_standard, synonym
                     log += f"[Gold syn]    {'(Opt) ' if opt else ''}{w} → {c}\n"
                     matched = True
                     break
-            if matched:
-                break
-        if matched:
-            continue
 
-        # 5) synonym→silver
-        for var in variants:
-            cands = generate_candidates(var, synonym_map)
-            for c in cands:
                 if c in remaining_silv:
                     remaining_silv.remove(c)
                     target = opt_matched if opt else mand_matched
@@ -179,30 +179,27 @@ def perform_matching(words, is_optional, gold_standard, silver_standard, synonym
                     log += f"[Silv syn]    {'(Opt) ' if opt else ''}{w} → {c}\n"
                     matched = True
                     break
+
             if matched:
                 break
-        if matched:
-            continue
-        # 5) unmatched
-        (opt_un if opt else mand_un).append(w)
 
+        if not matched:
+            if opt:
+                opt_un.append(w)
+            else:
+                mand_un.append(w)
+
+    # 3) Final log entries for all matches and unmatched
     for pair in mand_matched:
-        w = pair
         log += f"[Matched] {pair}\n"
     for pair in opt_matched:
-        w = pair
         log += f"[Matched] (Opt) {pair}\n"
     for pair in mand_un:
-        w = pair
         log += f"[Unmatched] {pair}\n"
     for pair in opt_un:
-        w = pair
         log += f"[Unmatched] (Opt) {pair}\n"
 
     return mand_matched, opt_matched, mand_un, opt_un, log, remaining_gold_man, remaining_gold_all
-
-import copy
-from typing import List, Tuple, Set, Dict
 
 def perform_matching_associations(
     assoc_lines: List[str],
@@ -235,12 +232,13 @@ def perform_matching_associations(
     mand_un,      opt_un      = [], []
     log_lines = []
 
-    for w, opt in zip(assoc_lines, is_opt):
+    # Eexact-match pass
+    unmatched_indices = []
+    for i, (w, opt) in enumerate(zip(assoc_lines, is_opt)):
         X, Y = w[0], w[1]
         original = frozenset({X, Y})
-        found = False
 
-        # 1) exact gold
+        # Exact gold
         if original in remaining_gold_all:
             remaining_gold_all.remove(original)
             if not opt:
@@ -250,53 +248,71 @@ def perform_matching_associations(
                 opt_matched.append(w)
             continue
 
-        # 2) exact silver
+        # Exact silver
         if original in remaining_silv:
             remaining_silv.remove(original)
             target = opt_matched if opt else mand_matched
             target.append(f"(sil){w}")
+            log_lines.append(f"[Silver exact matched] {'(Opt) ' if opt else ''}{w}")
             continue
 
-        # 3) synonyms → gold
+        # If not matched exactly, mark for synonym pass
+        unmatched_indices.append(i)
+
+    # Synonym-match pass (only for those still unmatched)
+    for i in unmatched_indices:
+        w = assoc_lines[i]
+        opt = is_opt[i]
+        X, Y = w[0], w[1]
+        found = False
+
         # generate all candidate pairings via synonyms
         cands_x = generate_candidates(X, synonym_map)
         cands_y = generate_candidates(Y, synonym_map)
-
+        print(f"X: {X}, Synonym_X: {cands_x}")
+        print(f"Y: {Y}, Synonym_Y: {cands_y}")
+        # Synonyms → gold
         for cx in cands_x:
-            if found: break
+            if found:
+                break
             for cy in cands_y:
                 cand_pair = frozenset({cx, cy})
                 if cand_pair in remaining_gold_all:
+                    print(f"Found: {X, Y} -> {cand_pair}")
                     remaining_gold_all.remove(cand_pair)
                     if not opt:
                         remaining_gold_man.remove(cand_pair)
                         mand_matched.append(w)
                     else:
                         opt_matched.append(w)
-                    print(f"Syn: {cand_pair} -> {w}")
                     log_lines.append(f"[Gold Syn ]  {'(Opt) ' if opt else ''}{w} → {cand_pair}")
                     found = True
                     break
-        if found: continue
+        if found:
+            continue
 
-        # 4) synonyms → silver
+        # Synonyms → silver
         for cx in cands_x:
-            if found: break
+            if found:
+                break
             for cy in cands_y:
                 cand_pair = frozenset({cx, cy})
                 if cand_pair in remaining_silv:
                     remaining_silv.remove(cand_pair)
                     target = opt_matched if opt else mand_matched
                     target.append(f"(sil){w}")
-                    print(f"Syn: {cand_pair} -> {w}")
                     log_lines.append(f"[Silv Syn ]  {'(Opt) ' if opt else ''}{w} → {cand_pair}")
                     found = True
                     break
-        if found: continue
+        if found:
+            continue
 
-        # 5) unmatched
+        # If still not matched
         (opt_un if opt else mand_un).append(w)
-    # final match/unmatched summary
+
+    # print(mand_un)
+
+    # Final match/unmatched summary
     for m in mand_matched:
         log_lines.append(f"[Matched]    {m}")
     for m in opt_matched:
@@ -309,7 +325,6 @@ def perform_matching_associations(
     for m in remaining_gold_all:
         log_lines.append(f"[Missing]  {m}")
     log_lines.append("===========")
-
 
     log = "\n".join(log_lines)
     return mand_matched, opt_matched, mand_un, opt_un, log, remaining_gold_man, remaining_gold_all
