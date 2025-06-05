@@ -112,7 +112,8 @@ GOLD_STANDARD_ASSOCIATION = {
     "recycling": [
         ('user', 'feedback'), ('user', 'complaint'),
         ('recycling facility', 'waste type'), ('recycling facility', 'schedule'),
-        ('user', 'schedule'), ('user', 'reward'), ('user', 'activity')
+        ('user', 'schedule'), ('user', 'reward'), ('user', 'activity'),
+        ('employee', 'user')
     ],
     "camperplus": [
         ('camper', 'guardian'), ('camper', 'form'), ('camper', 'attendance'),
@@ -162,7 +163,7 @@ GOLD_STANDARD_ASSOCIATION = {
         ('order', 'product'), ('customer', 'order'), ('store', 'product'),
         ('shopping list', 'product'), ('wishlist', 'product'), ('customer', 'store'),
         ('recipe', 'product'), ('customer', 'delivery'), ('customer', 'personal discount'),
-        ('customer', 'loyalty card') 
+        ('customer', 'loyalty card')
     ],
     "ticket": [
         # genr -> genre; event typ -> event type, venu -> venue
@@ -219,7 +220,7 @@ SILVER_STANDARD_ASSOCIATION = {
     "sports": [
     ],
     "supermarket": [
-        ('order', 'delivery')
+        ('order', 'delivery'), ('order', 'payment')
     ],
     "ticket": [
     ]
@@ -298,10 +299,12 @@ SYNONYM_DICT_CLASS = {
                     "order": ["grocery order", "grocery"]
     },
     "ticket": {"order": ["ticket order", "ticketorder"],
-               "event type": ["eventtype"],
+               "event type": ["eventtype", "type"],
                "user": ["attendance"],
                "event": ["show"],
                "seat": ["seating place"],
+               "genre": ["genre preference"],
+               "artist": ["artist preference"],
     }
 }
 
