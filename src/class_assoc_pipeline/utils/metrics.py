@@ -27,12 +27,10 @@ def remove_non_punished_from_unmatched(
     children_map = non_punishment_mapping.get(dataset, {})
     if not children_map:
         return unmatched, log
-    # print(non_punishment_mapping[dataset])
     # Normalize matched items for membership checks
     normalized_matched = {normalize_word(item.replace("(opt)", "").replace("(sil)", "").strip()) for item in matched}
 
     pruned_unmatched = []
-    # print("new round")
     for item in unmatched:
         # Clean markers and normalize
         clean_item = normalize_word(item.replace("(opt)", "").replace("(sil)", "").strip())
@@ -40,16 +38,11 @@ def remove_non_punished_from_unmatched(
         # Determine if this item is in any matched parent's child list
         skip = False
         for parent, children in children_map.items():
-            # if dataset == "school":
-            #     print(f"matched: {matched}")
-            #     print(f"parent: {parent}, children: {children}")
             norm_parent = normalize_word(parent)
             if norm_parent in normalized_matched or any(normalize_word(child) in normalized_matched for child in children):
                 # Normalize all children for comparison
                 child_norms = {normalize_word(child) for child in children}
-                # print(f"Current item: {item}")
                 if clean_item in child_norms:
-                    print(f"Remove! {item}")
                     log += f"Non-punish: '{item}' removed because its parent '{parent}' was matched.\n"
                     skip = True
                     break
@@ -122,7 +115,7 @@ def perform_matching(words, is_optional, gold_standard, silver_standard, synonym
 
     mand_matched, opt_matched = [], []
     mand_un,   opt_un      = [], []
-    log = ""
+    log_lines = []
 
     # 1) Exact-match pass
     unmatched_indices = []
@@ -175,7 +168,7 @@ def perform_matching(words, is_optional, gold_standard, silver_standard, synonym
                 if c in remaining_silv:
                     remaining_silv.remove(c)
                     target = opt_matched if opt else mand_matched
-                    target.append(f"(sil){w}")
+                    target.append(w)
                     log += f"[Silv syn]    {'(Opt) ' if opt else ''}{w} → {c}\n"
                     matched = True
                     break
@@ -190,14 +183,20 @@ def perform_matching(words, is_optional, gold_standard, silver_standard, synonym
                 mand_un.append(w)
 
     # 3) Final log entries for all matches and unmatched
-    for pair in mand_matched:
-        log += f"[Matched] {pair}\n"
-    for pair in opt_matched:
-        log += f"[Matched] (Opt) {pair}\n"
-    for pair in mand_un:
-        log += f"[Unmatched] {pair}\n"
-    for pair in opt_un:
-        log += f"[Unmatched] (Opt) {pair}\n"
+    for m in mand_matched:
+        log_lines.append(f"[Matched]    {m}")
+    for m in opt_matched:
+        log_lines.append(f"[Matched]    (Opt) {m}")
+    for u in mand_un:
+        log_lines.append(f"[Unmatched]  {u}")
+    for u in opt_un:
+        log_lines.append(f"[Unmatched]  (Opt) {u}")
+    log_lines.append("===========")
+    for m in remaining_gold_all:
+        log_lines.append(f"[Missing]  {m}")
+    log_lines.append("===========")
+
+    log = "\n".join(log_lines)
 
     return mand_matched, opt_matched, mand_un, opt_un, log, remaining_gold_man, remaining_gold_all
 
@@ -269,8 +268,6 @@ def perform_matching_associations(
         # generate all candidate pairings via synonyms
         cands_x = generate_candidates(X, synonym_map)
         cands_y = generate_candidates(Y, synonym_map)
-        print(f"X: {X}, Synonym_X: {cands_x}")
-        print(f"Y: {Y}, Synonym_Y: {cands_y}")
         # Synonyms → gold
         for cx in cands_x:
             if found:
@@ -278,7 +275,6 @@ def perform_matching_associations(
             for cy in cands_y:
                 cand_pair = frozenset({cx, cy})
                 if cand_pair in remaining_gold_all:
-                    print(f"Found: {X, Y} -> {cand_pair}")
                     remaining_gold_all.remove(cand_pair)
                     if not opt:
                         remaining_gold_man.remove(cand_pair)
@@ -310,8 +306,6 @@ def perform_matching_associations(
         # If still not matched
         (opt_un if opt else mand_un).append(w)
 
-    # print(mand_un)
-
     # Final match/unmatched summary
     for m in mand_matched:
         log_lines.append(f"[Matched]    {m}")
@@ -323,7 +317,7 @@ def perform_matching_associations(
         log_lines.append(f"[Unmatched]  (Opt) {u}")
     log_lines.append("===========")
     for m in remaining_gold_all:
-        log_lines.append(f"[Missing]  {m}")
+        log_lines.append(f"[Missing]  {tuple(sorted(m))}")
     log_lines.append("===========")
 
     log = "\n".join(log_lines)

@@ -29,7 +29,7 @@ from class_assoc_pipeline.utils.metrics import (
     remove_non_punished_from_unmatched
 )
 
-def run_experiment(
+def evaluation_experiment(
     model: str,
     dataset: str,
     gold_standard_dict: dict,
@@ -49,11 +49,12 @@ def run_experiment(
     gold_standard   = { normalize_word(x) for x in gold_standard_dict[dataset_key] }
     silver_standard = { normalize_word(x) for x in silver_standard_dict.get(dataset_key, []) }
     synonym_mapping = expand_synonym_mapping(synonym_dict[dataset_key])
-
     # — I/O paths —
-    out_dir = Path(CLASS_EXTRACTED_DIR.format(model=model, dataset=dataset_key))
-    in_path = out_dir / f"class_report_{dataset_key}(refined).xlsx"
-    unmatched_output_path = out_dir / "unmatched.xlsx"
+    # out_dir = Path(CLASS_EXTRACTED_DIR.format(model=model, dataset=dataset_key))
+    # in_path = out_dir / f"class_report_{dataset_key}(refined).xlsx"
+    out_dir = Path(f"output/class_test/{model}/{dataset}")
+    in_path = Path(f"{out_dir}/extracted_class.xlsx")
+    unmatched_output_path = out_dir / "false_positives.xlsx"
     os.makedirs(out_dir, exist_ok=True)
 
     # load all rounds
@@ -66,6 +67,7 @@ def run_experiment(
     # remaining_gold = set(gold_standard)  # we’ll shrink this each round
 
     for round_idx, (sheet_name, df_raw) in enumerate(sheets.items()):
+        print(f"✅ Evaluated {model} | {dataset} | Round {round_idx + 1}")
         # normalize the incoming df
         # assume df_raw has columns ["class","note"], optional marker already in “(optional)”
         # we need class_for_match & is_optional_flag:
@@ -101,19 +103,16 @@ def run_experiment(
                                                                  dataset,
                                                                  log)
 
-        # compute metrics for this round
-        # note: remaining_gold was modified inside perform_matching
         mand_metrics = compute_metrics(m_matched, updated_m_un, remaining_gold_man, round_idx)
         all_metrics  = compute_metrics(m_matched+o_matched, updated_all_un, remaining_gold_all, round_idx)
 
         mand_results.append(mand_metrics)
         all_results .append(all_metrics)
 
-        full_log   += f"\n\n=== Round {round_idx+1} ({sheet_name}) ===\n" + log
+        full_log += f"\n\n=== Round {round_idx + 1} ({sheet_name}) ===\n" + log
 
         # deal with unmathed list
         all_unmatched_class.append(updated_all_un)
-        # print(all_unmatched_class)
 
     # Clean unmatched classes
     all_unmatched_log_flat = [
@@ -134,29 +133,16 @@ def run_experiment(
     write_experiment_log(out_dir, full_log)
     write_results_to_excel(out_dir, dataset_key, mand_results, all_results)
 
-    # print(m_un + o_un)
 
-def process_dataset(model: str, rounds: int):
-    """
-    Iterate over all DATASETS for one model.
-    """
-    for ds in DATASETS:
-        if ds.lower() == ".ds_store":
-            continue
-        print(ds)
-        run_experiment(
-            model,
-            ds,
-            GOLD_STANDARD_CLASS,
-            SILVER_STANDARD_CLASS,
-            SYNONYM_DICT_CLASS,
-            NON_PUNISH_CLASS,
-        )
+def run_evaluation_pipeline(model, dataset, rounds):
+    print(f"🔍 Evaluating Class Extraction for {model} | {dataset.capitalize()} | {rounds} Rounds")
+    evaluation_experiment(
+        model,
+        dataset,
+        GOLD_STANDARD_CLASS,
+        SILVER_STANDARD_CLASS,
+        SYNONYM_DICT_CLASS,
+        NON_PUNISH_CLASS,
+    )
+    print(f"✅ Done Class Extraction for {model} | {dataset.capitalize()} | {rounds} Rounds")
 
-if __name__ == "__main__":
-    # only run GPT-o1 for now
-    for MODEL, ROUNDS in MODELS.items():
-        # MODEL = "Qwen-14B"
-        # ROUNDS = MODELS.get(MODEL, 5)
-        print(f"▶ Running class‐matching for {MODEL} ({ROUNDS} rounds)…")
-        process_dataset(MODEL, ROUNDS)

@@ -26,6 +26,8 @@ CLASS_INPUT_TEMPLATE = "data/raw/class/{model}/{dataset}/R{round}.txt"
 ASSOC_INPUT_TEMPLATE = "data/raw/association/{model}/{dataset}/R{round}.txt"
 CLASS_EXTRACTED_DIR = "output/class/{model}/{dataset}"
 ASSOC_EXTRACTED_DIR = "output/association/{model}/{dataset}"
+ASSOC_TEST_INPUT_TEMPLATE = "data/raw/association_test/{model}/{dataset}/R{round}.txt"
+ASSOC_TEST_EXTRACTED_DIR = "output/association_test/{model}/{dataset}"
 EXPERIMENT_OUTPUT_DIR = "output/experiment"
 
 # 4. Skip keywords for class extraction
@@ -257,13 +259,12 @@ SYNONYM_DICT_CLASS = {
     },
     "recycling": {'recycling facility': ['recycling center', 'special waste drop off site', 
                                          'facility','wastedropoffsite', 'waste drop off site', "recyclingfacility",
-                                         "special waste drop off sites", "center", "facility"],
+                                         "special waste drop off sites", "center", "facility", "Recyclingfacility"],
                   'waste type': ['recyclable waste type', 'recyclable material', 'non-recycllable material', 
                                  'material', 'type of waste', 'type of recyclable waste', "recyclable waste",
                                  "recyclable waste"],
                   'feedback': ['question', "userquestion"],
-                  "safe disposal event": ["disposal event", "safedisposalevent"],
-                  'activity fee': ["fee"]
+                  "safe disposal event": ["disposal event", "safedisposalevent"]
     },
     "school": {"class": ["subject", "course"],
                "attendance": ["absence", "student absence", "student attendance", 

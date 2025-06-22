@@ -19,7 +19,7 @@ def normalize_word(word: str) -> str:
                 "academic progress",
                 "address",
                 "delivery address",
-                "deliveryaddres",
+                "deliveryaddresnormalize_word",
                 "status",
                 "order status",
                 "business",

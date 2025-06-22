@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from typing import List, Dict
+from pathlib import Path
 
 
 def load_excel_sheets(input_excel_path: str) -> Dict[str, pd.DataFrame]:
@@ -43,7 +44,17 @@ def write_results_to_excel(
     :param all_results: List of dictionaries including optional metrics.
     """
     os.makedirs(output_dir, exist_ok=True)
-    out_path = os.path.join(output_dir, "experiment_results.xlsx")
+    out_path = os.path.join(output_dir, "evaluation_results.xlsx")
     with pd.ExcelWriter(out_path) as writer:
         pd.DataFrame(mand_results).to_excel(writer, sheet_name="mandatory", index=False)
         pd.DataFrame(all_results).to_excel(writer, sheet_name="including optional", index=False)
+
+
+def get_next_round_number(output_dir, pattern="*.txt"):
+    output_path = Path(output_dir)
+    if not output_path.exists():
+        return 1  # First round if the folder doesn't exist yet
+
+    # Count matching files (e.g., output text files)
+    existing_files = list(output_path.glob(pattern))
+    return len(existing_files) + 1

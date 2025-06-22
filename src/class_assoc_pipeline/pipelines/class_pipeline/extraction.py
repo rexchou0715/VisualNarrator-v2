@@ -20,6 +20,7 @@ from class_assoc_pipeline.config import (
  )
 
 from class_assoc_pipeline.config import MODELS, DATASETS
+from pathlib import Path
 
 def process_file(model: str, dataset: str, exp_round: int) -> None:
     """
@@ -31,10 +32,14 @@ def process_file(model: str, dataset: str, exp_round: int) -> None:
     Paths are driven by config templates.
     """
     # Build paths from config
-    infile = CLASS_INPUT_TEMPLATE.format(model=model, dataset=dataset, round=exp_round)
-    out_dir = CLASS_EXTRACTED_DIR.format(model=model, dataset=dataset)
-    outfile = os.path.join(out_dir, f"refined_class_round{exp_round}.txt")
-    report  = os.path.join(out_dir, f"class_report_{dataset}(refined).xlsx")
+    # infile = CLASS_INPUT_TEMPLATE.format(model=model, dataset=dataset, round=exp_round)
+    # out_dir = CLASS_EXTRACTED_DIR.format(model=model, dataset=dataset)
+    
+    infile = Path(f"data/raw/class_test/{model}/{dataset}/R{exp_round}.txt")
+    out_dir = Path(f"output/class_test/{model}/{dataset}")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    outfile = os.path.join(out_dir, f"extracted_class_round{exp_round}.txt")
+    report  = os.path.join(out_dir, f"extracted_class.xlsx")
 
     # 1. Read
     try:
@@ -143,7 +148,7 @@ def process_file(model: str, dataset: str, exp_round: int) -> None:
     else:
         with pd.ExcelWriter(report, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
             df.to_excel(writer, index=False, sheet_name=sheet_name)
-    print(f"✅ Processed {model} | {dataset} | Round {exp_round}")
+    print(f"✅ Extracted {model} | {dataset} | Round {exp_round}")
 
 def process_dataset(model: str, dataset: str, rounds: int) -> None:
     """
@@ -152,14 +157,10 @@ def process_dataset(model: str, dataset: str, rounds: int) -> None:
     for r in range(1, rounds + 1):
         process_file(model, dataset, r)
 
-if __name__ == "__main__":
-    # example usage
-    # for mdl, rnds in MODELS.items():
-    #     for ds in DATASETS:
-    #         process_dataset(mdl, ds, rnds)
-
-    MODEL = "Qwen-14B"
-    ROUNDS = MODELS.get(MODEL, 5)  # falls back to 5 if for some reason it’s missing
-
-    for ds in DATASETS:
-        process_dataset(MODEL, ds, ROUNDS)
+def run_extraction_pipeline(model: str, dataset: str, rounds: int):
+    """
+    Public interface to run the whole extraction pipeline.
+    """
+    print(f"🔍 Extracting Class Conversation Log for {model} | {dataset.capitalize()} | {rounds} rounds")
+    process_dataset(model, dataset, rounds)
+    

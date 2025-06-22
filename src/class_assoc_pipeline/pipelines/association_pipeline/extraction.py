@@ -2,12 +2,11 @@ import re
 import os
 import pandas as pd
 
-from class_assoc_pipeline.config import MODELS, DATASETS, ASSOC_INPUT_TEMPLATE, ASSOC_EXTRACTED_DIR
+from class_assoc_pipeline.config import ASSOC_TEST_INPUT_TEMPLATE, ASSOC_TEST_EXTRACTED_DIR
 from class_assoc_pipeline.utils.text_utils import (
     remove_trailing_notes_association,
     clean_association_line,
     parse_association_line,
-    deduplicate_associations,
     combine_and_deduplicate_associations
 )
 
@@ -59,7 +58,7 @@ def extract_llama3_8b_associations(content: str) -> tuple[list[str], list[str]]:
     """
     Extract mandatory and optional associations from Llama 3 8B raw output.
     """
-    assistants = list(re.finditer(r'Assistant?:', content, re.IGNORECASE))
+    assistants = list(re.finditer(r'Assistant :', content, re.IGNORECASE))
     if len(assistants) < 3:
         print("⚠️ Less than 3 'Assistant:' markers")
         return [], []
@@ -165,7 +164,6 @@ def process_file(input_file: str, output_file: str, model: str) -> None:
     if not refined and not optional:
         print(f"⚠️ No associations found in {input_file}")
         return
-    print(optional)
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, "w", encoding="utf-8") as out:
         for ln in refined:
@@ -174,15 +172,17 @@ def process_file(input_file: str, output_file: str, model: str) -> None:
             out.write(clean_association_line(ln, force_optional=True) + "\n")
 
 
-def process_dataset(model: str, dataset: str) -> None:
+def process_dataset(model: str, dataset: str, rounds: int) -> None:
     """
     Process all rounds of a specific (model, dataset) pair.
     """
-    rounds = MODELS.get(model, 5)
+    # rounds = MODELS.get(model, 5)
     for r in range(1, rounds + 1):
-        inp = ASSOC_INPUT_TEMPLATE.format(model=model, dataset=dataset, round=r)
-        outd = ASSOC_EXTRACTED_DIR.format(model=model, dataset=dataset)
-        outp = os.path.join(outd, f"refined_associations_round{r}.txt")
+        # inp = ASSOC_INPUT_TEMPLATE.format(model=model, dataset=dataset, round=r)
+        inp = ASSOC_TEST_INPUT_TEMPLATE.format(model=model, dataset=dataset, round=r)
+        # outd = ASSOC_EXTRACTED_DIR.format(model=model, dataset=dataset)
+        outd = ASSOC_TEST_EXTRACTED_DIR.format(model=model, dataset=dataset)
+        outp = os.path.join(outd, f"extracted_associations_round{r}.txt")
         process_file(inp, outp, model)
 
 
@@ -204,12 +204,13 @@ def convert_dataset_to_excel(model: str, dataset: str, num_rounds: int = 10) -> 
     """
     Convert all rounds of one dataset to an Excel file, each round as a sheet.
     """
-    out_xlsx_dir = ASSOC_EXTRACTED_DIR.format(model=model, dataset=dataset)
-    out_xlsx_path = os.path.join(out_xlsx_dir, f"association_report_{dataset}.xlsx")
+    # out_xlsx_dir = ASSOC_EXTRACTED_DIR.format(model=model, dataset=dataset)
+    out_xlsx_dir = ASSOC_TEST_EXTRACTED_DIR.format(model=model, dataset=dataset)
+    out_xlsx_path = os.path.join(out_xlsx_dir, f"extracted_associaiton.xlsx")
     writer = pd.ExcelWriter(out_xlsx_path, engine="xlsxwriter")
 
     for r in range(1, num_rounds + 1):
-        txt_path = os.path.join(out_xlsx_dir, f"refined_associations_round{r}.txt")
+        txt_path = os.path.join(out_xlsx_dir, f"extracted_associations_round{r}.txt")
         pairs = process_round_file(txt_path)
         if not pairs:
             continue
@@ -224,20 +225,13 @@ def convert_dataset_to_excel(model: str, dataset: str, num_rounds: int = 10) -> 
     print(f"✅ Wrote Excel report for {model}/{dataset}")
 
 
-def process_all_datasets(model: str) -> None:
-    """
-    Process and convert all datasets for a given model into Excel reports.
-    """
-    path = f"output/association/{model}"
-    for ds in os.listdir(path):
-        if ds.startswith("."):
-            continue
-        rounds = MODELS.get(model, 5)
-        convert_dataset_to_excel(model, ds, num_rounds=rounds)
 
+def run_extraction_pipeline(model: str, dataset: str, rounds: int):
+    """
+    Public interface to run the whole extraction pipeline.
+    """
+    print(f"🔍 Extracting Association Conversation Log for {model} | {dataset.capitalize()} | {rounds} rounds")
+    process_dataset(model, dataset, rounds)
+    convert_dataset_to_excel(model, dataset, rounds)
+    print(f"✅ Done Extraction of Association Conversation Log for {model} | {dataset.capitalize()} | {rounds} rounds")
 
-if __name__ == "__main__":
-    for MODEL in list(MODELS.keys()):
-        for ds in DATASETS:
-            process_dataset(MODEL, ds)
-        process_all_datasets(MODEL)
