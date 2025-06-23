@@ -1,11 +1,9 @@
-# run_class_generation.py
-
 import argparse
 from pathlib import Path
 from datetime import datetime
 import time
 
-from class_assoc_pipeline.utils.prompts import INSTRUCTIONS_CLASS_SLM, INSTRUCTIONS_LLM
+from class_assoc_pipeline.utils.prompts import INSTRUCTIONS_CLASS_SLM, INSTRUCTIONS_CLASS_LLM
 from class_assoc_pipeline.utils.model_client  import init_client
 from class_assoc_pipeline.utils.generation_utils import process_steps, get_next_round_number
 
@@ -49,7 +47,7 @@ def main():
 
     # --- Select prompt instruction based on model type ---
     if args.model.lower() == "gpt-o1":
-        instruction = INSTRUCTIONS_LLM
+        instruction = INSTRUCTIONS_CLASS_LLM
     else:
         instruction = INSTRUCTIONS_CLASS_SLM
 

@@ -2,8 +2,8 @@ from class_assoc_pipeline.utils.text_utils import normalize_word, remove_trailin
 from class_assoc_pipeline.utils.data_utils import expand_synonym_mapping, generate_candidates
 from class_assoc_pipeline.utils.metrics import perform_matching_associations, compute_metrics
 from class_assoc_pipeline.config import (
-    ASSOC_TEST_INPUT_TEMPLATE,
-    ASSOC_TEST_EXTRACTED_DIR,
+    ASSOC_INPUT_TEMPLATE,
+    ASSOC_EXTRACTED_DIR,
     GOLD_STANDARD_ASSOCIATION,
     SILVER_STANDARD_ASSOCIATION,
     SYNONYM_DICT_CLASS
@@ -33,7 +33,7 @@ def evaluation_experiment(model: str, dataset: str) -> None:
     # for dataset in DATASETS:
     ds = dataset.lower()
     # out_dir = ASSOC_EXTRACTED_DIR.format(model=model, dataset=ds)
-    out_dir = ASSOC_TEST_EXTRACTED_DIR.format(model=model, dataset=ds)
+    out_dir = ASSOC_EXTRACTED_DIR.format(model=model, dataset=ds)
     os.makedirs(out_dir, exist_ok=True)
 
     report_path = os.path.join(out_dir, f"extracted_associaiton.xlsx")

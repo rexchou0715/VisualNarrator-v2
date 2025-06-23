@@ -2,7 +2,7 @@ import re
 import os
 import pandas as pd
 
-from class_assoc_pipeline.config import ASSOC_TEST_INPUT_TEMPLATE, ASSOC_TEST_EXTRACTED_DIR
+from class_assoc_pipeline.config import ASSOC_INPUT_TEMPLATE, ASSOC_EXTRACTED_DIR
 from class_assoc_pipeline.utils.text_utils import (
     remove_trailing_notes_association,
     clean_association_line,
@@ -179,9 +179,9 @@ def process_dataset(model: str, dataset: str, rounds: int) -> None:
     # rounds = MODELS.get(model, 5)
     for r in range(1, rounds + 1):
         # inp = ASSOC_INPUT_TEMPLATE.format(model=model, dataset=dataset, round=r)
-        inp = ASSOC_TEST_INPUT_TEMPLATE.format(model=model, dataset=dataset, round=r)
+        inp = ASSOC_INPUT_TEMPLATE.format(model=model, dataset=dataset, round=r)
         # outd = ASSOC_EXTRACTED_DIR.format(model=model, dataset=dataset)
-        outd = ASSOC_TEST_EXTRACTED_DIR.format(model=model, dataset=dataset)
+        outd = ASSOC_EXTRACTED_DIR.format(model=model, dataset=dataset)
         outp = os.path.join(outd, f"extracted_associations_round{r}.txt")
         process_file(inp, outp, model)
 
@@ -205,7 +205,7 @@ def convert_dataset_to_excel(model: str, dataset: str, num_rounds: int = 10) -> 
     Convert all rounds of one dataset to an Excel file, each round as a sheet.
     """
     # out_xlsx_dir = ASSOC_EXTRACTED_DIR.format(model=model, dataset=dataset)
-    out_xlsx_dir = ASSOC_TEST_EXTRACTED_DIR.format(model=model, dataset=dataset)
+    out_xlsx_dir = ASSOC_EXTRACTED_DIR.format(model=model, dataset=dataset)
     out_xlsx_path = os.path.join(out_xlsx_dir, f"extracted_associaiton.xlsx")
     writer = pd.ExcelWriter(out_xlsx_path, engine="xlsxwriter")
 

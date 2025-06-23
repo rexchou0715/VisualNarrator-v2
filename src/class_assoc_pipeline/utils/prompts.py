@@ -84,7 +84,7 @@ INSTRCTION_ASSOC_SLM = [
 ]
 
 
-INSTRUCTIONS_LLM = [
+INSTRUCTIONS_CLASS_LLM = [
     """
     You are an expert in Requirements Engineering specializing in class identification from user stories.
     I will provide you with a set of user stories. You will follow the following steps.
@@ -110,13 +110,53 @@ INSTRUCTIONS_LLM = [
 
     Step 3: Present the Final Class List
     1. Structured format: Present the refined list of class candidates in a compact format, such as [Class 1, Class 2, Class 3, ...].
-    2. Numbered format: Also present the same list in a numbered layout for clarity, e.g.:
-        1. Class 1
-        2. Class 2
-        3. (Optional)Class 3
-    3. Justify retained classes: Briefly explain the rationale for keeping each class, referencing the filtering rules (e.g., not too generic, not an attribute, not an operation).
-    4. Mark optional classes: Prefix any noun with (optional) if it cannot be definitively classified, and explain the reason.
+    2. Justify retained classes: Briefly explain the rationale for keeping each class, referencing the filtering rules (e.g., not too generic, not an attribute, not an operation).
+    3. Mark optional classes: Prefix any noun with (optional) if it cannot be definitively classified, and explain the reason.
+
+    Please keep the response short and write down your thought process and the outcomes at each instructed step (e.g., in Step 1, specify which classes you identified; in Step 2, indicate which classes were removed and based on which rules). In Step 3, make sure to strictly follow the required output format.
+
+    Output Format:
+    Here is the final list of classes:
+    1. Class1
+    2. Class2
+    3. (Optional) Class3 : This class is tentative because [brief explanation of the ambiguity]
     """
 
 ]
-INSTRUCTIONS_ASSOC_LLM = []
+INSTRUCTIONS_ASSOC_LLM = [
+    """
+    You are a Requirements Engineer specializing in domain modeling.
+    I will provide you with a selection of user stories from a specific domain, along with a list of classes identified from these user stories. Your task is to determine the relevant associations among these classes, following the guidelines and best practices below.
+
+    Step 1: Identify Potential Associations
+        1. Analyze the Provided Classes: Examine each pair (or group) of classes to see if there is a meaningful structural relationship (association) between them, grounded in the user stories.
+        2. Domain Modeling Context: Consider the domain context described by the user stories. Only propose associations that directly reflect how the real-world entities (or conceptual entities) interact or relate.
+        3. Ignore Association Names: Do not worry about naming each relationship; focus on identifying whether an association exists.
+
+    Step 2: Filter Out Unnecessary/Incorrect Associations
+    Use the following criteria to remove or refine associations:
+        1. Irrelevant Associations: Any relationship that does not fit the domain or does not appear to matter in the user stories.
+        2. Implementation Associations: Technical or system-level constructs unrelated to the real-world domain.
+        3. Ternary Associations: Avoid or break down associations involving three or more classes if they can be better represented as multiple binary associations.
+        4. Derived Associations: Any association that can be inferred from existing associations.
+
+    If an association is ambiguous or uncertain, prefix it with (Optional) and do not try to reclassify it as valid yourself.
+
+    Step 3: Present the Associations in 'X-Y' Format
+        1. Final List of Associations: For each valid association, present it in the form 'X-Y', where X and Y are the classes or entities involved.
+        2. Contextual Relevance: Each association you list should clearly reflect a relationship mentioned or implied in the user stories.
+        3. Justify retained associations: Briefly explain the rationale for keeping each association, referencing the filtering rules (e.g., not irrelevant, not implementation).
+        4. Mark Optional Associations: If an association is ambiguous or uncertain, prefix it with (Optional) and do not try to reclassify it as valid yourself
+
+
+    Please keep the response short and write down your thought process and the outcomes at each instructed step (e.g., in Step 1, specify which associations you identified; in Step 2, indicate which associations were removed and based on which rules). In Step 3, make sure to strictly follow the required output format.
+
+    Output Format:
+
+        Here is the final list of associations:
+        1. Class1-Class2
+        2. Class3-Class4
+        3. (Optional) Class5-Class6 : This association is tentative because [brief explanation of the ambiguity]
+
+    """
+]

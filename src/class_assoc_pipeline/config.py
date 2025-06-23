@@ -26,8 +26,6 @@ CLASS_INPUT_TEMPLATE = "data/raw/class/{model}/{dataset}/R{round}.txt"
 ASSOC_INPUT_TEMPLATE = "data/raw/association/{model}/{dataset}/R{round}.txt"
 CLASS_EXTRACTED_DIR = "output/class/{model}/{dataset}"
 ASSOC_EXTRACTED_DIR = "output/association/{model}/{dataset}"
-ASSOC_TEST_INPUT_TEMPLATE = "data/raw/association_test/{model}/{dataset}/R{round}.txt"
-ASSOC_TEST_EXTRACTED_DIR = "output/association_test/{model}/{dataset}"
 EXPERIMENT_OUTPUT_DIR = "output/experiment"
 
 # 4. Skip keywords for class extraction
