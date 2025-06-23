@@ -1,7 +1,7 @@
 # Visual Narrator 2.0
 
 Transform user stories into domain-model elements—**classes** and **associations**—then evaluate extraction quality against a gold-standard reference.
-
+ 
 ---
 
 ## Modules
@@ -72,16 +72,24 @@ There are two modes in this module, including `extraction` and `evaluation`.
 ```bash
 # Run extraction + evaluation for classes
 python src/class_assoc_pipeline/pipelines/class_pipeline/run_class_pipeline.py \
-  --input data/raw/class_test/Llama3-8B/ticket \
+  --input data/raw/class/Llama3-8B/ticket \
   --mode all
 
 # Run extraction only for associations
 python src/class_assoc_pipeline/pipelines/association_pipeline/run_association_pipeline.py \
-  --input data/raw/association_test/Llama3-8B/ticket \
+  --input data/raw/association/Llama3-8B/ticket \
   --mode extraction
 ```
 
+---
 
+### ⚠️ Known Issue: Model Output Formatting
 
+It may occasionally take time to get valid outputs from all three models.  
+If the evaluation module encounters issues during extraction, it's usually because the model outputs don't match the expected format. In such cases, manual transformation may be required to ensure compatibility with the extraction step.
 
+---
 
+## Related
+
+- [Visual Narrator](https://github.com/MarcelRobeer/VisualNarrator) — The original system by Marcel Robeer that this project builds upon.
