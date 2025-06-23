@@ -138,7 +138,7 @@ def perform_matching(words, is_optional, gold_standard, silver_standard, synonym
                 remaining_silv.remove(var)
                 target = opt_matched if opt else mand_matched
                 target.append(f"(sil){w}")
-                log += f"[Silver exact matched] {'(Opt) ' if opt else ''}{w}\n"
+                log_lines.append(f"[Silver exact matched] {'(Opt) ' if opt else ''}{w}\n")
                 matched = True
                 break
 
@@ -161,7 +161,7 @@ def perform_matching(words, is_optional, gold_standard, silver_standard, synonym
                         mand_matched.append(w)
                     else:
                         opt_matched.append(w)
-                    log += f"[Gold syn]    {'(Opt) ' if opt else ''}{w} → {c}\n"
+                    log_lines.append(f"[Gold syn]    {'(Opt) ' if opt else ''}{w} → {c}\n")
                     matched = True
                     break
 
@@ -169,7 +169,7 @@ def perform_matching(words, is_optional, gold_standard, silver_standard, synonym
                     remaining_silv.remove(c)
                     target = opt_matched if opt else mand_matched
                     target.append(w)
-                    log += f"[Silv syn]    {'(Opt) ' if opt else ''}{w} → {c}\n"
+                    log_lines.append(f"[Silv syn]    {'(Opt) ' if opt else ''}{w} → {c}\n")
                     matched = True
                     break
 

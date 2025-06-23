@@ -2,6 +2,7 @@ import os
 import re
 import pandas as pd
 
+# Local imports from the project
 from .extractors import extract_content_by_model
 from class_assoc_pipeline.utils.text_utils import (
     clean_class_name,
@@ -18,10 +19,10 @@ from class_assoc_pipeline.config import (
      CLASS_INPUT_TEMPLATE,
      CLASS_EXTRACTED_DIR,
  )
-
 from class_assoc_pipeline.config import MODELS, DATASETS
 from pathlib import Path
 
+# Process one file for a given model, dataset, and round
 def process_file(model: str, dataset: str, exp_round: int) -> None:
     """
     Process a single raw text file by:
@@ -31,50 +32,55 @@ def process_file(model: str, dataset: str, exp_round: int) -> None:
 
     Paths are driven by config templates.
     """
-    # Build paths from config
-    # infile = CLASS_INPUT_TEMPLATE.format(model=model, dataset=dataset, round=exp_round)
-    # out_dir = CLASS_EXTRACTED_DIR.format(model=model, dataset=dataset)
-    
-    infile = Path(f"data/raw/class_test/{model}/{dataset}/R{exp_round}.txt")
-    out_dir = Path(f"output/class_test/{model}/{dataset}")
+    # === 1. Build input/output paths ===
+    infile = CLASS_INPUT_TEMPLATE.format(model=model, dataset=dataset, round=exp_round)
+    out_dir = Path(CLASS_EXTRACTED_DIR.format(model=model, dataset=dataset))
     out_dir.mkdir(parents=True, exist_ok=True)
     outfile = os.path.join(out_dir, f"extracted_class_round{exp_round}.txt")
     report  = os.path.join(out_dir, f"extracted_class.xlsx")
 
-    # 1. Read
+    # === 2. Read file ===
     try:
         raw = open(infile, encoding="utf-8").read()
     except FileNotFoundError:
         print(f"❌ Error: '{infile}' not found.")
         return
 
-    # 2. Extract headers
+    # === 3. Extract relevant content (e.g., skip system headers) ===
     extracted = extract_content_by_model(raw, model, exp_round)
     if not extracted:
         print(f"⚠️ No content extracted for round {exp_round}.")
         return
 
-    # 3. Clean lines
-    # lines = [ln.strip() for ln in extracted.splitlines() if ln.strip()] # Remove all new lines
+    # === 4. Parse and clean lines ===
     lines = extracted.splitlines()
     mandatory, optional = [], []
-    reading_mand = True
+    reading_mand = True  # Tracks when optional section starts
 
     for ln in lines:
         text = ln.strip()
-        # Drop any “Rationale” (or similar) lines outright
+
+        # Skip rationale sections (often not part of actual class lists)
         if re.match(r'^(?:\d+\.\s*|\*\s*|\-\s*)?\s*Rationale:', text, re.IGNORECASE):
             print(f"{text}, Match")
             continue
+
+        # Detect transition between mandatory and optional sections
         if reading_mand and text == "":
             reading_mand = False
             continue
-        # only numbered or bulleted items
+
+        # Only process properly formatted list items
         if not re.match(r"^(?:\d+\.|\*)", ln):
             continue
 
+        # Remove list numbering or bullets
         item = re.sub(r"^(?:\d+\.\s*|\*\s*|\-\s*)", "", ln)
+
+        # Check if the line is marked optional
         is_opt = "(optional)" in item.lower()
+
+        # Strip parenthetical notes unless they are special keywords
         core = re.sub(
             r"""
             (?!  # negative lookahead to protect "(optional)" etc.
@@ -90,7 +96,7 @@ def process_file(model: str, dataset: str, exp_round: int) -> None:
         ).strip()
         core = remove_trailing_notes(core)
 
-        # -- handle "and", "or" 
+        # === 5. Handle variations in class grouping (comma, and, or) ===
         if ',' in core:
             raw_names = flatten_comma_variants(core)
             print(raw_names)
@@ -98,22 +104,21 @@ def process_file(model: str, dataset: str, exp_round: int) -> None:
             raw_names = flatten_and_variants(core)
             print(raw_names)
         elif re.search(r'\(or\b', core, flags=re.IGNORECASE) or '/' in core:
-            # flatten_or_variants returns a single string
-            raw_names = [ flatten_or_variants(core) ]
+            raw_names = [ flatten_or_variants(core) ]  # Single string
         else:
             raw_names = [ core ]
 
-        # clean & append each
+        # === 6. Final cleanup and classification ===
         for raw in raw_names:
             name = clean_class_name(raw)
-            # —— strip generic parentheses (e.g. acronyms) —— 
-            # if not re.search(r'^\(optional\)', name, re.IGNORECASE) \
-            #     and '(' in name:
+
+            # Strip parentheses not related to meaning (e.g., acronyms)
             if not ('(optional)' in name.lower()) and ('(' in name):
-                # remove the first (...) group
                 print(f"before name: {name}")
                 name = re.sub(r'\s*\([^)]*\)', '', name).strip()
                 print(f"after name: {name}")
+
+            # Append to appropriate list (mandatory/optional)
             if reading_mand:
                 if is_opt:
                     optional.append(format_optional_line(name))
@@ -121,35 +126,37 @@ def process_file(model: str, dataset: str, exp_round: int) -> None:
                     mandatory.append(name)
             else:
                 if is_opt:
-                    optional.append( format_optional_line(name) )
+                    optional.append(format_optional_line(name))
 
-    # 4. Dedupe
+    # === 7. Deduplicate and combine ===
     mandatory = deduplicate_list(mandatory)
     optional  = deduplicate_list(optional)
     combined  = dedupe_preserve_optional_first(mandatory, optional)
     notes = [""] * len(combined)
-    # ensure output dir
+
+    # Ensure output directory
     os.makedirs(out_dir, exist_ok=True)
 
-    # 5. Save text
+    # === 8. Save as plain text ===
     with open(outfile, "w", encoding="utf-8") as f:
         f.write("\n".join(combined))
 
-    # 6. Save Excel
+    # === 9. Save as Excel (with notes column) ===
     df = pd.DataFrame({"class": combined, "note": notes})
     df["class"] = df["class"].astype(str)
     df = df[~df['class'].str.lower().duplicated()].reset_index(drop=True)
-    # report_path = os.path.join(out_dir, f"class_report_{dataset}.xlsx")
+
     sheet_name  = f"Round{exp_round}"
-    # If file doesn't exist yet, write fresh; otherwise append/replace
     if not os.path.exists(report):
         with pd.ExcelWriter(report, engine='openpyxl') as writer:
             df.to_excel(writer, index=False, sheet_name=sheet_name)
     else:
         with pd.ExcelWriter(report, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
             df.to_excel(writer, index=False, sheet_name=sheet_name)
+
     print(f"✅ Extracted {model} | {dataset} | Round {exp_round}")
 
+# === Helper: Loop through all rounds for a dataset ===
 def process_dataset(model: str, dataset: str, rounds: int) -> None:
     """
     Loop over rounds for one dataset, using config-driven paths.
@@ -157,10 +164,10 @@ def process_dataset(model: str, dataset: str, rounds: int) -> None:
     for r in range(1, rounds + 1):
         process_file(model, dataset, r)
 
+# === Public entry point ===
 def run_extraction_pipeline(model: str, dataset: str, rounds: int):
     """
     Public interface to run the whole extraction pipeline.
     """
     print(f"🔍 Extracting Class Conversation Log for {model} | {dataset.capitalize()} | {rounds} rounds")
     process_dataset(model, dataset, rounds)
-    

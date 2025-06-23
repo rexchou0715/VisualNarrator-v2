@@ -7,8 +7,6 @@ import re
 
 from class_assoc_pipeline.config import (
     CLASS_EXTRACTED_DIR,
-    MODELS,
-    DATASETS,
     GOLD_STANDARD_CLASS,
     SILVER_STANDARD_CLASS,
     SYNONYM_DICT_CLASS,
@@ -50,10 +48,8 @@ def evaluation_experiment(
     silver_standard = { normalize_word(x) for x in silver_standard_dict.get(dataset_key, []) }
     synonym_mapping = expand_synonym_mapping(synonym_dict[dataset_key])
     # — I/O paths —
-    # out_dir = Path(CLASS_EXTRACTED_DIR.format(model=model, dataset=dataset_key))
-    # in_path = out_dir / f"class_report_{dataset_key}(refined).xlsx"
-    out_dir = Path(f"output/class_test/{model}/{dataset}")
-    in_path = Path(f"{out_dir}/extracted_class.xlsx")
+    out_dir = Path(CLASS_EXTRACTED_DIR.format(model=model, dataset=dataset_key))
+    in_path = out_dir / f"extracted_class.xlsx"
     unmatched_output_path = out_dir / "false_positives.xlsx"
     os.makedirs(out_dir, exist_ok=True)
 
@@ -64,13 +60,10 @@ def evaluation_experiment(
     mand_results = []
     all_results  = []
     all_unmatched_class = []
-    # remaining_gold = set(gold_standard)  # we’ll shrink this each round
 
     for round_idx, (sheet_name, df_raw) in enumerate(sheets.items()):
         print(f"✅ Evaluated {model} | {dataset} | Round {round_idx + 1}")
-        # normalize the incoming df
-        # assume df_raw has columns ["class","note"], optional marker already in “(optional)”
-        # we need class_for_match & is_optional_flag:
+
         df = df_raw.dropna(subset=["class"]).copy()
         df["is_opt"] = df["class"].str.contains(r"^\((?:opt|optional)\)", case=False)
         df["class_clean"] = df["class"].str.replace(

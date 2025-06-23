@@ -1,5 +1,4 @@
 import re
-from typing import List
 from typing import List, Tuple
 import inflect
 
@@ -43,7 +42,6 @@ def remove_trailing_notes(line: str) -> str:
     line = re.sub(r"[`“”‘’]", "", line)
     return line.strip()
 
-
 def remove_trailing_notes_association(line: str) -> str:
     """
     Strips leading/trailing formatting and trailing notes from an association line.
@@ -66,7 +64,6 @@ def remove_trailing_notes_association(line: str) -> str:
 
     return line.strip()
 
-
 def split_mandatory_entities(text: str) -> list[str]:
     """
     Splits a combined class description into individual entities by 'and', commas, and
@@ -83,7 +80,6 @@ def split_mandatory_entities(text: str) -> list[str]:
             if item:
                 result.append(item)
     return result
-
 
 def clean_association_line(line: str, force_optional: bool = False) -> str:
     """
@@ -139,7 +135,6 @@ def expand_or_variants(entity: str) -> list[str]:
                 variants.append(cleaned)
     return variants
 
-
 def flatten_or_variants(entity: str) -> str:
     """
     Transform strings like:
@@ -174,7 +169,6 @@ def flatten_or_variants(entity: str) -> str:
     # 3) Re-add the "(Optional)" prefix if needed
     return f"(Optional) {joined}" if is_optional else joined
 
-
 def normalize_word(word: str) -> str:
     """
     Normalize a word to its lowercase singular form, preserving certain keywords.
@@ -200,14 +194,20 @@ def normalize_word(word: str) -> str:
     # Attempt singularization; fallback to original lowercase
     return _p.singular_noun(lowered) or lowered
 
-
 def normalize_assoc(assoc: list[str]) -> tuple[str,str]:
+    """
+    Normalize a two-element association pair by:
+    1. Removing optional tags from the left element.
+    2. Cleaning both left and right using class/association-specific functions.
+    3. Lowercasing and sorting them alphabetically to produce a normalized 'X-Y' key.
+
+    This is useful for deduplication because it ensures consistent formatting
+    regardless of original order, case, or tag presence.
+    """
     left, right = assoc
     left = re.sub(r'^\(Opt(?:ional)?\)\s*', '', left, flags=re.IGNORECASE)
     cleaned = [clean_class_name(left), clean_association_line(right)]
     return '-'.join(sorted(s.lower().strip() for s in cleaned))
-    # return left, right
-
 
 def flatten_and_variants(entity: str) -> List[str]:
     """
@@ -225,7 +225,6 @@ def flatten_and_variants(entity: str) -> List[str]:
 
     # 2) first, the parenthesized-and rule: e.g. "X (and Y)"
     m = re.match(r'^(.*?)\s*\(\s*and\s*(.*?)\s*\)\s*$', entity, re.IGNORECASE)
-    print(f"m {m}")
     if m:
         return [
             f"{prefix}{m.group(1).strip()}",
@@ -234,7 +233,6 @@ def flatten_and_variants(entity: str) -> List[str]:
 
     # 3) **new** plain-and rule: e.g. "A and B" (no parentheses)
     m2 = re.match(r'^(.*?)\s+and\s+(.*?)$', entity, re.IGNORECASE)
-    print(f"m2 {m2}, prefix: {prefix}")
     if m2:
         return [
             f"{prefix}{m2.group(1).strip()}",
@@ -244,8 +242,15 @@ def flatten_and_variants(entity: str) -> List[str]:
     # 4) fallback: nothing to split on
     return [f"{prefix}{entity.strip()}"]
 
-
 def deduplicate_associations(assocs: list[list[str]]) -> list[list[str]]:
+    """
+    Deduplicate a list of association pairs, treating 'A-B' and 'B-A' as equivalent.
+
+    The function:
+    - Uses normalized forms to detect duplicates.
+    - Prefers mandatory associations when both optional and mandatory exist.
+    - Retains the first-seen instance of each normalized key, unless replaced by a preferred version.
+    """
     seen = dict()  # key -> index of the preferred version
     out = []
     mandatory = []
@@ -322,8 +327,11 @@ def flatten_comma_variants(entity: str) -> List[str]:
         return parts
     
 
-
 def clean_brackets(item: str) -> str:
+    """
+    Remove all parenthetical expressions (e.g., acronyms or explanations) from a string,
+    while preserving a leading '(optional)' marker, if present.
+    """
     if not isinstance(item, str):
         return ""
     
@@ -338,8 +346,16 @@ def clean_brackets(item: str) -> str:
 
     return f"{prefix_optional}{item}".strip()
 
-
 def parse_association_line(line: str) -> list[list[str]]:
+    """
+    Parse a single raw association string into a list of individual association pairs.
+
+    Supports:
+    - Optional markers (e.g., "(optional) A-B").
+    - Right-hand compound forms (e.g., A-B or C, D).
+    - Normalization by removing quotes and whitespace.
+    
+    """
     line = line.strip()
     if not line or '-' not in line:
         return []
@@ -357,6 +373,7 @@ def parse_association_line(line: str) -> list[list[str]]:
             tag_left = f"(Opt) {left}" if is_opt else left
             pairs.append([ tag_left, sub ])
     return deduplicate_associations(pairs)
+
 
 def combine_and_deduplicate_associations(
     refined: List[str], 
@@ -393,7 +410,6 @@ def combine_and_deduplicate_associations(
             right = normalize_word(parts[1])
             normalized.append(f"{left}-{right}")
         else:
-            print(f"fallback!{assoc}")
             normalized.append(assoc.lower().strip())  # fallback if malformed
 
     seen = set()
