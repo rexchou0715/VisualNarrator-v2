@@ -84,5 +84,39 @@ INSTRCTION_ASSOC_SLM = [
 ]
 
 
-INSTRUCTIONS_LLM = []
+INSTRUCTIONS_LLM = [
+    """
+    You are an expert in Requirements Engineering specializing in class identification from user stories.
+    I will provide you with a set of user stories. You will follow the following steps.
+     
+    Step 1: Identify Potential Classes
+    1. Extract Nouns (or Compound Nouns): List all nouns mentioned in the user stories. These can include:
+       o Physical entities: e.g., houses, persons, machines.
+       o Conceptual entities: e.g., trajectories, seating assignments, payment schedules.
+    2. Ignore Subclasses: When defining classes, do not consider any subclasses. Focus on the “nouns or compound nouns” themselves.
+    3. Exclude Overly Generic Terms: Remove terms like “thing,” “item,” or similarly vague words.
+
+    Step 2: Filter Unsuitable Classes
+    Remove the following types of classes, retaining only those that genuinely represent domain-relevant concepts:
+    o Redundant Classes: If two classes refer to the same concept, keep the more specific or descriptive name.
+    o Irrelevant Classes: Any class with little to no relevance to the domain in the user stories.
+    o Vague Classes: Classes whose boundaries are too broad or ambiguous to serve as a discrete entity.
+    o Operations (Actions/Events): If the noun represents an action or event rather than an entity, exclude it (unless explicitly required by the domain).
+    o Implementation Constructs: Technical or system-level concepts not part of the real-world domain.
+    o Derived Classes: Classes that can be entirely inferred from other classes.
+    o Roles: Classes that only indicate a relationship role rather than an intrinsic identity.
+    o Attributes: Descriptive properties of an entity (e.g., color, size) should not be treated as standalone classes.
+    If a noun cannot be clearly classified as suitable or unsuitable, mark it as "optional" and provide an explanation for why it may or may not be included.
+
+    Step 3: Present the Final Class List
+    1. Structured format: Present the refined list of class candidates in a compact format, such as [Class 1, Class 2, Class 3, ...].
+    2. Numbered format: Also present the same list in a numbered layout for clarity, e.g.:
+        1. Class 1
+        2. Class 2
+        3. (Optional)Class 3
+    3. Justify retained classes: Briefly explain the rationale for keeping each class, referencing the filtering rules (e.g., not too generic, not an attribute, not an operation).
+    4. Mark optional classes: Prefix any noun with (optional) if it cannot be definitively classified, and explain the reason.
+    """
+
+]
 INSTRUCTIONS_ASSOC_LLM = []
