@@ -1,0 +1,289 @@
+SYSTEM:
+
+
+        You are a Requirements Engineer specializing in domain modeling.
+        I will provide you with a selection of user stories from a specific domain, along with a list of classes identified from these user stories. Your task is to determine the relevant associations among these classes, following the guidelines below.
+        
+        Step 1: Identify Potential Associations
+        o Analyze the Provided Classes: Examine each pair (or group) of classes to see if there is a meaningful structural relationship between them, grounded in the user stories.
+        o Domain Modeling Context: Only propose associations that directly reflect real-world interactions.
+        o Ignore Association Names: Do not worry about naming each relationship; focus on identifying whether an association exists.
+        
+
+USER:
+
+
+        Here is the list of user stories:
+        As a guardian, I want to directly message any teacher of my child, the mentor assigned to my child, or an administrative staff member, so that I can contact them when needed.
+As a guardian, I want to fill in an absence of my child, so that administrative staff is aware that my child will not attend school today.
+As a guardian, I want to receive a notification when I receive a message, so that I do not have to manually check for new messages.
+As a guardian, I want to view any information related to my children, so that I can gain insight into their behavior and performance.
+As a student, I want to access files and Digital Learning Module (DLM) in the Learning Management System (LMS) that have been assigned to the class that I participate in, so I am able to work with the material.
+As a student, I want to directly message any of my teachers, so that I can directly communicate with them when needed.
+As a student, I want to directly message my mentor, so that I can directly communicate with my her when needed.
+As a student, I want to hand my homework to the DLM when they are finished, so that the teacher is able to see my work.
+As a student, I want to have access to an up-to-date timetable, so that I always know for sure that I am in the correct place at a certain time.
+As a student, I want to have access to DLM, so that I can do the work that is expected of me.
+As a student, I want to receive a notification when an assignment is due soon and I have not completed it yet, so that I can complete it prior to the due date.
+As a student, I want to receive a notification when I receive a message, so that I do not have to manually check for new messages.
+As a student, I want to receive a notification when new files have been made available through the LMS, so that I am always up to date with the uploaded files.
+As a student, I want to receive a notification when something changes within my timetable, so that I am notified of any changes in the timetable in a timely manner.
+As a student, I want to view any information related to my account, so that I can gain insight into my performance and behavior.
+As a student, I want to view the contact information of students attending my classes, so that collaboration is made possible.
+As a student, once I am 18 years old I want to change my preferences in regard to data being shared with coupled guardians, so that I have a say in what can be accessed by my guardians.
+As a teacher I want to receive a notification when a student has uploaded a submission onto the LMs, so that I do not have to manually check to see if a student has submitted work.
+As a teacher I want to receive a notification when something changes within my timetable, so that I am notified of any changes regarding the timetable in a timely manner.
+As a teacher, I want to add a page containing a video to a DLM, so that video material can be used within a DLM.
+As a teacher, I want to add a page containing text and pictures to a DLM, so that this material can be used within a DLM.
+As a teacher, I want to add a page that contains a multiple-choice question or an open question to a DLM, so that I can test the studentâs knowledge.
+As a teacher, I want to assign a DLM to a specific class or student(s), so that the DLM is accessible by the right user.
+As a teacher, I want to assign a due date to a DLM, so that students can be informed about when they are expected to finish a DLM.
+As a teacher, I want to automatically grade DLM submissions, where possible, when I have submitted all the answers, so that I do not have to manually correct all questions within a DLM.
+As a teacher, I want to create digital learning modules containing pages, so that I can create interactive study material.
+As a teacher, I want to directly message any student that is assigned to my class, so that I am able to have contact with any participants of my class.
+As a teacher, I want to directly message any student to which I am assigned mentor, so that I can gain insight into the performance of my students.
+As a teacher, I want to edit any page contained within a DLM, so that I do not have to create a new DLM if the need arises to change a minor detail.
+As a teacher, I want to make submission elements, so that students can submit assignments that they have made.
+As a teacher, I want to optionally add the corresponding answer to a question page contained within a DLM, so that it can be used to correct a submitted DLM.
+As a teacher, I want to receive a confirmation from the LMS system once files have been fully uploaded, so that I do not have to check if any uploads have failed.
+As a teacher, I want to receive a notification when a student that I mentor is sent out of class, so that I am informed about the behavior of my students.
+As a teacher, I want to receive a notification when I receive a message, so that I do not have to manually check for new messages.
+As a teacher, I want to record disciplinary actions for a student such as: missed homework, no books, or sent out, so that rules that are set about these measures can be policed by administrative staff and that guardians, teachers, and mentors can gain insight.
+As a teacher, I want to record either a sufficient or insufficient a studentâs behavior every single academic period, so that other users can gain insight into their behavior.
+As a teacher, I want to record grades for a student, so that they can be informed about their performance.
+As a teacher, I want to record the attendance of students within my class, so that any students skipping class can be detected.
+As a teacher, I want to see the answers submitted by individual students within the corresponding DLM, so that I can gain insight into their submissions.
+As a teacher, I want to see the average grade that students received last year, starting when they are in their second year, so that I am able to gain insight into the classâ prior performance.
+As a teacher, I want to see the progress that an individual student has made within a DLM, so that I can gain insight into their performance.
+As a teacher, I want to set an appearance date to a DLM, so that students are only able to access the DLM after the appearance date has passed.
+As a teacher, I want to set available dates and times either to instant or a specific date and time combination, so that I am able to upload the material in advance.
+As a teacher, I want to upload files to the LMS page of one or multiple classes, so that students can download and access the files.
+As a teacher, I want to view the attendance, grades that are obtained this year (including behavioral marks), personal details, and disciplinary actions of (any student in my class) or (any student that I am assigned to as mentor), so that I can gain insight into their performance.
+As a teacher, I want to view who is in a specific class that is mentioned in my timetable, so that I can gain insight into whom can be expected to attend the class.
+As a user, I want to reset my password on request once I supply my previous password, so that I can uphold safety standards.
+As an administrator I want to send direct messages to any student, guardian, teacher, or administrator, so that I am able to quickly contact them if needed.
+As an administrator, I want to assign schedules to groups of students (classes) or teachers, so that these schedules are accessible by the correct student(s) or teacher.
+As an administrator, I want to create an account, so that I can facilitate access to the system for users.
+As an administrator, I want to edit the personal data of an account, so that the information associated to this account is linked to the correct identity.
+As an administrator, I want to make use of various filters and viewpoints, change the view of the visual dashboard to a specific class, year, period, or subject, so that I can gain insight into numerous levels of performance data.
+As an administrator, I want to receive a notification when I receive a message so that I do not have to manually check for new messages.
+As an administrator, I want to receive a notification when I receive an absence form, so that I do not have to manually check for new absence forms.
+As an administrator, I want to register any changes to the schedule, so that these are as up-to-date as possible.
+As an administrator, I want to register the absence of a student, teacher, or administrator, so that other users can be notified of their absence.
+As an administrator, I want to send broadcast messages to multiple selected teachers, students, guardians, classes, or other administrators, so that I do not have to manually send the same message to multiple participants.
+As an administrator, I want to set the role of an account either to student, teacher, administrator or guardian, so that I am able to facilitate role-based restrictions.
+As an administrator, I want to upload schedules, so that students and teachers are able to gain insight into their daily schedules.
+As an administrator, I want to view any details associated with any account, so that I can gather insight into the specific user.
+As an administrator, I want to view statistics related to grades, attendance and disciplinary actions that can be mapped over the whole school, so that I am able to gain insight into the performance as a whole.
+        
+        Here is the list of classes identified from these user stories. Only create associations based on the classes shown in this list. Do not invent any other class.
+        ['submission', 'assignment', 'behavior', 'disciplinary actions', 'mentor', 'administrator', 'digital learning modules', 'guardian', 'message', 'question', 'answer', 'material', 'student', 'grades', 'teacher', 'class', 'timetable', 'attendance']
+        
+
+ASSISTANT:
+
+Based on the provided user stories and classes, I have identified potential associations among these classes:
+
+1. **Aggregation**: 
+   - A guardian has many students (one-to-many), and a student has one guardian.
+   - A teacher has many students (one-to-many), and a student has one teacher.
+   - An administrator has many students (one-to-many), and a student has one administrator.
+   - A class has many students (one-to-many), and a student is in one class.
+   - A teacher has many classes (one-to-many), and a class is taught by one teacher.
+   - An administrator has many classes (one-to-many), and a class is managed by one administrator.
+
+2. **Composition**:
+   - An assignment is composed of many digital learning modules (one-to-many).
+   - A digital learning module is composed of many pages (one-to-many).
+   - A digital learning module is composed of many questions (one-to-many).
+   - A question is composed of one answer (one-to-one).
+
+3. **Dependency**:
+   - A student depends on a guardian for contact information.
+   - A student depends on a teacher for academic guidance.
+   - A student depends on an administrator for system access.
+
+4. **Association**:
+   - A guardian sends many messages (one-to-many), and a message is sent by one guardian.
+   - A student sends many messages (one-to-many), and a message is sent by one student.
+   - A teacher sends many messages (one-to-many), and a message is sent by one teacher.
+   - An administrator sends many messages (one-to-many), and a message is sent by one administrator.
+   - A message is related to one or many students, teachers, or administrators (many-to-many).
+   - A submission is related to one assignment (one-to-one).
+   - A submission is related to one student (one-to-one).
+   - A grade is related to one student (one-to-one).
+   - A disciplinary action is related to one student (one-to-one).
+   - A behavior is related to one student (one-to-one).
+   - A material is related to one digital learning module (one-to-one).
+   - A page is related to one digital learning module (one-to-one).
+   - A question is related to one digital learning module (one-to-one).
+   - An answer is related to one question (one-to-one).
+
+5. **Aggregation**:
+   - An administrator has many messages (one-to-many), and a message is sent to one administrator.
+   - A teacher has many messages (one-to-many), and a message is sent to one teacher.
+   - A student has many messages (one-to-many), and a message is sent to one student.
+   - A guardian has many messages (one-to-many), and a message is sent to one guardian.
+
+6. **Association**:
+   - A digital learning module is assigned to one class or many students (many-to-many).
+   - A digital learning module is assigned to one teacher (one-to-one).
+   - An assignment is associated with one digital learning module (one-to-one).
+   - A submission is associated with one digital learning module (one-to-one).
+   - A grade is associated with one digital learning module (one-to-one).
+   - A disciplinary action is associated with one digital learning module (one-to-one).
+   - A behavior is associated with one digital learning module (one-to-one).
+   - A material is associated with one digital learning module (one-to-one).
+   - A page is associated with one digital learning module (one-to-one).
+   - A question is associated with one digital learning module (one-to-one).
+   - An answer is associated with one question (one-to-one).
+
+Please note that these associations are based on the provided user stories and classes, and might be subject to change based on further analysis or additional user stories.
+
+USER:
+
+
+        Based on the user stories and the list of potential associations you provided, refine the list by following Step 2.
+        
+        Step 2: Filter Out Unnecessary/Incorrect Associations
+        Use the following criteria to remove or refine associations:
+        o Irrelevant Associations: Remove any that do not fit the domain.
+        o Implementation Associations: Exclude technical constructs.
+        o Ternary Associations: Avoid or break down associations involving three or more classes.
+        o Derived Associations: Remove any association that can be inferred from existing ones.
+        If an association cannot be clearly classified as suitable or unsuitable, mark it as "optional" and provide an explanation.
+        
+
+ASSISTANT:
+
+Based on the provided user stories and list of potential associations, I have refined the list by applying the following criteria:
+
+1. **Irrelevant Associations**: Removed associations that do not fit the domain, such as the "implementation associations" and "technical constructs" like "one-to-many" relationship.
+
+2. **Implementation Associations**: Excluded technical constructs like "one-to-many" relationship.
+
+3. **Ternary Associations**: Avoided or broke down associations involving three or more classes. For example, the association "A guardian sends many messages (one-to-many), and a message is sent by one guardian" is broken down into two associations:
+   - A guardian sends many messages.
+   - A message is sent by one guardian or one student or one teacher.
+
+4. **Derived Associations**: Removed any association that can be inferred from existing ones.
+
+Here's the refined list of associations:
+
+1. **Aggregation**:
+   - A guardian has many students.
+   - A student has one guardian.
+   - A teacher has many students.
+   - A student has one teacher.
+   - An administrator has many students.
+   - A student has one administrator.
+   - A class has many students.
+   - A student is in one class.
+   - A teacher has many classes.
+   - A class is taught by one teacher.
+   - An administrator has many classes.
+   - A class is managed by one administrator.
+
+2. **Composition**:
+   - A digital learning module is composed of many pages.
+   - A digital learning module is composed of many questions.
+   - A question is composed of one answer.
+
+3. **Dependency**:
+   - A student depends on a guardian for contact information.
+   - A student depends on a teacher for academic guidance.
+   - A student depends on an administrator for system access.
+
+4. **Association**:
+   - A guardian sends many messages.
+   - A student sends many messages.
+   - A teacher sends many messages.
+   - An administrator sends many messages.
+   - A message is sent by one guardian, one student, or one teacher.
+   - A message is related to one or many students, teachers, or administrators.
+   - A submission is related to one assignment and one student.
+   - A grade is related to one student and one assignment.
+   - A disciplinary action is related to one student.
+   - A behavior is related to one student.
+   - A material is related to one digital learning module.
+   - A page is related to one digital learning module.
+   - A question is related to one digital learning module.
+   - An answer is related to one question.
+
+5. **Optional**:
+   - A digital learning module is assigned to one class or many students (many-to-many).
+   - An assignment is associated with one digital learning module.
+   - A submission is associated with one digital learning module.
+   - A grade is associated with one digital learning module.
+   - A disciplinary action is associated with one digital learning module.
+   - A behavior is associated with one digital learning module.
+   - A material is associated with one digital learning module.
+   - A page is associated with one digital learning module.
+   - A question is associated with one digital learning module.
+
+The associations marked as "optional" are not clearly suitable or unsuitable and require further analysis to determine their validity. They are related to the association between digital learning modules and other classes, and it's unclear whether they are necessary or can be inferred from existing associations.
+
+USER:
+
+
+        Step 3: Present the Associations in 'X-Y' Format
+        For each valid association, present it in the format X-Y, where X and Y are the names of the associated classes. Each association should reflect a relationship that is clearly stated or reasonably implied in the user stories.
+        If an association is ambiguous or uncertain, prefix it with (Optional) and do not try to reclassify it as valid yourself.
+        
+        Please follow the output format strictly:
+        
+        Here is the final list of associations:
+        1. Class1-Class2
+        2. Class3-Class4
+        3. (Optional) Class5-Class6 : This association is tentative because [brief explanation of the ambiguity]
+        
+
+ASSISTANT:
+
+Here is the final list of associations:
+
+1. Guardian-Student
+2. Student-Guardian
+3. Teacher-Student
+4. Student-Teacher
+5. Administrator-Student
+6. Student-Administrator
+7. Class-Student
+8. Student-Class
+9. Teacher-Class
+10. Class-Teacher
+11. Administrator-Class
+12. Class-Administrator
+13. Digital Learning Module-Page
+14. Digital Learning Module-Question
+15. Question-Answer
+16. Guardian-Message
+17. Student-Message
+18. Teacher-Message
+19. Administrator-Message
+20. Submission-Assignment
+21. Submission-Student
+22. Grade-Student
+23. Grade-Assignment
+24. Disciplinary Action-Student
+25. Behavior-Student
+26. Material-Digital Learning Module
+27. Page-Digital Learning Module
+28. Question-Digital Learning Module
+29. Answer-Question
+30. Assignment-Digital Learning Module
+31. Submission-Digital Learning Module
+32. Grade-Digital Learning Module
+33. Disciplinary Action-Digital Learning Module
+34. Behavior-Digital Learning Module
+35. Material-Digital Learning Module
+36. Page-Digital Learning Module
+37. Question-Digital Learning Module
+
+Optional Associations:
+
+1. (Optional) Digital Learning Module-Class-Student : This association is tentative because the user stories mention that a digital learning module can be assigned to a class or many students, but it's unclear whether this implies a direct relationship between the digital learning module and the class or students.
+2. (Optional) Digital Learning Module-Assignment : This association is tentative because the user stories mention that an assignment can have multiple digital learning modules, but it's unclear whether this implies a direct relationship between the digital learning module and the assignment.
+3. (Optional) Submission-Grade : This association is tentative because the user stories mention that a submission can be graded, but it's unclear whether this implies a direct relationship between the submission and the grade.
+4. (Optional) Behavior-Grade : This association is tentative because the user stories mention that a student's behavior can affect their grade, but it's unclear whether this implies a direct relationship between the behavior and the grade.
+

@@ -1,0 +1,150 @@
+USER :
+
+
+You are a Requirements Engineer specializing in domain modeling.
+I will provide you with a selection of user stories from a specific domain, along with a list of classes identified from these user stories. Your task is to determine the relevant associations among these classes, following the guidelines and best practices below.
+
+Step 1: Identify Potential Associations
+	1. Analyze the Provided Classes: Examine each pair (or group) of classes to see if there is a meaningful structural relationship (association) between them, grounded in the user stories.
+	2. Domain Modeling Context: Consider the domain context described by the user stories. Only propose associations that directly reflect how the real-world entities (or conceptual entities) interact or relate.
+	3. Ignore Association Names: Do not worry about naming each relationship; focus on identifying whether an association exists.
+
+Step 2: Filter Out Unnecessary/Incorrect Associations
+Use the following criteria to remove or refine associations:
+	1. Irrelevant Associations: Any relationship that does not fit the domain or does not appear to matter in the user stories.
+	2. Implementation Associations: Technical or system-level constructs unrelated to the real-world domain.
+	3. Ternary Associations: Avoid or break down associations involving three or more classes if they can be better represented as multiple binary associations.
+	4. Derived Associations: Any association that can be inferred from existing associations.
+
+If an association is ambiguous or uncertain, prefix it with (Optional) and do not try to reclassify it as valid yourself.
+
+Step 3: Present the Associations in 'X-Y' Format
+	1. Final List of Associations: For each valid association, present it in the form 'X-Y', where X and Y are the classes or entities involved.
+	2. Contextual Relevance: Each association you list should clearly reflect a relationship mentioned or implied in the user stories.
+	3. Mark Optional Associations: If an association is ambiguous or uncertain, prefix it with (Optional) and do not try to reclassify it as valid yourself
+
+
+Please keep the response short and write down your thought process and the outcomes at each instructed step (e.g., in Step 1, specify which classes you identified; in Step 2, indicate which classes were removed and based on which rules). In Step 3, make sure to strictly follow the required output format.
+
+
+Output Format:
+
+	Here is the final list of associations:
+	1. Class1-Class2
+	2. Class3-Class4
+	3. (Optional) Class5-Class6 : This association is tentative because [brief explanation of the ambiguity]
+
+
+ASSISTANT :
+
+Below is an illustration of how you would apply the steps if no domain data (classes or user stories) were provided.
+
+ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+STEP 1: IDENTIFY POTENTIAL ASSOCIATIONS
+ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+â¢ No classes were provided, so no potential associations can be identified.
+
+ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+STEP 2: FILTER OUT UNNECESSARY/INCORRECT ASSOCIATIONS
+ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+â¢ Since no associations were found, none need to be removed or refined.
+
+ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+STEP 3: PRESENT THE ASSOCIATIONS IN "X-Y" FORMAT
+ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+Here is the final list of associations:
+â¢ (No associations identified)
+
+USER :
+
+
+    Here is the list of user stories:
+    
+    As an employee, I want to receive my salary statement, so that I have a clear overview.
+As a manager, I want to send salary statements, so that my employees have a clear overview.
+As a manager, I want to enable the option for weekly and monthly payments for my employees, so that employee satisfaction rises.
+As a manager, I want to automate the payment system, so that all payments are handled correctly and on time.
+As a manager, I want to outsource part of the payment process, so that I do not have to worry about local payment regulations for each country.
+As an employee, I want to receive a notification when my salary payment is handled, so that I stay up to date with my financial status.
+As an employee, I want to express my preferred working hours, so that I am most likely to work on hours that best suit me.
+As a manager, I want to semi-automate the scheduling process, so that the scheduling process is more efficient.
+As a manager, I want to have the ability to manually edit the automatically-generated  schedule,  so that  I  can keep the operations running on busy days.
+As a manager, I want to manually authorize the schedule before it goes live, so that I can ensure a correct schedule is being shared.
+As a manager, I want to be notified as soon as manual adjustments need to be made, so that I can swiftly handle these adjustments and keep a clear overview.
+As an employee, I want to receive notification when the new schedule is available, so that I can keep the scheduled hours free from other activities.
+As an employee, I want to view the schedule at any given time, so that I can effectively keep track of my personal time.
+As a manager, I want to view the schedule at any given time, so that I can effectively manage the employee presence on the work floor.
+As an employee, I want the system to automatically verify my work hours, so that my salary statements are calculated accurately.
+As a manager, I want the system to automatically verify employees' work hours, so that employees' salary statements are calculated accurately.
+As an office employee, I want a separate complaint system with tickets, so that I donât have to filter through my email for complaints anymore.
+As an employee, I want to be able to file a complaint regarding my workplace, so that my problems can be solved.
+As a manager, I want to be able to file a complaint regarding my workplace, so that my problems can be solved.
+As a manager, I want my employees to be able to file complaints regarding their workplace, so that employee satisfaction rises.
+As an office employee, I want to be able to view all complaints, so that I can have an overview of the problems other employees face.
+As a manager, I want to be able to view all complaints, so that I can have an overview of the problems my employees face.
+As an office employee, I want to be able to respond to unsolved complaints, so that I can help the employees with their problems.
+As an office employee, I want to be able to categorize complaints, so that there is an overview of the extent of problem areas.
+As an office employee, I want to be able to prioritize complaints that require high management intervention to solve, so that important complaints will be solved swiftly.
+As an employee, I want to receive a notification when my filed complaint is handled, so that I can stay up to date with the status of my complaint.
+As a  manager,  I  want  to  be  able  to quickly and effectively hire new employees, so that I can easily scale up our operations.
+As a manager, I want to be notified when the hiring process of an employee is finished, so that I am up to date regarding the status of our new employees.
+As a manager, I want to be able to have an overview of all our active employees, so that I can easily evaluate our employees.
+As a manager, I want to be able to have an overview of all our absent employees, so that I can manually verify these absences.
+As an applicant, I want to be able to register an account, so that I can finalize my hiring process and start working at the organization.
+As a manager, I want to be able to view my employeeâs contracts at any given time, so that I have a clear overview of when extensions are due.
+As a manager, I want to be able to view my employeeâs certificates at any given time, so that I have a clear overview of the qualifications of my employees.
+As an employee, I want to be able to contact the management when needed, so that I can discuss important topics regarding my employment with them.
+As a manager, I want to be able to contact an employee easily, so I can reach them when needed.
+As an employee, I want to be able to use the messaging system to message other employees when needed, so that I can keep in touch with my colleagues.
+As a manager, I want to be able to forward formal messages to employees in bulk, so that I can communicate with a big group of employees when needed.
+As an employee, I want to view my personal inbox easily, so that I have a clear overview of important work-related information.
+As a manager, I want to have one system with one login, so that I donât lose track of my account information.
+As an employee, I want to be able to reset my password, so that I can always access my account.
+As an employee, I want to have a user-friendly application, so that I can access all functionalities easily.
+As an employee, I want to be able to navigate through the application easily, so that I can quickly see my schedule while riding.
+As an employee, I want to be able to choose between email or application notifications, so that I can adjust my administration in the way that I prefer.
+As an employee, I want to be able to choose between weekly or monthly payments, so that I can adjust my payment routine to my lifestyle.
+As an employee, I want to be able to view my financial annual statements, so that I can easily find my financial information for filing taxes, etc.
+As an employee, I want the information that is shared with the payment handler to be encrypted, so that my privacy is ensured.
+As an employee, I want to be able to change my personal information, so that the information my employer has is always up to date.
+As an employee, I want to be able to view my contract, so that I have a clear overview of important work-related information.
+As an employee, I want the application as secure as possible, so that my data does not fall into malicious hands.
+    
+    Here is the list of classes identified from these user stories. Only create associations based on the classes shown in this list. Do not invent any other class.
+    
+    ['employee', 'payments', 'schedule', 'message', 'contracts', 'certificates', 'complaint', 'salary statement', 'working hours', 'manager']
+    
+
+ASSISTANT :
+
+STEP 1: IDENTIFY POTENTIAL ASSOCIATIONS  
+â¢ From the user stories, we see that âemployeeâ and âmanagerâ clearly relate in supervision/hiring.  
+â¢ âemployeeâ interacts with âpayments,â âsalary statement,â âschedule,â âworking hours,â âcontracts,â âcertificates,â âcomplaint,â and âmessageâ (filing/viewing/receiving).  
+â¢ âmanagerâ interacts with âpayments,â âsalary statement,â âschedule,â âcomplaint,â âemployee,â and âmessageâ (sending/overseeing/hiring).  
+â¢ âscheduleâ connects with âworking hoursâ (to build the schedule).  
+â¢ âpaymentsâ produces a âsalary statement.â  
+
+STEP 2: FILTER OUT UNNECESSARY/INCORRECT ASSOCIATIONS  
+â¢ Omitted âmanagerâworking hours,â âmanagerâcontracts,â and âmanagerâcertificatesâ as they are derivable via âmanagerâemployeeâ plus the corresponding âemployeeâXâ link.  
+â¢ Omitted any ephemeral notification/message links (e.g., âcomplaintâmessageâ), as these are not structural but implementation details.  
+
+Step 3: Present the Associations in 'X-Y' Format 
+
+Here is the final list of associations:   
+1. employee-manager  
+2. employee-payments  
+3. employee-schedule  
+4. employee-message  
+5. manager-message  
+6. employee-contracts  
+7. employee-certificates  
+8. employee-complaint  
+9. manager-complaint  
+10. employee-salary statement  
+11. manager-salary statement  
+12. employee-working hours  
+13. manager-payments  
+14. schedule-working hours  
+15. manager-schedule  
+16. payments-salary statement  
+

@@ -1,0 +1,265 @@
+SYSTEM :
+
+
+    You are an expert in Requirements Engineering specializing in class identification from user stories.
+    I will provide you with a set of user stories. You will follow the following steps.
+     
+    Step 1: Identify Potential Classes
+    1. Extract Nouns (or Compound Nouns): List all nouns mentioned in the user stories. These can include:
+       o Physical entities: e.g., houses, persons, machines.
+       o Conceptual entities: e.g., trajectories, seating assignments, payment schedules.
+    2. Ignore Subclasses: When defining classes, do not consider any subclasses. Focus on the ânouns or compound nounsâ themselves.
+    3. Exclude Overly Generic Terms: Remove terms like âthing,â âitem,â or similarly vague words.
+    
+
+USER :
+
+As a Kitchen Employee, I want to see the orders with their status, so that I am aware of the progress of each order.
+As a Kitchen Employee, I want to have an overview of all orders at a glance, so that I cannot miss any relevant orders.
+As a Kitchen Employee, I want to receive only the products of an order, so that I do not get confused by other irrelevant products.
+As a Kitchen Employee, I want to see special requests to be shown together with the product they are concerned about, so that I know if I have to prepare a product in a special way 
+As a Kitchen Employee, I want to have the order number shown together with its related products, so that I am aware of which order the products are coming from.
+As a Kitchen Employee, I want to receive a notification when a new order is received, so that I am aware of the new order.
+As a Kitchen Employee, I want to receive a notification if the customer makes changes after the order is already paid, so that I know that there are changes to an order.
+As a Ticket Master, I want to label new orders as âincoming ordersâ, so that incoming orders can be separated from orders with a different status.
+As a Ticket Master, I want to label a product as âcurrent ordersâ at the moment the preparation of the products is started, so that current orders can be separated from orders with a different status.
+As a Ticket Master, I want to label a product as âfinished ordersâ after the preparation of the products is finished, so that finished orders can be separated from orders with a different status.
+As a Ticket Master, I want to label products as âscheduled ordersâ if their requested time is not yet within ten minutes, so that scheduled orders can be separated from orders with a different status.
+As a Ticket Master, I want to have an overview of all the incoming orders, so that I know how many orders should still be prepared.
+As a Ticket Master, I want to have an overview of all orders that are currently made by the kitchen, so that I know how many orders are in progress.
+As a Ticket Master, I want to have an overview of all orders that are completed by the kitchen, so that I know when I should start packing an order.
+As a Ticket Master, I want to have an overview of all scheduled orders, so that I have an insight into the orders that are scheduled for a later time in the day.
+As a Ticket Master, I want to separate the scheduled orders from the other statuses, so that the focus will be on the most relevant orders.
+As a Ticket Master, I want to see the statuses of the products of an order, so that I have a good insight into the progress of an order.
+As a Ticket Master, I want to see matching colors with the status of each product, so that the status of an order is easier to see at a glance.
+As a Ticket Master, I want to see the order type, so that I know if I need to bring the order to the customer or hand it to our delivery person.
+As a Ticket Master, I want to operate the screen with a touchscreen, so that it is easy to use.
+As a Ticket Master, I want to select orders, so that I can make changes to their status.
+As a Ticket Master, I want to delete an order, so that no delivered orders are being shown and I can keep a better overview of the orders being in progress.
+As a Customer, I want to have a screen during the ordering process, so that I can review the order.
+As a Customer, I want to be able to request a confirmation of payment, so that I am able to declare the costs or use it for my own administration.
+As a Cashier, I want to have a physical ticket that shows the relevant information being printed automatically for the customer, so that I do not have to do that manually.
+As a Cashier, I want to print a physical ticket that shows the relevant order details, so the customer has an insight into his order, and there will be no misunderstanding when the customer receives his order.
+As a Cashier, I want to make changes during the order, so that a misunderstanding with the customer or a mistake from me can be resolved.
+As a Cashier, I want to make changes after the order has been processed, so that the customer can make last-minute changes.
+As a Cashier, I want to add the type of order, so that the Ticket Master knows if he/she needs to hand the order directly to the customer or the delivery person.
+As a Cashier, I want to add the pickup time for a takeaway order, so that the kitchen knows when to start preparing the order.
+As a Cashier, I want to have a digital ticket sent to the kitchen, so that I do not have to walk physically to the kitchen.
+As a Cashier, I want to add the delivery address to the order, so that the delivery person knows where he needs to bring the order.
+As a Cashier, I want to add the phone number to the order, so that the customer can be reached if there are problems with their order.
+As a Cashier, I want to add the customerâs name to the order in the case of takeaway, so it is clear for the customer for which order to pay.
+As a Cashier, I want to add special requests to a product they are concerned about, so that I can customize the order for the customer.
+As a Cashier, I want to offer different payment methods, so that a customer has multiple options to pay for their order.
+As a Cashier, I want to be able to add a tip to the price of the order with all possible payment options, so that there is no hassle for the customer to tip.
+As a Cashier, I want to activate coupons during the order process, so that discounts can be added to the order.
+As a Restaurant Owner, I want to see the VAT of each order, so that I have an overview of the taxes.
+As a Restaurant Owner, I want to see the sold products, so that I know what products to purchase for restocking the inventory.
+As a Restaurant Owner, I want to have an overview of the types of orders.
+As a Restaurant Owner, I want to have an overview of prices per order so that I have an insight into the daily revenue.
+As a Restaurant Owner, I want to search for specific orders if a customer has questions about an order.
+As a Restaurant Owner, I want to fill in the number of tips received on a day by the restaurant and the delivery employees, so that this amount can be fairly distributed among all employees.
+As a Restaurant Owner, I want to have cashier accounts, so that I can check their balance at the end of a shift.
+As a Restaurant Owner, I want to fill in the amount of cash the delivery people receive per day, so that this value can be compared with the expected revenue of home delivery orders per day.
+As a Home Delivery Person, I want to have the address printed on the ticket, so that I can directly type the address into the navigation system.
+As a Home Delivery Person, I want to have the delivery address before the order is finished, so that I can combine orders that need to be delivered in the same area.
+As a Home Delivery Person, I want to have the order price on a printed ticket, so that I know what the customers have to pay me.
+As a Home Delivery Person, I want to know the phone number of the customer on a printed ticket, so that I can call the customer if I have some problems delivering the food to a certain location.
+
+ASSISTANT :
+
+### Step 1: Identify Potential Classes
+
+#### Extract Nouns (or Compound Nouns)
+
+1. Orders
+2. Status
+3. Products
+4. Customers
+5. Kitchen
+6. Ticket
+7. Employees
+8. Payments
+9. Coupons
+10. Discounts
+11. VAT (Value-Added Tax)
+12. Revenue
+13. Balances
+14. Cashiers
+15. Home Delivery Person
+16. Navigation System
+17. Tickets
+18. Order Details
+19. Special Requests
+20. Pickup Time
+
+#### Ignore Subclasses
+
+We will focus on the nouns themselves without considering any subclasses.
+
+#### Exclude Overly Generic Terms
+
+We will exclude terms like "thing," "item," or similarly vague words.
+
+#### List Identified Classes
+
+1. Orders
+2. Status
+3. Products
+4. Customers
+5. Kitchen
+6. Ticket
+7. Employees
+8. Payments
+9. Coupons
+10. Discounts
+11. VAT (Value-Added Tax)
+12. Revenue
+13. Balances
+14. Cashiers
+15. Home Delivery Person
+16. Navigation System
+17. Tickets
+18. Order Details
+19. Special Requests
+20. Pickup Time
+
+USER :
+
+
+    Step 2: Filter Unsuitable Classes
+    Remove the following types of classes, retaining only those that genuinely represent domain-relevant concepts:
+    o Redundant Classes: If two classes refer to the same concept, keep the more specific or descriptive name.
+    o Irrelevant Classes: Any class with little to no relevance to the domain in the user stories.
+    o Vague Classes: Classes whose boundaries are too broad or ambiguous to serve as a discrete entity.
+    o Operations (Actions/Events): If the noun represents an action or event rather than an entity, exclude it (unless explicitly required by the domain).
+    o Implementation Constructs: Technical or system-level concepts not part of the real-world domain.
+    o Derived Classes: Classes that can be entirely inferred from other classes.
+    o Roles: Classes that only indicate a relationship role rather than an intrinsic identity.
+    o Attributes: Descriptive properties of an entity (e.g., color, size) should not be treated as standalone classes.
+    If a noun cannot be clearly classified as suitable or unsuitable, mark it as "optional" and provide an explanation for why it may or may not be included.
+    
+
+ASSISTANT :
+
+### Step 2: Filter Unsuitable Classes
+
+#### Remove Redundant Classes
+
+1. Removed: "Tickets" (redundant with "Tickets" mentioned in other classes, e.g., "Kitchen Ticket")
+2. Removed: "Order Details" (redundant with "Orders")
+
+#### Remove Irrelevant Classes
+
+1. Removed: "Navigation System" (system-level concept, not part of the real-world domain)
+2. Removed: "Revenue" (implementation construct, already represented by "VAT" and "Discounts")
+
+#### Remove Vague Classes
+
+1. Removed: "Balances" (boundary too broad, can be inferred from "Cashiers" and "Payments")
+2. Removed: "Home Delivery Person" (vague, consider replacing with a more specific class like "Delivery Employee")
+
+#### Remove Operations (Actions/Events)
+
+1. Removed: "Payments" (operation, consider replacing with a more specific class like "Payment Method")
+2. Removed: "Coupons" (operation, consider replacing with a more specific class like "Discount")
+3. Removed: "Activate Coupons" (operation, already represented by "Discounts")
+4. Removed: "Search for Specific Orders" (operation, already represented by "Orders")
+
+#### Remove Implementation Constructs
+
+1. Removed: "Cashiers" (implementation concept, not part of the real-world domain)
+2. Removed: "Delivery Employees" (implementation concept, not part of the real-world domain)
+
+#### Remove Derived Classes
+
+1. Removed: "Pickup Time" (can be inferred from "Orders" and "Customers")
+
+#### Remove Roles
+
+1. Removed: "Employees" (role, consider replacing with a more specific class like "Kitchen Employees" or "Ticket Master")
+2. Removed: "Cashiers" (role, already removed)
+
+#### Remove Attributes
+
+1. Removed: "Color" (attribute, not a standalone class)
+2. Removed: "Size" (attribute, not a standalone class)
+
+#### List Filtered Classes
+
+1. Orders
+2. Status
+3. Products
+4. Customers
+5. Kitchen
+6. Ticket
+7. Kitchen Employees
+8. Ticket Master
+9. Payments
+10. Payment Method
+11. Discounts
+12. VAT (Value-Added Tax)
+13. Special Requests
+14. Order Number
+15. Order Type
+16. Payment Methods
+17. Delivery Employee
+18. Order Status (replaced with "Status")
+
+USER :
+
+
+    Step 3: Present the Final Class List
+    1. Structured Format: Provide the refined list of class candidates in a concise format (e.g., [Class 1, Class 2, Class 3, ...]).
+    2. Always Explain Your Rationale: Briefly justify why each class was retained, referencing the rules from above. If you removed or merged certain nouns, clarify which rule applied.
+    3. Mark Optional Classes: If a noun cannot be definitively classified as suitable or unsuitable, prefix it with "(optional)" and provide an explanation for why it may or may not be included.
+    
+    Please follow the output format strictly:
+        
+    Here is the final list of classes:
+    1. Class1
+    2. Class2
+    3. (Optional) Class3 : This class is tentative because [brief explanation of the ambiguity]
+    
+
+ASSISTANT :
+
+### Step 3: Present the Final Class List
+
+Here is the final list of classes:
+
+1. Orders
+2. Status
+3. Products
+4. Customers
+5. Kitchen
+6. Ticket
+7. Kitchen Employees
+8. Ticket Master
+9. Payment Method
+10. Discounts
+11. VAT (Value-Added Tax)
+12. Special Requests
+13. Order Type
+14. Delivery Employee
+15. Payment Options
+
+### Rationale:
+
+* **Orders**: Represented in user stories as a central concept, retained as a class.
+* **Status**: Represented in user stories as a key concept for categorizing orders, retained as a class.
+* **Products**: Represented in user stories as a key concept for the kitchen and customers, retained as a class.
+* **Customers**: Represented in user stories as a key concept, retained as a class.
+* **Kitchen**: Represented in user stories as a key domain concept, retained as a class.
+* **Ticket**: Represented in user stories as a key concept for the ticket master, retained as a class.
+* **Kitchen Employees**: Represented in user stories as a key domain concept, retained as a class.
+* **Ticket Master**: Represented in user stories as a key domain concept, retained as a class.
+* **Payment Method**: Represented in user stories as a key concept for payment, retained as a class.
+* **Discounts**: Represented in user stories as a key concept for payment, retained as a class.
+* **VAT (Value-Added Tax)**: Represented in user stories as a key concept for taxation, retained as a class.
+* **Special Requests**: Represented in user stories as a key concept for customization, retained as a class.
+* **Order Type**: Represented in user stories as a key concept for categorizing orders, retained as a class.
+* **Delivery Employee**: Represented in user stories as a key concept for delivery, retained as a class.
+* **Payment Options**: Represented in user stories as a key concept for payment, retained as a class.
+
+Note: All classes were retained based on their importance in the user stories, and none were removed due to redundancy or vagueness.
+

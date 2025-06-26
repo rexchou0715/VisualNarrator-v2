@@ -1,0 +1,575 @@
+SYSTEM :
+
+
+    You are a Requirements Engineer specializing in domain modeling.
+    I will provide you with a selection of user stories from a specific domain, along with a list of classes identified from these user stories. Your task is to determine the relevant associations among these classes, following the guidelines below.
+    
+    Step 1: Identify Potential Associations
+    o Analyze the Provided Classes: Examine each pair (or group) of classes to see if there is a meaningful structural relationship between them, grounded in the user stories.
+    o Domain Modeling Context: Only propose associations that directly reflect real-world interactions.
+    o Ignore Association Names: Do not worry about naming each relationship; focus on identifying whether an association exists.
+    
+
+USER :
+
+
+    Here is the list of user stories:
+    
+    As a customer, I want to create a personal account.
+As a customer, I want to be able to sign up for the newsletter, so that I am aware of discounts and anomalies.
+As a customer, I want to be able to unsubscribe from the newsletter, so that I no longer receive the newsletter.
+As a customer, I want to activate push notifications, so that I am aware of discounts and anomalies.
+As a customer, I want to be able to deactivate push notifications, so that I no longer receive push notifications.
+As a customer, I want to reset my password.
+As a customer, I want to change the font size of the text, so that it is easier for me to read.
+As a customer, I want to change the contrast between the text and the background, so that it is easier for me to read.
+As a customer, I want to change the applicationâs language to my native language, so that it is easier for me to understand the app.
+As a customer, I want to receive suggestions on products that I might like, so that I can find my new favorite products.
+As a customer, I want to receive a special personal discount on the products that I frequently buy, so that I can save money.
+As a customer, I want to be notified of special personal discounts, so that I do not miss out on them.
+As a customer, I want to have a subscription-based delivery service, so that I gain discounts in case of frequent deliveries.
+As a customer, I want to get recipes based on products I like, so I can potentially discover new meals to cook.
+As a customer, I want to contact customer service, so that I can have answers to urgent questions when I need them.
+As a customer, I want to scan products in the store to build my shopping list, so that I do not have to scan my products again at checkout.
+As a customer, I want to be able to add products to my wishlist, so that I can easily find them in the app.
+As a customer, I want to search for a product, so that I know if it is in the supermarket's stock.
+As a customer, I want to filter products on dietary restrictions, so that I know which products are suited for my diet.
+As a customer, I want to order products by price in ascending order, so that I can save money.
+As a customer, I want to order products by popularity, so that I become aware of which products are liked by most people.
+As a customer, I want to be notified of what products are on sale, so that I can save money.
+As a customer, I want to scan the barcode of an item, so that I can see the product information without searching for it online.
+As a customer, I want to read the product information, so that I find it easier than reading the product's packaging.
+As a customer, I want to see if the product I need is in stock, so that I do not end up going to the store for a product that is sold out.
+As a customer, I want to be notified when an item I need is back in stock, so that I do not miss out on it.
+As a customer, I want to be able to see if a product that is sold out in my store is available in another store, so that I can purchase the product there.
+As a customer, I want to see the available quantity of a product in store, so that I know that there is enough to fulfill my needs.
+As a customer, I want to see when a product will be available again when it is currently sold out, so that I know when I can buy it again.
+As a customer, I want to be provided with recipe ideas, so that I gain inspiration for my meals.
+As a customer, I want to see which products were used in a recipe, so that I know which products to buy when I am making a recipe.
+As a customer, I want to purchase products online, so that I do not have to find the products in the store myself.
+As a customer, I want to have my groceries delivered to me, so that I do not have to go to the store myself.
+As a customer, I want to be able to select the date on which my groceries will be delivered, so that I am sure that I have them in time.
+As a customer, I want to be able to select a time slot for the delivery of my groceries so that I can make sure that I am home to receive the delivery.
+As a customer, I want to have my groceries delivered using an express delivery service, so that I can have products delivered to me when I need them quickly.
+As a customer, I want to see my order history, so that I can easily find products that I have purchased before.
+As a customer, I want to be able to place a previous order again, so that I do not have to add the products to my shopping cart again.
+As a customer, I want to add products from the overview of my previous order to my new order, so that I can save time adding products to my order.
+As a customer, I want to be able to digitally pay for my delivered groceries, so that I am not required to pay in person.
+As a customer, I want to find the location of products in a specific store, so that my shopping becomes easier and faster.
+As a customer, I want to get recommendation regarding the nearest store, so that I wonât be need to select the related store.
+As a customer, I want to be able to change the selection of my default store, so that I can easily order groceries at a different location.
+As a customer, I want to link my existing loyalty card, so that I do not have to physically have it.
+As an employee, I want to update the application with new recipes, so that I can provide customers with inspiration for cooking a meal.
+As an employee, I want to edit the discounts for a specific product, so that customers are provided with up-to-date information.
+As an employee, I want to confirm an established delivery time, so that customers are accurately informed on when their groceries will arrive.
+As an employee, I want to notify customers of suddenly unavailable products in their delivery, so that customers can manage their expectations accordingly.
+As an employee, I want to notify customers in case of a delayed delivery, so that customers do not have to unnecessarily wait longer than needed.
+As an employee, I want to contact the customer in case of a canceled delivery so that customers are given full transparency, and their delivery is handled adequately later.
+As an employee, I want to provide the customer with a new delivery time in case of a canceled delivery, so that the customer remains in control of when their groceries will arrive.
+    
+    Here is the list of classes identified from these user stories. Only create associations based on the classes shown in this list. Do not invent any other class.
+    
+    ['recipes', 'newsletter', 'order', 'products', 'customer', 'delivery', 'store', 'personal discount', 'loyalty card', 'wishlist', 'shopping list', 'payment']
+    
+
+ASSISTANT :
+
+<think>
+Okay, I'm trying to figure out how to model the associations between the given classes based on the user stories. The classes are ['recipes', 'newsletter', 'order', 'products', 'customer', 'delivery', 'store', 'personal discount', 'loyalty card', 'wishlist', 'shopping list', 'payment'].
+
+First, I need to go through each user story and see which classes are involved and how they might relate to each other.
+
+1. **As a customer, I want to create a personal account.**
+   - This involves the 'customer' class. Maybe the customer has an account, so perhaps an association like 'account' but that's not in the list. So, maybe no direct association yet.
+
+2. **Newsletter Subscription:**
+   - User stories about subscribing and unsubscribing from the newsletter involve 'newsletter' and 'customer'. So, a customer can subscribe to a newsletter. That's a 'subscription' type of association.
+
+3. **Push Notifications:**
+   - Activating or deactivating push notifications is similar. The customer can enable or disable push notifications. So, 'customer' has a 'notification preference' with 'push notifications'.
+
+4. **Password Reset:**
+   - Involves 'customer' and their account. So, perhaps an association like 'password reset request' from 'customer' to 'account'.
+
+5. **User Preferences:**
+   - Changing font size, contrast, language. These are all preferences of the 'customer', so maybe a 'preference' association.
+
+6. **Product Suggestions and Discounts:**
+   - Receiving product suggestions and personal discounts. So, 'customer' receives 'product suggestions' and 'personal discounts'. These could be separate associations.
+
+7. **Subscription-Based Delivery:**
+   - The 'customer' has a 'delivery' service, which is a subscription. So, 'customer' has a 'delivery subscription'.
+
+8. **Grocery Delivery:**
+   - Ordering products online and having them delivered. So, 'order' is linked to 'delivery'. Each order can have a delivery associated with it.
+
+9. **Recipe Ideas and Product Lookup:**
+   - Getting recipes and seeing products used in recipes. So, 'recipes' are linked to 'products'. A recipe uses multiple products.
+
+10. **Wishlist and Shopping List:**
+    - Adding products to a wishlist and building a shopping list. So, 'wishlist' and 'shopping list' are both linked to 'products'. A customer can have a wishlist and a shopping list.
+
+11. **Product Search and Filter:**
+    - Searching for products and filtering by dietary restrictions, price, etc. So, 'products' are linked to 'customer' preferences or filters.
+
+12. **Order History and Repurchasing:**
+    - Viewing order history and placing previous orders again. So, 'order' has an 'order history' for the 'customer'.
+
+13. **Payment:**
+    - Digital payment for delivered groceries. So, 'payment' is associated with 'order'.
+
+14. **Store Location and Loyalty Card:**
+    - Finding store locations, changing default store, linking loyalty card. So, 'store' is linked to 'customer', and 'loyalty card' is linked to 'customer'.
+
+15. **Employee Actions:**
+    - Updating recipes, editing discounts, confirming delivery times, notifying customers. These involve 'recipes', 'discounts', 'delivery', and 'notifications' but from the employee side. So, 'employee' would have associations with 'recipes', 'discounts', 'delivery', and 'notifications'.
+
+Wait, but the classes given don't include 'employee', so perhaps I should focus only on the given classes.
+
+Let me list possible associations:
+
+- **Customer - Newsletter**: Subscription (binary)
+- **Customer - Push Notifications**: Activation/Deactivation (binary)
+- **Customer - Personal Discount**: Eligibility (binary)
+- **Customer - Order**: Creates (unary)
+- **Customer - Delivery**: Subscription (binary)
+- **Customer - Wishlist**: Manages (binary)
+- **Customer - Shopping List**: Manages (binary)
+- **Customer - Payment**: Makes (binary)
+- **Customer - Loyalty Card**: Owns (binary)
+- **Order - Delivery**: Has (binary)
+- **Order - Payment**: Includes (binary)
+- **Product - Recipe**: Used in (binary)
+- **Recipe - Product**: Includes (binary)
+- **Store - Product**: Stocks (binary)
+- **Store - Order**: Ships (binary)
+- **Newsletter - Customer**: Subscribed to (binary)
+- **Delivery - Store**: From (binary)
+- **Personal Discount - Customer**: Applied to (binary)
+- **Wishlist - Product**: Contains (binary)
+- **Shopping List - Product**: Contains (binary)
+
+I think that's a good start. Now, to map these into the correct association types.
+</think>
+
+Based on the analysis of the user stories and the provided classes, here is the structured list of associations with their types:
+
+1. **Customer**
+   - **Newsletter**: Subscription (binary)
+   - **Push Notifications**: Activation/Deactivation (binary)
+   - **Personal Discount**: Eligibility (binary)
+   - **Order**: Creates (unary)
+   - **Delivery**: Subscription (binary)
+   - **Wishlist**: Manages (binary)
+   - **Shopping List**: Manages (binary)
+   - **Payment**: Makes (binary)
+   - **Loyalty Card**: Owns (binary)
+
+2. **Order**
+   - **Delivery**: Has (binary)
+   - **Payment**: Includes (binary)
+
+3. **Product**
+   - **Recipe**: Used in (binary)
+
+4. **Recipe**
+   - **Product**: Includes (binary)
+
+5. **Store**
+   - **Product**: Stocks (binary)
+   - **Order**: Ships (binary)
+
+6. **Newsletter**
+   - **Customer**: Subscribed to (binary)
+
+7. **Delivery**
+   - **Store**: From (binary)
+
+8. **Personal Discount**
+   - **Customer**: Applied to (binary)
+
+9. **Wishlist**
+   - **Product**: Contains (binary)
+
+10. **Shopping List**
+    - **Product**: Contains (binary)
+
+These associations capture the meaningful structural relationships between the classes based on the user stories, following the guidelines provided.
+
+USER :
+
+
+    Based on the user stories and the list of potential associations you provided, refine the list by following Step 2.
+    
+    Step 2: Filter Out Unnecessary/Incorrect Associations
+    Use the following criteria to remove or refine associations:
+    o Irrelevant Associations: Remove any that do not fit the domain.
+    o Implementation Associations: Exclude technical constructs.
+    o Ternary Associations: Avoid or break down associations involving three or more classes.
+    o Derived Associations: Remove any association that can be inferred from existing ones.
+    If an association cannot be clearly classified as suitable or unsuitable, mark it as "optional" and provide an explanation.
+    
+
+ASSISTANT :
+
+<think>
+Alright, so I'm trying to help out with this domain modeling task. The user has given me a bunch of user stories and a list of classes, and they want me to figure out the associations between these classes based on the stories. There's already been some initial associations proposed, but now they want me to refine that list by removing unnecessary or incorrect associations, excluding technical constructs, avoiding ternary associations, and removing any derived associations that can be inferred from existing ones.
+
+First, I need to understand the classes and the user stories thoroughly. The classes are: recipes, newsletter, order, products, customer, delivery, store, personal discount, loyalty card, wishlist, shopping list, and payment. The user stories are all from the perspective of a customer and an employee, detailing various functionalities and interactions within an e-commerce or grocery delivery app.
+
+Looking at the initial associations provided:
+
+1. **Customer** has associations with almost every class, like newsletter, push notifications, personal discounts, orders, delivery, wishlist, shopping list, payment, loyalty card.
+2. **Order** is associated with delivery and payment.
+3. **Product** is associated with recipe.
+4. **Recipe** is associated with product.
+5. **Store** is associated with product and order.
+6. **Newsletter** is associated with customer.
+7. **Delivery** is associated with store.
+8. **Personal discount** is associated with customer.
+9. **Wishlist** is associated with product.
+10. **Shopping list** is associated with product.
+11. **Payment** is associated with customer and order.
+
+Now, I need to go through each of these associations and see if they fit the criteria for being necessary and correct. I'll also need to look for any implementation associations that might not belong, any ternary associations, or any that can be derived from others.
+
+Starting with the **Customer**:
+
+- **Newsletter**: This makes sense because a customer can subscribe to a newsletter.
+- **Push Notifications**: Customers can activate or deactivate these, so this is relevant.
+- **Personal Discount**: This is about discounts applied to a customer's orders, so it's relevant.
+- **Order**: A customer can place an order, so this is necessary.
+- **Delivery**: Customers can subscribe to delivery services, so this is relevant.
+- **Wishlist**: Customers can manage a wishlist, so this association is valid.
+- **Shopping List**: Customers can manage a shopping list, so this is necessary.
+- **Payment**: Customers make payments, so this is relevant.
+- **Loyalty Card**: Customers can link their loyalty cards, so this is valid.
+
+Next, **Order**:
+
+- **Delivery**: An order has a delivery associated with it, so this is necessary.
+- **Payment**: An order includes a payment, so this is relevant.
+
+**Product**:
+
+- **Recipe**: Products can be used in recipes, so this is valid.
+
+**Recipe**:
+
+- **Product**: A recipe includes products, so this is necessary.
+
+**Store**:
+
+- **Product**: A store stocks products, so this is relevant.
+- **Order**: A store ships orders, so this is valid.
+
+**Newsletter**:
+
+- **Customer**: A customer can be subscribed to a newsletter, so this is necessary.
+
+**Delivery**:
+
+- **Store**: Delivery is from a store, so this is valid.
+
+**Personal Discount**:
+
+- **Customer**: A personal discount is applied to a customer, so this is relevant.
+
+**Wishlist**:
+
+- **Product**: A wishlist contains products, so this is necessary.
+
+**Shopping List**:
+
+- **Product**: A shopping list contains products, so this is valid.
+
+**Payment**:
+
+- **Customer**: A customer makes a payment, so this is necessary.
+- **Order**: An order includes a payment, so this is relevant.
+
+Now, checking for unnecessary or incorrect associations:
+
+- **Customer** having associations with almost everything seems extensive, but each seems to be justified by the user stories.
+- **Store** having an association with **Product** and **Order** seems correct.
+- **Recipe** and **Product** seem correctly associated.
+- **Newsletter** and **Customer** are correctly linked.
+- **Delivery** and **Store** are correctly associated.
+- **Personal Discount** and **Customer** are correctly linked.
+- **Wishlist** and **Product** are correctly associated.
+- **Shopping List** and **Product** are correctly associated.
+- **Payment** and **Customer** and **Order** are correctly linked.
+
+Looking for implementation associations or technical constructs that might not belong:
+
+- All associations seem to be business-related and not purely technical.
+
+Checking for ternary associations:
+
+- There are no associations involving three classes, so this criterion is satisfied.
+
+Checking for derived associations:
+
+- No association seems to be derived from others; each is directly supported by the user stories.
+
+Therefore, all the associations seem necessary and correct. There are no unnecessary or incorrect associations to remove, no implementation associations to exclude, no ternary associations to avoid, and no derived associations to remove. All associations are justified by the user stories and fit within the domain modeling context.
+</think>
+
+**Refined List of Associations:**
+
+1. **Customer**
+   - Newsletter: Subscription
+   - Push Notifications: Activation/Deactivation
+   - Personal Discount: Eligibility
+   - Order: Creates
+   - Delivery: Subscription
+   - Wishlist: Manages
+   - Shopping List: Manages
+   - Payment: Makes
+   - Loyalty Card: Owns
+
+2. **Order**
+   - Delivery: Has
+   - Payment: Includes
+
+3. **Product**
+   - Recipe: Used in
+
+4. **Recipe**
+   - Product: Includes
+
+5. **Store**
+   - Product: Stocks
+   - Order: Ships
+
+6. **Newsletter**
+   - Customer: Subscribed to
+
+7. **Delivery**
+   - Store: From
+
+8. **Personal Discount**
+   - Customer: Applied to
+
+9. **Wishlist**
+   - Product: Contains
+
+10. **Shopping List**
+    - Product: Contains
+
+11. **Payment**
+    - Customer: Makes
+    - Order: Includes
+
+**Conclusion:**
+All associations are deemed necessary and correct, aligning with the user stories and the domain context. There are no unnecessary or incorrect associations to remove, nor are there any implementation associations, ternary associations, or derived associations that need refinement. Each association is justified by the functionalities described in the user stories.
+
+USER :
+
+
+    Step 3: Present the Associations in 'X-Y' Format
+    For each valid association, present it in the format X-Y, where X and Y are the names of the associated classes. Each association should reflect a relationship that is clearly stated or reasonably implied in the user stories.
+    If an association is ambiguous or uncertain, prefix it with (Optional) and do not try to reclassify it as valid yourself.
+    
+    Please follow the output format strictly
+
+    Output Format:
+    Here is the final list of associations:
+    1. Class1-Class2
+    2. Class3-Class4
+    3. (Optional) Class5-Class6 : This association is tentative because [brief explanation of the ambiguity]
+
+    
+
+ASSISTANT :
+
+<think>
+Alright, so I need to help the assistant finalize the associations between the classes based on the user stories and the previous steps. The user has already gone through Step 1 and Step 2, which involved identifying potential associations and refining them by removing any unnecessary or incorrect ones. Now, the task is to present these associations in a specific 'X-Y' format, making sure each association is clear and directly tied to the user stories.
+
+First, I need to recall the list of classes provided earlier:
+
+1. recipes
+2. newsletter
+3. order
+4. products
+5. customer
+6. delivery
+7. store
+8. personal discount
+9. loyalty card
+10. wishlist
+11. shopping list
+12. payment
+
+From the previous steps, the assistant has already identified several associations, such as "Customer-Newsletter," "Customer-Push Notifications," "Customer-Personal Discount," and so on. These associations are based on the functionalities described in the user stories, such as creating an account, subscribing to newsletters, managing orders, and more.
+
+The goal now is to present these associations in the 'X-Y' format, ensuring that each association is clear and justified by the user stories. If there's any ambiguity or uncertainty about an association, it should be marked as optional with a brief explanation.
+
+I'll start by listing out the associations based on the refined list from Step 2. Then, I'll format them according to the 'X-Y' structure, making sure to note any optional associations.
+
+One thing I need to be careful about is ensuring that each association is not implementation-specific or technical. For example, if an association involves a ternary relationship or is derived from other associations, it should be reconsidered or marked as optional.
+
+I also need to make sure that the associations are not redundant. If an association can be inferred from other existing associations, it might be considered optional or unnecessary.
+
+Additionally, I should verify that each association is clearly stated or implied in the user stories. If an association isn't directly mentioned but can be reasonably inferred, it can still be included, but perhaps marked as optional with an explanation.
+
+Let me start by listing out the associations from Step 2 and then format them accordingly.
+
+1. **Customer Newsletter Subscription**
+   - This is a clear association based on user stories where customers want to subscribe to newsletters.
+
+2. **Customer Push Notifications Activation/Deactivation**
+   - Directly tied to user stories about activating or deactivating push notifications.
+
+3. **Customer Personal Discount Eligibility**
+   - Clearly implied by user stories about receiving personal discounts.
+
+4. **Customer Order Creation**
+   - Directly related to placing orders, as per user stories.
+
+5. **Customer Delivery Subscription**
+   - Based on user stories about subscribing to delivery services.
+
+6. **Customer Wishlist Management**
+   - Clearly tied to managing wishlists as per user stories.
+
+7. **Customer Shopping List Management**
+   - Directly related to managing shopping lists.
+
+8. **Customer Payment Making**
+   - Clearly implied by user stories about digital payments.
+
+9. **Customer Loyalty Card Ownership**
+   - Based on user stories about linking loyalty cards.
+
+10. **Order Delivery Inclusion**
+    - Directly related to orders having deliveries.
+
+11. **Order Payment Inclusion**
+    - Clearly tied to orders involving payments.
+
+12. **Product Recipe Usage**
+    - Based on user stories about products used in recipes.
+
+13. **Recipe Product Inclusion**
+    - Directly related to recipes including products.
+
+14. **Store Product Stocking**
+    - Clearly implied by user stories about product availability in stores.
+
+15. **Store Order Shipping**
+    - Based on user stories about orders being shipped from stores.
+
+16. **Newsletter Customer Subscription**
+    - Directly tied to newsletters being subscribed by customers.
+
+17. **Delivery Store Origin**
+    - Clearly implied by deliveries originating from stores.
+
+18. **Personal Discount Customer Application**
+    - Based on user stories about applying personal discounts.
+
+19. **Wishlist Product Containment**
+    - Directly related to wishlists containing products.
+
+20. **Shopping List Product Containment**
+    - Clearly implied by shopping lists containing products.
+
+21. **Payment Customer Making**
+    - Based on user stories about customers making payments.
+
+Now, I'll convert these into the 'X-Y' format, ensuring each association is clear and justified.
+
+1. **Customer-Newsletter**
+   - Directly tied to user stories about subscribing to newsletters.
+
+2. **Customer-Push Notifications**
+   - Based on user stories about activating or deactivating push notifications.
+
+3. **Customer-Personal Discount**
+   - Clearly implied by user stories about receiving personal discounts.
+
+4. **Customer-Order**
+   - Directly related to placing orders.
+
+5. **Customer-Delivery**
+   - Based on user stories about subscribing to delivery services.
+
+6. **Customer-Wishlist**
+   - Clearly tied to managing wishlists.
+
+7. **Customer-Shopping List**
+   - Directly related to managing shopping lists.
+
+8. **Customer-Payment**
+   - Based on user stories about making digital payments.
+
+9. **Customer-Loyalty Card**
+   - Clearly implied by user stories about linking loyalty cards.
+
+10. **Order-Delivery**
+    - Directly tied to orders having deliveries.
+
+11. **Order-Payment**
+    - Based on user stories about orders involving payments.
+
+12. **Product-Recipe**
+    - Clearly implied by user stories about products used in recipes.
+
+13. **Recipe-Product**
+    - Directly related to recipes including products.
+
+14. **Store-Product**
+    - Based on user stories about product availability in stores.
+
+15. **Store-Order**
+    - Clearly tied to orders being shipped from stores.
+
+16. **Newsletter-Customer**
+    - Directly related to newsletters being subscribed by customers.
+
+17. **Delivery-Store**
+    - Based on user stories about deliveries originating from stores.
+
+18. **Personal Discount-Customer**
+    - Clearly implied by user stories about applying personal discounts.
+
+19. **Wishlist-Product**
+    - Directly tied to wishlists containing products.
+
+20. **Shopping List-Product**
+    - Based on user stories about shopping lists containing products.
+
+21. **Payment-Customer**
+    - Clearly implied by user stories about customers making payments.
+
+After reviewing all these associations, I need to ensure that none of them are unnecessary, incorrect, or derived from other associations. If any association seems ambiguous or uncertain, I'll mark it as optional with a brief explanation.
+
+In this case, all associations seem to be clearly stated or reasonably implied by the user stories, so there are no optional associations to mark. Each association is directly tied to a functionality described in the user stories, making them all valid and necessary.
+
+Finally, I'll present the associations in the specified format, ensuring that each line starts with a number and follows the 'X-Y' structure.
+</think>
+
+Here is the final list of associations:
+
+1. Customer-Newsletter
+2. Customer-Push Notifications
+3. Customer-Personal Discount
+4. Customer-Order
+5. Customer-Delivery
+6. Customer-Wishlist
+7. Customer-Shopping List
+8. Customer-Payment
+9. Customer-Loyalty Card
+10. Order-Delivery
+11. Order-Payment
+12. Product-Recipe
+13. Recipe-Product
+14. Store-Product
+15. Store-Order
+16. Newsletter-Customer
+17. Delivery-Store
+18. Personal Discount-Customer
+19. Wishlist-Product
+20. Shopping List-Product
+21. Payment-Customer

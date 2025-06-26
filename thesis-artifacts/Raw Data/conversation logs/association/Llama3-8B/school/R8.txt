@@ -1,0 +1,363 @@
+SYSTEM:
+
+
+        You are a Requirements Engineer specializing in domain modeling.
+        I will provide you with a selection of user stories from a specific domain, along with a list of classes identified from these user stories. Your task is to determine the relevant associations among these classes, following the guidelines below.
+        
+        Step 1: Identify Potential Associations
+        o Analyze the Provided Classes: Examine each pair (or group) of classes to see if there is a meaningful structural relationship between them, grounded in the user stories.
+        o Domain Modeling Context: Only propose associations that directly reflect real-world interactions.
+        o Ignore Association Names: Do not worry about naming each relationship; focus on identifying whether an association exists.
+        
+
+USER:
+
+
+        Here is the list of user stories:
+        As a guardian, I want to directly message any teacher of my child, the mentor assigned to my child, or an administrative staff member, so that I can contact them when needed.
+As a guardian, I want to fill in an absence of my child, so that administrative staff is aware that my child will not attend school today.
+As a guardian, I want to receive a notification when I receive a message, so that I do not have to manually check for new messages.
+As a guardian, I want to view any information related to my children, so that I can gain insight into their behavior and performance.
+As a student, I want to access files and Digital Learning Module (DLM) in the Learning Management System (LMS) that have been assigned to the class that I participate in, so I am able to work with the material.
+As a student, I want to directly message any of my teachers, so that I can directly communicate with them when needed.
+As a student, I want to directly message my mentor, so that I can directly communicate with my her when needed.
+As a student, I want to hand my homework to the DLM when they are finished, so that the teacher is able to see my work.
+As a student, I want to have access to an up-to-date timetable, so that I always know for sure that I am in the correct place at a certain time.
+As a student, I want to have access to DLM, so that I can do the work that is expected of me.
+As a student, I want to receive a notification when an assignment is due soon and I have not completed it yet, so that I can complete it prior to the due date.
+As a student, I want to receive a notification when I receive a message, so that I do not have to manually check for new messages.
+As a student, I want to receive a notification when new files have been made available through the LMS, so that I am always up to date with the uploaded files.
+As a student, I want to receive a notification when something changes within my timetable, so that I am notified of any changes in the timetable in a timely manner.
+As a student, I want to view any information related to my account, so that I can gain insight into my performance and behavior.
+As a student, I want to view the contact information of students attending my classes, so that collaboration is made possible.
+As a student, once I am 18 years old I want to change my preferences in regard to data being shared with coupled guardians, so that I have a say in what can be accessed by my guardians.
+As a teacher I want to receive a notification when a student has uploaded a submission onto the LMs, so that I do not have to manually check to see if a student has submitted work.
+As a teacher I want to receive a notification when something changes within my timetable, so that I am notified of any changes regarding the timetable in a timely manner.
+As a teacher, I want to add a page containing a video to a DLM, so that video material can be used within a DLM.
+As a teacher, I want to add a page containing text and pictures to a DLM, so that this material can be used within a DLM.
+As a teacher, I want to add a page that contains a multiple-choice question or an open question to a DLM, so that I can test the studentâs knowledge.
+As a teacher, I want to assign a DLM to a specific class or student(s), so that the DLM is accessible by the right user.
+As a teacher, I want to assign a due date to a DLM, so that students can be informed about when they are expected to finish a DLM.
+As a teacher, I want to automatically grade DLM submissions, where possible, when I have submitted all the answers, so that I do not have to manually correct all questions within a DLM.
+As a teacher, I want to create digital learning modules containing pages, so that I can create interactive study material.
+As a teacher, I want to directly message any student that is assigned to my class, so that I am able to have contact with any participants of my class.
+As a teacher, I want to directly message any student to which I am assigned mentor, so that I can gain insight into the performance of my students.
+As a teacher, I want to edit any page contained within a DLM, so that I do not have to create a new DLM if the need arises to change a minor detail.
+As a teacher, I want to make submission elements, so that students can submit assignments that they have made.
+As a teacher, I want to optionally add the corresponding answer to a question page contained within a DLM, so that it can be used to correct a submitted DLM.
+As a teacher, I want to receive a confirmation from the LMS system once files have been fully uploaded, so that I do not have to check if any uploads have failed.
+As a teacher, I want to receive a notification when a student that I mentor is sent out of class, so that I am informed about the behavior of my students.
+As a teacher, I want to receive a notification when I receive a message, so that I do not have to manually check for new messages.
+As a teacher, I want to record disciplinary actions for a student such as: missed homework, no books, or sent out, so that rules that are set about these measures can be policed by administrative staff and that guardians, teachers, and mentors can gain insight.
+As a teacher, I want to record either a sufficient or insufficient a studentâs behavior every single academic period, so that other users can gain insight into their behavior.
+As a teacher, I want to record grades for a student, so that they can be informed about their performance.
+As a teacher, I want to record the attendance of students within my class, so that any students skipping class can be detected.
+As a teacher, I want to see the answers submitted by individual students within the corresponding DLM, so that I can gain insight into their submissions.
+As a teacher, I want to see the average grade that students received last year, starting when they are in their second year, so that I am able to gain insight into the classâ prior performance.
+As a teacher, I want to see the progress that an individual student has made within a DLM, so that I can gain insight into their performance.
+As a teacher, I want to set an appearance date to a DLM, so that students are only able to access the DLM after the appearance date has passed.
+As a teacher, I want to set available dates and times either to instant or a specific date and time combination, so that I am able to upload the material in advance.
+As a teacher, I want to upload files to the LMS page of one or multiple classes, so that students can download and access the files.
+As a teacher, I want to view the attendance, grades that are obtained this year (including behavioral marks), personal details, and disciplinary actions of (any student in my class) or (any student that I am assigned to as mentor), so that I can gain insight into their performance.
+As a teacher, I want to view who is in a specific class that is mentioned in my timetable, so that I can gain insight into whom can be expected to attend the class.
+As a user, I want to reset my password on request once I supply my previous password, so that I can uphold safety standards.
+As an administrator I want to send direct messages to any student, guardian, teacher, or administrator, so that I am able to quickly contact them if needed.
+As an administrator, I want to assign schedules to groups of students (classes) or teachers, so that these schedules are accessible by the correct student(s) or teacher.
+As an administrator, I want to create an account, so that I can facilitate access to the system for users.
+As an administrator, I want to edit the personal data of an account, so that the information associated to this account is linked to the correct identity.
+As an administrator, I want to make use of various filters and viewpoints, change the view of the visual dashboard to a specific class, year, period, or subject, so that I can gain insight into numerous levels of performance data.
+As an administrator, I want to receive a notification when I receive a message so that I do not have to manually check for new messages.
+As an administrator, I want to receive a notification when I receive an absence form, so that I do not have to manually check for new absence forms.
+As an administrator, I want to register any changes to the schedule, so that these are as up-to-date as possible.
+As an administrator, I want to register the absence of a student, teacher, or administrator, so that other users can be notified of their absence.
+As an administrator, I want to send broadcast messages to multiple selected teachers, students, guardians, classes, or other administrators, so that I do not have to manually send the same message to multiple participants.
+As an administrator, I want to set the role of an account either to student, teacher, administrator or guardian, so that I am able to facilitate role-based restrictions.
+As an administrator, I want to upload schedules, so that students and teachers are able to gain insight into their daily schedules.
+As an administrator, I want to view any details associated with any account, so that I can gather insight into the specific user.
+As an administrator, I want to view statistics related to grades, attendance and disciplinary actions that can be mapped over the whole school, so that I am able to gain insight into the performance as a whole.
+        
+        Here is the list of classes identified from these user stories. Only create associations based on the classes shown in this list. Do not invent any other class.
+        ['submission', 'assignment', 'behavior', 'disciplinary actions', 'mentor', 'administrator', 'digital learning modules', 'guardian', 'message', 'question', 'answer', 'material', 'student', 'grades', 'teacher', 'class', 'timetable', 'attendance']
+        
+
+ASSISTANT:
+
+**Step 1: Identify Potential Associations**
+
+### 1. Submission and Assignment
+* Association: A submission is made for an assignment.
+* Association Type: Composition (A submission is a part of an assignment, and an assignment cannot exist without a submission.)
+
+### 2. Student and Class
+* Association: A student participates in a class.
+* Association Type: Aggregation (A student can participate in multiple classes, but a class is composed of many students.)
+
+### 3. Teacher and Class
+* Association: A teacher teaches a class.
+* Association Type: Aggregation (A teacher can teach multiple classes, but a class is taught by one teacher.)
+
+### 4. Student and Timetable
+* Association: A student has a timetable.
+* Association Type: Aggregation (A student has one timetable, but a timetable can be shared by multiple students.)
+
+### 5. Teacher and Timetable
+* Association: A teacher has a timetable.
+* Association Type: Aggregation (A teacher has one timetable, but a timetable can be shared by multiple teachers.)
+
+### 6. Student and Guardian
+* Association: A student has a guardian.
+* Association Type: Aggregation (A student can have multiple guardians, but a guardian is associated with one student.)
+
+### 7. Teacher and Mentor
+* Association: A teacher can be a mentor for a student.
+* Association Type: Aggregation (A teacher can mentor multiple students, but a student is mentored by one teacher.)
+
+### 8. Administrator and Class
+* Association: An administrator assigns a class to a schedule.
+* Association Type: Aggregation (An administrator can assign multiple classes to a schedule, but a class is associated with one administrator.)
+
+### 9. Administrator and Student
+* Association: An administrator receives notifications for a student.
+* Association Type: Dependency (A student's notifications depend on the administrator, but an administrator is not directly dependent on a student.)
+
+### 10. Administrator and Teacher
+* Association: An administrator receives notifications for a teacher.
+* Association Type: Dependency (A teacher's notifications depend on the administrator, but an administrator is not directly dependent on a teacher.)
+
+### 11. Administrator and Guardian
+* Association: An administrator receives notifications for a guardian.
+* Association Type: Dependency (A guardian's notifications depend on the administrator, but an administrator is not directly dependent on a guardian.)
+
+### 12. Student and Grades
+* Association: A student has grades.
+* Association Type: Aggregation (A student can have multiple grades, but a grade is associated with one student.)
+
+### 13. Teacher and Grades
+* Association: A teacher assigns grades to a student.
+* Association Type: Aggregation (A teacher can assign grades to multiple students, but a grade is assigned by one teacher.)
+
+### 14. Student and Mentor
+* Association: A student has a mentor.
+* Association Type: Aggregation (A student can have multiple mentors, but a mentor is associated with one student.)
+
+### 15. Teacher and Digital Learning Modules
+* Association: A teacher creates digital learning modules.
+* Association Type: Aggregation (A teacher can create multiple digital learning modules, but a digital learning module is created by one teacher.)
+
+### 16. Student and Digital Learning Modules
+* Association: A student accesses digital learning modules.
+* Association Type: Aggregation (A student can access multiple digital learning modules, but a digital learning module is accessed by one student.)
+
+### 17. Teacher and Behavior
+* Association: A teacher records a student's behavior.
+* Association Type: Aggregation (A teacher can record multiple students' behavior, but a behavior is recorded by one teacher.)
+
+### 18. Student and Behavior
+* Association: A student's behavior is recorded by a teacher.
+* Association Type: Aggregation (A student's behavior can be recorded by multiple teachers, but a teacher records one student's behavior.)
+
+### 19. Teacher and Attendance
+* Association: A teacher records a student's attendance.
+* Association Type: Aggregation (A teacher can record multiple students' attendance, but a student's attendance is recorded by one teacher.)
+
+### 20. Student and Attendance
+* Association: A student's attendance is recorded by a teacher.
+* Association Type: Aggregation (A student's attendance can be recorded by multiple teachers, but a teacher records one student's attendance.)
+
+### 21. Guardian and Student
+* Association: A guardian has a student.
+* Association Type: Aggregation (A guardian can have multiple students, but a student is associated with one guardian.)
+
+### 22. Administrator and Message
+* Association: An administrator sends a message to a user.
+* Association Type: Dependency (A message depends on the administrator, but an administrator is not directly dependent on a message.)
+
+### 23. User and Message
+* Association: A user receives a message.
+* Association Type: Aggregation (A user can receive multiple messages, but a message is received by one user.)
+
+### 24. Teacher and Attendance
+* Association: A teacher records a student's attendance on a timetable.
+* Association Type: Aggregation (A teacher can record multiple students' attendance on a timetable, but a student's attendance is recorded by one teacher on a timetable.)
+
+### 25. Administrator and Statistics
+* Association: An administrator views statistics.
+* Association Type: Aggregation (An administrator can view multiple statistics, but a statistic is viewed by one administrator.)
+
+### 26. Administrator and Discipline Actions
+* Association: An administrator views disciplinary actions.
+* Association Type: Aggregation (An administrator can view multiple disciplinary actions, but a disciplinary action is viewed by one administrator.)
+
+### 27. Administrator and Grades
+* Association: An administrator views grades.
+* Association Type: Aggregation (An administrator can view multiple grades, but a grade is viewed by one administrator.)
+
+### 28. Administrator and Timetable
+* Association: An administrator views a timetable.
+* Association Type: Aggregation (An administrator can view multiple timetables, but a timetable is viewed by one administrator.)
+
+### 29. Administrator and Digital Learning Modules
+* Association: An administrator views digital learning modules.
+* Association Type: Aggregation (An administrator can view multiple digital learning modules, but a digital learning module is viewed by one administrator.)
+
+### 30. Administrator and Behavior
+* Association: An administrator views behavior.
+* Association Type: Aggregation (An administrator can view multiple behaviors, but a behavior is viewed by one administrator.)
+
+Note: Some associations may be optional or dependent on specific use cases, but are included here for completeness.
+
+USER:
+
+
+        Based on the user stories and the list of potential associations you provided, refine the list by following Step 2.
+        
+        Step 2: Filter Out Unnecessary/Incorrect Associations
+        Use the following criteria to remove or refine associations:
+        o Irrelevant Associations: Remove any that do not fit the domain.
+        o Implementation Associations: Exclude technical constructs.
+        o Ternary Associations: Avoid or break down associations involving three or more classes.
+        o Derived Associations: Remove any association that can be inferred from existing ones.
+        If an association cannot be clearly classified as suitable or unsuitable, mark it as "optional" and provide an explanation.
+        
+
+ASSISTANT:
+
+**Refined List of Associations**
+
+### 1. Submission and Assignment
+* Association: A submission is made for an assignment.
+* Association Type: Composition (A submission is a part of an assignment, and an assignment cannot exist without a submission.)
+
+### 2. Student and Class
+* Association: A student participates in a class.
+* Association Type: Aggregation (A student can participate in multiple classes, but a class is composed of many students.)
+
+### 3. Teacher and Class
+* Association: A teacher teaches a class.
+* Association Type: Aggregation (A teacher can teach multiple classes, but a class is taught by one teacher.)
+
+### 4. Student and Timetable
+* Association: A student has a timetable.
+* Association Type: Aggregation (A student can have multiple timetables, but a timetable can be shared by multiple students.)
+
+### 5. Teacher and Timetable
+* Association: A teacher has a timetable.
+* Association Type: Aggregation (A teacher can have multiple timetables, but a timetable can be shared by multiple teachers.)
+
+### 6. Student and Guardian
+* Association: A student has a guardian.
+* Association Type: Aggregation (A student can have multiple guardians, but a guardian is associated with one student.)
+
+### 7. Teacher and Mentor
+* Association: A teacher can be a mentor for a student.
+* Association Type: Aggregation (A teacher can mentor multiple students, but a student is mentored by one teacher.)
+
+### 8. Administrator and Class
+* Association: An administrator assigns a class to a schedule.
+* Association Type: Aggregation (An administrator can assign multiple classes to a schedule, but a class is associated with one administrator.)
+
+### 9. Administrator and Student
+* Association: An administrator receives notifications for a student.
+* Association Type: Dependency (A student's notifications depend on the administrator, but an administrator is not directly dependent on a student.)
+
+### 10. Student and Grades
+* Association: A student has grades.
+* Association Type: Aggregation (A student can have multiple grades, but a grade is associated with one student.)
+
+### 11. Teacher and Grades
+* Association: A teacher assigns grades to a student.
+* Association Type: Aggregation (A teacher can assign grades to multiple students, but a grade is assigned by one teacher.)
+
+### 12. Teacher and Digital Learning Modules
+* Association: A teacher creates digital learning modules.
+* Association Type: Aggregation (A teacher can create multiple digital learning modules, but a digital learning module is created by one teacher.)
+
+### 13. Student and Digital Learning Modules
+* Association: A student accesses digital learning modules.
+* Association Type: Aggregation (A student can access multiple digital learning modules, but a digital learning module is accessed by one student.)
+
+### 14. Teacher and Attendance
+* Association: A teacher records a student's attendance.
+* Association Type: Aggregation (A teacher can record multiple students' attendance, but a student's attendance is recorded by one teacher.)
+
+### 15. Administrator and Message
+* Association: An administrator sends a message to a user.
+* Association Type: Dependency (A message depends on the administrator, but an administrator is not directly dependent on a message.)
+
+### 16. Administrator and Statistics
+* Association: An administrator views statistics.
+* Association Type: Aggregation (An administrator can view multiple statistics, but a statistic is viewed by one administrator.)
+
+### 17. Administrator and Discipline Actions
+* Association: An administrator views disciplinary actions.
+* Association Type: Aggregation (An administrator can view multiple disciplinary actions, but a disciplinary action is viewed by one administrator.)
+
+### 18. Administrator and Grades
+* Association: An administrator views grades.
+* Association Type: Aggregation (An administrator can view multiple grades, but a grade is viewed by one administrator.)
+
+### 19. Administrator and Timetable
+* Association: An administrator views a timetable.
+* Association Type: Aggregation (An administrator can view multiple timetables, but a timetable is viewed by one administrator.)
+
+### 20. Administrator and Digital Learning Modules
+* Association: An administrator views digital learning modules.
+* Association Type: Aggregation (An administrator can view multiple digital learning modules, but a digital learning module is viewed by one administrator.)
+
+### Removed or Refined Associations:
+
+* Teacher and Behavior ( Removed, as it is not explicitly mentioned in the user stories.)
+* Student and Behavior (Removed, as it is not explicitly mentioned in the user stories.)
+* Administrator and Discipline Actions (Refined to "Administrator and Discipline Actions" to make it more specific.)
+* Administrator and Grades (Refined to "Administrator and Grades" to make it more specific.)
+* Administrator and Timetable (Refined to "Administrator and Timetable" to make it more specific.)
+* Administrator and Digital Learning Modules (Refined to "Administrator and Digital Learning Modules" to make it more specific.)
+
+### Optional Associations:
+
+* Administrator and Submission (Optional, as the user stories do not explicitly mention the administrator receiving submissions.)
+* Administrator and Question (Optional, as the user stories do not explicitly mention the administrator receiving questions.)
+* Administrator and Answer (Optional, as the user stories do not explicitly mention the administrator receiving answers.)
+
+Note: Some associations may be optional or dependent on specific use cases, but are included here for completeness.
+
+USER:
+
+
+        Step 3: Present the Associations in 'X-Y' Format
+        For each valid association, present it in the format X-Y, where X and Y are the names of the associated classes. Each association should reflect a relationship that is clearly stated or reasonably implied in the user stories.
+        If an association is ambiguous or uncertain, prefix it with (Optional) and do not try to reclassify it as valid yourself.
+        
+        Please follow the output format strictly:
+        
+        Here is the final list of associations:
+        1. Class1-Class2
+        2. Class3-Class4
+        3. (Optional) Class5-Class6 : This association is tentative because [brief explanation of the ambiguity]
+        
+
+ASSISTANT:
+
+Here is the final list of associations:
+
+1. Student-Class
+2. Teacher-Class
+3. Student-Timetable
+4. Teacher-Timetable
+5. Student-Guardian
+6. Teacher-Mentor
+7. Administrator-Class
+8. Student-Grades
+9. Teacher-Grades
+10. Teacher-Digital Learning Modules
+11. Student-Digital Learning Modules
+12. Teacher-Attendance
+13. Administrator-Message
+14. Administrator-Statistics
+15. Administrator-Discipline Actions
+16. Administrator-Grades
+17. Administrator-Timetable
+18. Administrator-Digital Learning Modules
+
+I have removed or refined associations that were not explicitly mentioned in the user stories, and prefixed associations that are optional or uncertain with "(Optional)".
+

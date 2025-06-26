@@ -1,0 +1,174 @@
+USER :
+
+
+You are a Requirements Engineer specializing in domain modeling.
+I will provide you with a selection of user stories from a specific domain, along with a list of classes identified from these user stories. Your task is to determine the relevant associations among these classes, following the guidelines and best practices below.
+
+Step 1: Identify Potential Associations
+	1. Analyze the Provided Classes: Examine each pair (or group) of classes to see if there is a meaningful structural relationship (association) between them, grounded in the user stories.
+	2. Domain Modeling Context: Consider the domain context described by the user stories. Only propose associations that directly reflect how the real-world entities (or conceptual entities) interact or relate.
+	3. Ignore Association Names: Do not worry about naming each relationship; focus on identifying whether an association exists.
+
+Step 2: Filter Out Unnecessary/Incorrect Associations
+Use the following criteria to remove or refine associations:
+	1. Irrelevant Associations: Any relationship that does not fit the domain or does not appear to matter in the user stories.
+	2. Implementation Associations: Technical or system-level constructs unrelated to the real-world domain.
+	3. Ternary Associations: Avoid or break down associations involving three or more classes if they can be better represented as multiple binary associations.
+	4. Derived Associations: Any association that can be inferred from existing associations.
+
+If an association is ambiguous or uncertain, prefix it with (Optional) and do not try to reclassify it as valid yourself.
+
+Step 3: Present the Associations in 'X-Y' Format
+	1. Final List of Associations: For each valid association, present it in the form 'X-Y', where X and Y are the classes or entities involved.
+	2. Contextual Relevance: Each association you list should clearly reflect a relationship mentioned or implied in the user stories.
+	3. Mark Optional Associations: If an association is ambiguous or uncertain, prefix it with (Optional) and do not try to reclassify it as valid yourself
+
+
+Please keep the response short and write down your thought process and the outcomes at each instructed step (e.g., in Step 1, specify which classes you identified; in Step 2, indicate which classes were removed and based on which rules). In Step 3, make sure to strictly follow the required output format.
+
+
+Output Format:
+
+	Here is the final list of associations:
+	1. Class1-Class2
+	2. Class3-Class4
+	3. (Optional) Class5-Class6 : This association is tentative because [brief explanation of the ambiguity]
+
+
+ASSISTANT :
+
+Step 1: Identify Potential Associations  
+â¢ Classes Identified (example): Customer, Order, Payment, Product, PaymentMethod  
+â¢ Possible Relationships Inferred from Domain Context:  
+  â CustomerâOrder, OrderâProduct, OrderâPayment, PaymentâPaymentMethod, etc.  
+
+Step 2: Filter Out Unnecessary/Incorrect Associations  
+â¢ Removed PaymentâProduct (no direct link described)  
+â¢ Removed CustomerâPaymentMethod (not explicitly mentioned in the user stories)  
+
+Step 3: Present the Associations in 'X-Y' Format  
+
+Here is the final list of associations:  
+1. CustomerâOrder  
+2. OrderâProduct  
+3. OrderâPayment  
+4. PaymentâPaymentMethod  
+(Optional) PaymentâProduct : This association is tentative because direct interaction between Payment and Product was not clearly described in the user stories.
+
+USER :
+
+
+    Here is the list of user stories:
+    
+    As a guardian, I want to directly message any teacher of my child, the mentor assigned to my child, or an administrative staff member, so that I can contact them when needed.
+As a guardian, I want to fill in an absence of my child, so that administrative staff is aware that my child will not attend school today.
+As a guardian, I want to receive a notification when I receive a message, so that I do not have to manually check for new messages.
+As a guardian, I want to view any information related to my children, so that I can gain insight into their behavior and performance.
+As a student, I want to access files and Digital Learning Module (DLM) in the Learning Management System (LMS) that have been assigned to the class that I participate in, so I am able to work with the material.
+As a student, I want to directly message any of my teachers, so that I can directly communicate with them when needed.
+As a student, I want to directly message my mentor, so that I can directly communicate with my her when needed.
+As a student, I want to hand my homework to the DLM when they are finished, so that the teacher is able to see my work.
+As a student, I want to have access to an up-to-date timetable, so that I always know for sure that I am in the correct place at a certain time.
+As a student, I want to have access to DLM, so that I can do the work that is expected of me.
+As a student, I want to receive a notification when an assignment is due soon and I have not completed it yet, so that I can complete it prior to the due date.
+As a student, I want to receive a notification when I receive a message, so that I do not have to manually check for new messages.
+As a student, I want to receive a notification when new files have been made available through the LMS, so that I am always up to date with the uploaded files.
+As a student, I want to receive a notification when something changes within my timetable, so that I am notified of any changes in the timetable in a timely manner.
+As a student, I want to view any information related to my account, so that I can gain insight into my performance and behavior.
+As a student, I want to view the contact information of students attending my classes, so that collaboration is made possible.
+As a student, once I am 18 years old I want to change my preferences in regard to data being shared with coupled guardians, so that I have a say in what can be accessed by my guardians.
+As a teacher I want to receive a notification when a student has uploaded a submission onto the LMs, so that I do not have to manually check to see if a student has submitted work.
+As a teacher I want to receive a notification when something changes within my timetable, so that I am notified of any changes regarding the timetable in a timely manner.
+As a teacher, I want to add a page containing a video to a DLM, so that video material can be used within a DLM.
+As a teacher, I want to add a page containing text and pictures to a DLM, so that this material can be used within a DLM.
+As a teacher, I want to add a page that contains a multiple-choice question or an open question to a DLM, so that I can test the studentâs knowledge.
+As a teacher, I want to assign a DLM to a specific class or student(s), so that the DLM is accessible by the right user.
+As a teacher, I want to assign a due date to a DLM, so that students can be informed about when they are expected to finish a DLM.
+As a teacher, I want to automatically grade DLM submissions, where possible, when I have submitted all the answers, so that I do not have to manually correct all questions within a DLM.
+As a teacher, I want to create digital learning modules containing pages, so that I can create interactive study material.
+As a teacher, I want to directly message any student that is assigned to my class, so that I am able to have contact with any participants of my class.
+As a teacher, I want to directly message any student to which I am assigned mentor, so that I can gain insight into the performance of my students.
+As a teacher, I want to edit any page contained within a DLM, so that I do not have to create a new DLM if the need arises to change a minor detail.
+As a teacher, I want to make submission elements, so that students can submit assignments that they have made.
+As a teacher, I want to optionally add the corresponding answer to a question page contained within a DLM, so that it can be used to correct a submitted DLM.
+As a teacher, I want to receive a confirmation from the LMS system once files have been fully uploaded, so that I do not have to check if any uploads have failed.
+As a teacher, I want to receive a notification when a student that I mentor is sent out of class, so that I am informed about the behavior of my students.
+As a teacher, I want to receive a notification when I receive a message, so that I do not have to manually check for new messages.
+As a teacher, I want to record disciplinary actions for a student such as: missed homework, no books, or sent out, so that rules that are set about these measures can be policed by administrative staff and that guardians, teachers, and mentors can gain insight.
+As a teacher, I want to record either a sufficient or insufficient a studentâs behavior every single academic period, so that other users can gain insight into their behavior.
+As a teacher, I want to record grades for a student, so that they can be informed about their performance.
+As a teacher, I want to record the attendance of students within my class, so that any students skipping class can be detected.
+As a teacher, I want to see the answers submitted by individual students within the corresponding DLM, so that I can gain insight into their submissions.
+As a teacher, I want to see the average grade that students received last year, starting when they are in their second year, so that I am able to gain insight into the classâ prior performance.
+As a teacher, I want to see the progress that an individual student has made within a DLM, so that I can gain insight into their performance.
+As a teacher, I want to set an appearance date to a DLM, so that students are only able to access the DLM after the appearance date has passed.
+As a teacher, I want to set available dates and times either to instant or a specific date and time combination, so that I am able to upload the material in advance.
+As a teacher, I want to upload files to the LMS page of one or multiple classes, so that students can download and access the files.
+As a teacher, I want to view the attendance, grades that are obtained this year (including behavioral marks), personal details, and disciplinary actions of (any student in my class) or (any student that I am assigned to as mentor), so that I can gain insight into their performance.
+As a teacher, I want to view who is in a specific class that is mentioned in my timetable, so that I can gain insight into whom can be expected to attend the class.
+As a user, I want to reset my password on request once I supply my previous password, so that I can uphold safety standards.
+As an administrator I want to send direct messages to any student, guardian, teacher, or administrator, so that I am able to quickly contact them if needed.
+As an administrator, I want to assign schedules to groups of students (classes) or teachers, so that these schedules are accessible by the correct student(s) or teacher.
+As an administrator, I want to create an account, so that I can facilitate access to the system for users.
+As an administrator, I want to edit the personal data of an account, so that the information associated to this account is linked to the correct identity.
+As an administrator, I want to make use of various filters and viewpoints, change the view of the visual dashboard to a specific class, year, period, or subject, so that I can gain insight into numerous levels of performance data.
+As an administrator, I want to receive a notification when I receive a message so that I do not have to manually check for new messages.
+As an administrator, I want to receive a notification when I receive an absence form, so that I do not have to manually check for new absence forms.
+As an administrator, I want to register any changes to the schedule, so that these are as up-to-date as possible.
+As an administrator, I want to register the absence of a student, teacher, or administrator, so that other users can be notified of their absence.
+As an administrator, I want to send broadcast messages to multiple selected teachers, students, guardians, classes, or other administrators, so that I do not have to manually send the same message to multiple participants.
+As an administrator, I want to set the role of an account either to student, teacher, administrator or guardian, so that I am able to facilitate role-based restrictions.
+As an administrator, I want to upload schedules, so that students and teachers are able to gain insight into their daily schedules.
+As an administrator, I want to view any details associated with any account, so that I can gather insight into the specific user.
+As an administrator, I want to view statistics related to grades, attendance and disciplinary actions that can be mapped over the whole school, so that I am able to gain insight into the performance as a whole.
+    
+    Here is the list of classes identified from these user stories. Only create associations based on the classes shown in this list. Do not invent any other class.
+    
+    ['submission', 'assignment', 'behavior', 'disciplinary actions', 'mentor', 'administrator', 'digital learning modules', 'guardian', 'message', 'question', 'answer', 'material', 'student', 'grades', 'teacher', 'class', 'timetable', 'attendance']
+    
+
+ASSISTANT :
+
+Step 1: Identify Potential Associations  
+â¢ From the stories, we see structural ties such as:  
+  â A guardian is linked to the student(s) they care for (e.g., to report absences).  
+  â A mentor is assigned to one or more students.  
+  â A student belongs to one or more classes; a teacher teaches one or more classes.  
+  â A teacher records attendance, grades, behavior, and disciplinary actions for a student.  
+  â Digital Learning Modules (DLM) can be assigned to a class or directly to a student, and may contain questions (which in turn may have answers). Submissions are made by a student for a DLM (and optionally for an assignment).  
+  â Messages can be exchanged between any relevant roles (student, teacher, guardian, administrator, mentor).  
+  â A timetable is associated with a class (and possibly viewed by students and teachers).  
+
+Step 2: Filter Out Unnecessary/Incorrect Associations  
+â¢ Removed any associations that are purely technical or not evident in the user stories (e.g., no direct âadministratorâsubmissionâ).  
+â¢ Marked a few as (Optional) where the user stories do not clarify whether they are truly separate (e.g., assignment vs. DLM).  
+
+Step 3: Present the Associations in 'X-Y' Format 
+
+Here is the final list of associations:  
+
+1. student-guardian
+2. mentor-student
+3. student-class
+4. teacher-class
+5. attendance-student
+6. attendance-class
+7. behavior-student
+8. disciplinary actions-student
+9. grades-student
+10. digital learning modules-class
+11. digital learning modules-student
+12. digital learning modules-question
+13. question-answer
+14. submission-student
+15. submission-digital learning modules
+16. message-student
+17. message-teacher
+18. message-guardian
+19. message-administrator
+20. message-mentor
+21. timetable–class
+22. (Optional) assignment-submission : This association is tentative because it is unclear whether “assignment” is distinct from “digital learning modules.”
+23. (Optional) digital learning modules-material : This association is tentative because “material” (files, videos, etc.) might simply be subsumed by “question” or “submission.”
+24. (Optional) class-material : This association is tentative because uploading files to a class page may or may not be modeled as a direct “class–material” link in the domain.
+25. (Optional) timetable-teacher : This association is tentative because the teacher’s timetable may be derivable from “class–timetable.”

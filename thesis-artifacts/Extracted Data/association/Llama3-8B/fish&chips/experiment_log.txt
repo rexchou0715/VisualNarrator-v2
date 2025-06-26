@@ -1,0 +1,157 @@
+
+
+=== Round 1 (Round1) ===
+[Matched]    ('order', 'product')
+[Matched]    ('coupon', 'order')
+[Unmatched]  ('order', 'request')
+===========
+[Missing]  frozenset({'order', 'customer'})
+[Missing]  frozenset({'order', 'delivery person'})
+[Missing]  frozenset({'payment', 'order'})
+[Missing]  frozenset({'product', 'request'})
+[Missing]  frozenset({'delivery person', 'cash'})
+===========
+
+=== Round 2 (Round2) ===
+[Matched]    ('order', 'product')
+[Matched]    ('customer', 'order')
+[Matched]    ('delivery person', 'order')
+[Matched]    ('order', 'payment')
+[Matched]    ('coupon', 'order')
+[Unmatched]  ('order', 'request')
+[Unmatched]  ('order', 'status')
+[Unmatched]  ('cashier', 'order')
+===========
+[Missing]  frozenset({'product', 'request'})
+[Missing]  frozenset({'delivery person', 'cash'})
+===========
+
+=== Round 3 (Round3) ===
+[Matched]    ('order', 'product')
+[Matched]    ('customer', 'order')
+[Matched]    ('delivery person', 'order')
+[Unmatched]  ('order', 'request')
+[Unmatched]  ('cashier', 'order')
+===========
+[Missing]  frozenset({'payment', 'order'})
+[Missing]  frozenset({'product', 'request'})
+[Missing]  frozenset({'delivery person', 'cash'})
+[Missing]  frozenset({'order', 'coupon'})
+===========
+
+=== Round 4 (Round4) ===
+[Silver exact matched] ('cashier', 'payment')
+[Matched]    ('order', 'product')
+[Matched]    ('customer', 'order')
+[Matched]    ('delivery person', 'order')
+[Matched]    (sil)('cashier', 'payment')
+[Matched]    (Opt) ('order', 'payment')
+[Unmatched]  ('order', 'request')
+[Unmatched]  ('cashier', 'order')
+[Unmatched]  ('cash', 'payment')
+===========
+[Missing]  frozenset({'product', 'request'})
+[Missing]  frozenset({'delivery person', 'cash'})
+[Missing]  frozenset({'order', 'coupon'})
+===========
+
+=== Round 5 (Round5) ===
+[Matched]    ('coupon', 'order')
+[Matched]    ('order', 'payment')
+[Matched]    ('order', 'product')
+[Matched]    ('customer', 'order')
+[Matched]    ('delivery person', 'order')
+[Unmatched]  ('order', 'request')
+[Unmatched]  ('cashier', 'order')
+[Unmatched]  ('coupon', 'payment')
+[Unmatched]  (Opt) ('cashier', 'customer')
+===========
+[Missing]  frozenset({'product', 'request'})
+[Missing]  frozenset({'delivery person', 'cash'})
+===========
+
+=== Round 6 (Round6) ===
+[Matched]    ('order', 'product')
+[Matched]    ('order', 'payment')
+[Matched]    ('delivery person', 'order')
+[Matched]    ('customer', 'order')
+[Unmatched]  ('order', 'request')
+[Unmatched]  ('cashier', 'order')
+[Unmatched]  ('order', 'restaurant owner')
+[Unmatched]  ('coupon', 'payment')
+[Unmatched]  ('cash', 'payment')
+[Unmatched]  (Opt) ('delivery person', 'product')
+===========
+[Missing]  frozenset({'product', 'request'})
+[Missing]  frozenset({'delivery person', 'cash'})
+[Missing]  frozenset({'order', 'coupon'})
+===========
+
+=== Round 7 (Round7) ===
+[Matched]    ('customer', 'order')
+[Matched]    ('order', 'product')
+[Matched]    ('delivery person', 'order')
+[Matched]    ('coupon', 'order')
+[Matched]    ('order', 'payment')
+[Matched]    ('product', 'request')
+[Unmatched]  ('cashier', 'order')
+[Unmatched]  ('order', 'request')
+===========
+[Missing]  frozenset({'delivery person', 'cash'})
+===========
+
+=== Round 8 (Round8) ===
+[Silver exact matched] ('cashier', 'payment')
+[Matched]    ('customer', 'order')
+[Matched]    ('order', 'product')
+[Matched]    ('delivery person', 'order')
+[Matched]    ('coupon', 'order')
+[Matched]    ('order', 'payment')
+[Matched]    ('product', 'request')
+[Matched]    (sil)('cashier', 'payment')
+[Unmatched]  ('order', 'request')
+[Unmatched]  ('cashier', 'order')
+[Unmatched]  ('cash', 'payment')
+[Unmatched]  ('cashier', 'restaurant owner')
+[Unmatched]  ('order', 'restaurant owner')
+[Unmatched]  ('home delivery person', 'order')
+===========
+[Missing]  frozenset({'delivery person', 'cash'})
+===========
+
+=== Round 9 (Round9) ===
+[Silver exact matched] ('cashier', 'payment')
+[Matched]    ('order', 'product')
+[Matched]    ('customer', 'order')
+[Matched]    (sil)('cashier', 'payment')
+[Matched]    (Opt) ('coupon', 'order')
+[Unmatched]  ('order', 'request')
+[Unmatched]  ('cashier', 'order')
+[Unmatched]  ('cashier', 'product')
+[Unmatched]  ('coupon', 'payment')
+[Unmatched]  (Opt) ('cashier', 'request')
+[Unmatched]  (Opt) ('cash', 'cashier')
+[Unmatched]  (Opt) ('cashier', 'delivery person')
+===========
+[Missing]  frozenset({'order', 'delivery person'})
+[Missing]  frozenset({'payment', 'order'})
+[Missing]  frozenset({'product', 'request'})
+[Missing]  frozenset({'delivery person', 'cash'})
+===========
+
+=== Round 10 (Round10) ===
+[Matched]    ('order', 'product')
+[Matched]    ('customer', 'order')
+[Matched]    ('delivery person', 'order')
+[Matched]    (Opt) ('product', 'request')
+[Unmatched]  ('order', 'request')
+[Unmatched]  ('cashier', 'order')
+[Unmatched]  (Opt) ('coupon', 'payment')
+[Unmatched]  (Opt) ('cash', 'payment')
+[Unmatched]  (Opt) ('cashier', 'customer')
+[Unmatched]  (Opt) ('cashier', 'restaurant owner')
+===========
+[Missing]  frozenset({'payment', 'order'})
+[Missing]  frozenset({'delivery person', 'cash'})
+[Missing]  frozenset({'order', 'coupon'})
+===========

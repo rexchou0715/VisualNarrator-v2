@@ -1,0 +1,213 @@
+
+
+=== Round 1 (Round1) ===
+[Gold Syn ]  ('genre preference', 'user') → frozenset({'user', 'genre'})
+[Matched]    ('order', 'user')
+[Matched]    ('event', 'user')
+[Matched]    ('artist', 'event')
+[Matched]    ('event', 'venue')
+[Matched]    ('event', 'event type')
+[Matched]    ('event', 'ticket')
+[Matched]    ('order', 'ticket')
+[Matched]    ('order', 'payment')
+[Matched]    ('reseller', 'ticket')
+[Matched]    ('genre preference', 'user')
+[Matched]    (Opt) ('event', 'genre')
+[Unmatched]  ('payment', 'user')
+[Unmatched]  ('ticket', 'venue')
+[Unmatched]  ('ticket', 'user')
+[Unmatched]  ('reseller', 'user')
+===========
+[Missing]  frozenset({'user', 'artist'})
+[Missing]  frozenset({'user', 'event type'})
+===========
+
+=== Round 2 (Round2) ===
+[Matched]    ('order', 'user')
+[Matched]    ('event', 'user')
+[Matched]    ('artist', 'user')
+[Matched]    ('event', 'venue')
+[Matched]    ('artist', 'event')
+[Matched]    ('event', 'ticket')
+[Matched]    ('reseller', 'ticket')
+[Matched]    ('order', 'ticket')
+[Matched]    ('event', 'event type')
+[Matched]    ('event', 'genre')
+[Unmatched]  ('personal information', 'user')
+[Unmatched]  ('payment detail', 'user')
+[Unmatched]  ('preference', 'user')
+[Unmatched]  ('payment detail', 'reseller')
+[Unmatched]  ('order', 'payment method')
+===========
+[Missing]  frozenset({'payment', 'order'})
+[Missing]  frozenset({'user', 'event type'})
+[Missing]  frozenset({'user', 'genre'})
+===========
+
+=== Round 3 (Round3) ===
+[Matched]    ('order', 'user')
+[Matched]    ('genre', 'user')
+[Matched]    ('event', 'venue')
+[Matched]    ('artist', 'event')
+[Matched]    ('event', 'ticket')
+[Matched]    ('event', 'genre')
+[Matched]    ('reseller', 'ticket')
+[Matched]    ('order', 'payment')
+[Matched]    ('order', 'ticket')
+[Unmatched]  ('payment', 'user')
+[Unmatched]  ('ticket', 'user')
+[Unmatched]  ('payment', 'reseller')
+===========
+[Missing]  frozenset({'event', 'user'})
+[Missing]  frozenset({'user', 'artist'})
+[Missing]  frozenset({'user', 'event type'})
+[Missing]  frozenset({'event', 'event type'})
+===========
+
+=== Round 4 (Round4) ===
+[Matched]    ('order', 'user')
+[Matched]    ('genre', 'user')
+[Matched]    ('artist', 'event')
+[Matched]    ('event', 'venue')
+[Matched]    ('event', 'ticket')
+[Matched]    ('event', 'user')
+[Matched]    ('event', 'genre')
+[Matched]    ('artist', 'user')
+[Matched]    ('reseller', 'ticket')
+[Matched]    ('order', 'payment')
+[Matched]    ('order', 'ticket')
+[Unmatched]  ('payment', 'user')
+[Unmatched]  ('ticket', 'user')
+[Unmatched]  ('user', 'venue')
+[Unmatched]  ('reseller', 'user')
+[Unmatched]  ('event', 'order')
+[Unmatched]  ('payment', 'reseller')
+===========
+[Missing]  frozenset({'user', 'event type'})
+[Missing]  frozenset({'event', 'event type'})
+===========
+
+=== Round 5 (Round5) ===
+[Matched]    ('order', 'user')
+[Matched]    ('order', 'ticket')
+[Matched]    ('event', 'ticket')
+[Matched]    ('event', 'genre')
+[Matched]    ('event', 'venue')
+[Matched]    ('artist', 'event')
+[Matched]    ('genre', 'user')
+[Matched]    ('artist', 'user')
+[Matched]    ('event', 'user')
+[Matched]    ('reseller', 'ticket')
+[Matched]    ('order', 'payment')
+[Unmatched]  ('payment', 'user')
+[Unmatched]  ('payment', 'reseller')
+===========
+[Missing]  frozenset({'user', 'event type'})
+[Missing]  frozenset({'event', 'event type'})
+===========
+
+=== Round 6 (Round6) ===
+[Matched]    ('order', 'user')
+[Matched]    ('event', 'venue')
+[Matched]    ('event', 'ticket')
+[Matched]    ('event', 'event type')
+[Matched]    ('event', 'genre')
+[Matched]    ('artist', 'event')
+[Matched]    ('reseller', 'ticket')
+[Matched]    ('order', 'payment')
+[Unmatched]  ('ticket', 'user')
+[Unmatched]  ('artist', 'genre')
+[Unmatched]  ('payment', 'reseller')
+[Unmatched]  ('order', 'venue')
+===========
+[Missing]  frozenset({'ticket', 'order'})
+[Missing]  frozenset({'event', 'user'})
+[Missing]  frozenset({'user', 'artist'})
+[Missing]  frozenset({'user', 'event type'})
+[Missing]  frozenset({'user', 'genre'})
+===========
+
+=== Round 7 (Round7) ===
+[Matched]    ('genre', 'user')
+[Matched]    ('event type', 'user')
+[Matched]    ('event', 'user')
+[Matched]    ('artist', 'user')
+[Matched]    ('reseller', 'ticket')
+[Matched]    ('order', 'user')
+[Unmatched]  ('payment', 'user')
+[Unmatched]  ('event', 'reseller')
+[Unmatched]  ('user', 'venue')
+[Unmatched]  ('ticket', 'user')
+===========
+[Missing]  frozenset({'event', 'ticket'})
+[Missing]  frozenset({'payment', 'order'})
+[Missing]  frozenset({'ticket', 'order'})
+[Missing]  frozenset({'event', 'venue'})
+[Missing]  frozenset({'event', 'genre'})
+[Missing]  frozenset({'event', 'artist'})
+[Missing]  frozenset({'event', 'event type'})
+===========
+
+=== Round 8 (Round8) ===
+[Matched]    ('event type', 'user')
+[Matched]    ('event', 'user')
+[Matched]    ('artist', 'user')
+[Matched]    ('order', 'user')
+[Matched]    ('genre', 'user')
+[Matched]    ('event', 'event type')
+[Matched]    ('artist', 'event')
+[Matched]    ('event', 'venue')
+[Matched]    ('event', 'ticket')
+[Matched]    ('order', 'ticket')
+[Matched]    ('reseller', 'ticket')
+[Matched]    ('order', 'payment')
+[Matched]    ('event', 'genre')
+[Unmatched]  ('ticket', 'user')
+[Unmatched]  ('payment', 'user')
+[Unmatched]  ('user', 'venue')
+[Unmatched]  ('artist', 'genre')
+[Unmatched]  ('payment', 'ticket')
+[Unmatched]  ('ticket', 'venue')
+[Unmatched]  ('reseller', 'user')
+[Unmatched]  ('payment', 'reseller')
+[Unmatched]  ('event', 'order')
+===========
+===========
+
+=== Round 9 (Round9) ===
+[Matched]    ('genre', 'user')
+[Matched]    ('order', 'user')
+[Matched]    ('event', 'user')
+[Matched]    ('artist', 'user')
+[Matched]    ('event', 'genre')
+[Matched]    ('event', 'venue')
+[Matched]    ('event', 'ticket')
+[Matched]    ('order', 'ticket')
+[Matched]    ('reseller', 'ticket')
+[Matched]    ('artist', 'event')
+[Unmatched]  ('payment', 'user')
+[Unmatched]  ('payment', 'reseller')
+===========
+[Missing]  frozenset({'payment', 'order'})
+[Missing]  frozenset({'user', 'event type'})
+[Missing]  frozenset({'event', 'event type'})
+===========
+
+=== Round 10 (Round10) ===
+[Matched]    ('event', 'user')
+[Matched]    ('order', 'user')
+[Matched]    ('event', 'venue')
+[Matched]    ('artist', 'event')
+[Matched]    ('event', 'ticket')
+[Matched]    ('event', 'genre')
+[Matched]    ('reseller', 'ticket')
+[Matched]    ('order', 'ticket')
+[Matched]    ('order', 'payment')
+[Unmatched]  ('bankaccount', 'reseller')
+[Unmatched]  ('favorite', 'user')
+===========
+[Missing]  frozenset({'user', 'artist'})
+[Missing]  frozenset({'user', 'event type'})
+[Missing]  frozenset({'event', 'event type'})
+[Missing]  frozenset({'user', 'genre'})
+===========
