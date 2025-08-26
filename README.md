@@ -6,15 +6,13 @@ Transform user stories into domain-model elements—**classes** and **associatio
 
 ## Setup & Usage
 
-Setup & Usage
-
 Before running the system, make sure you complete the following steps:
 
 1. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
-2. Set your API key: Open **src/class_assoc_pipeline/api.py** and place your HuggingFace API key and OpenAI API key inside.
+2. Set your API key: Open **src/class_assoc_pipeline/api.py** and place API keys inside.
 
 3. Add src to Python path
 
