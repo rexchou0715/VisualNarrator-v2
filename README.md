@@ -15,6 +15,7 @@ Before running the system, make sure you complete the following steps:
 pip install -r requirements.txt
 ```
 2. Set your API key
+
 Open src/class_assoc_pipeline/api.py and place your OpenAI API key inside.
 
 3. Add src to Python path
