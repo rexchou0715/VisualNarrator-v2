@@ -53,9 +53,9 @@ def main():
 
     # --- Map CLI model name to internal model ID (for client) ---
     if args.model.lower() == "llama3-8b":
-        model = "meta-llama/Meta-Llama-3-8B-Instruct"
+        model = "meta-llama/Meta-Llama-3-8B-Instruct:novita"
     elif args.model.lower() == "qwen-14b":
-        model = "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B"
+        model = "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B:novita"
     else:
         model = "o1-2024-12-17"
 
