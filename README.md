@@ -14,7 +14,7 @@ pip install -r requirements.txt
 ```
 2. Set your API key: Open **src/class_assoc_pipeline/api.py** and place API keys inside.
 
-3. Add src to Python path
+3. In case you encounter this error message, "ModuleNotFoundError: No module named 'class_assoc_pipeline'", add src to Python path. 
 
 ```bash
 export PYTHONPATH=src
