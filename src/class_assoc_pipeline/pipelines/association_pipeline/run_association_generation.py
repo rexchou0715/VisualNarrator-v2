@@ -88,7 +88,7 @@ def main():
             for msg in conversation:
                 out_file.write(f"{msg['role'].upper()} :\n\n{msg['content']}\n\n")
 
-        print(f"✅ Round {r + 1} completed for {dataset_name}")
+        print(f"✅ Round {r + 1} completed for {dataset_name}. The data is saved to {output_path}")
 
     print("🎉 All rounds completed.")
 

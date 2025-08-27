@@ -24,6 +24,7 @@ def write_experiment_log(output_dir: str, log_text: str) -> None:
     """
     os.makedirs(output_dir, exist_ok=True)
     log_path = os.path.join(output_dir, "experiment_log.txt")
+    print(f"Experiment logs are saved in {log_path}")
     with open(log_path, "w", encoding="utf-8") as f:
         f.write(log_text)
 
@@ -45,6 +46,7 @@ def write_results_to_excel(
     """
     os.makedirs(output_dir, exist_ok=True)
     out_path = os.path.join(output_dir, "evaluation_results.xlsx")
+    print(f"Experiment results are saved in {out_path}")
     with pd.ExcelWriter(out_path) as writer:
         pd.DataFrame(mand_results).to_excel(writer, sheet_name="mandatory", index=False)
         pd.DataFrame(all_results).to_excel(writer, sheet_name="including optional", index=False)

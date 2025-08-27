@@ -62,7 +62,7 @@ def process_file(model: str, dataset: str, exp_round: int) -> None:
 
         # Skip rationale sections (often not part of actual class lists)
         if re.match(r'^(?:\d+\.\s*|\*\s*|\-\s*)?\s*Rationale:', text, re.IGNORECASE):
-            print(f"{text}, Match")
+            # print(f"{text}, Match")
             continue
 
         # Detect transition between mandatory and optional sections
@@ -99,10 +99,10 @@ def process_file(model: str, dataset: str, exp_round: int) -> None:
         # === 5. Handle variations in class grouping (comma, and, or) ===
         if ',' in core:
             raw_names = flatten_comma_variants(core)
-            print(raw_names)
+            # print(raw_names)
         elif re.search(r'\band\b', core, flags=re.IGNORECASE):
             raw_names = flatten_and_variants(core)
-            print(raw_names)
+            # print(raw_names)
         elif re.search(r'\(or\b', core, flags=re.IGNORECASE) or '/' in core:
             raw_names = [ flatten_or_variants(core) ]  # Single string
         else:
@@ -114,9 +114,9 @@ def process_file(model: str, dataset: str, exp_round: int) -> None:
 
             # Strip parentheses not related to meaning (e.g., acronyms)
             if not ('(optional)' in name.lower()) and ('(' in name):
-                print(f"before name: {name}")
+                # print(f"before name: {name}")
                 name = re.sub(r'\s*\([^)]*\)', '', name).strip()
-                print(f"after name: {name}")
+                # print(f"after name: {name}")
 
             # Append to appropriate list (mandatory/optional)
             if reading_mand:
@@ -154,7 +154,7 @@ def process_file(model: str, dataset: str, exp_round: int) -> None:
         with pd.ExcelWriter(report, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
             df.to_excel(writer, index=False, sheet_name=sheet_name)
 
-    print(f"✅ Extracted {model} | {dataset} | Round {exp_round}")
+    print(f"✅ Extracted {model} | {dataset} | Round {exp_round}. Data saved to {outfile} and {report}")
 
 # === Helper: Loop through all rounds for a dataset ===
 def process_dataset(model: str, dataset: str, rounds: int) -> None:
