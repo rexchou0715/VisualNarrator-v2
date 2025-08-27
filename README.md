@@ -95,7 +95,7 @@ python src/class_assoc_pipeline/pipelines/class_pipeline/run_class_pipeline.py \
 
 # Run extraction only for associations
 python src/class_assoc_pipeline/pipelines/association_pipeline/run_association_pipeline.py \
-  --input data/raw/association/Llama3-8B/ticket \
+  --input data/raw/association/Llama3-8B/sports \
   --mode extraction
 ```
 

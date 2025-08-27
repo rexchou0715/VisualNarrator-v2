@@ -222,7 +222,7 @@ def convert_dataset_to_excel(model: str, dataset: str, num_rounds: int = 10) -> 
         df.to_excel(writer, sheet_name=f"Round{r}", index=False)
 
     writer.close()
-    print(f"✅ Wrote Excel report for {model}/{dataset}")
+    print(f"Report is saved to {out_xlsx_path}")
 
 
 
