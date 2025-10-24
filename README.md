@@ -118,7 +118,7 @@ All data and experiment result files are organized under the **`thesis-artifacts
 | **`thesis-artifacts/quantitative analysis/`** | Quantitative evaluation results | Contains quantitative results for both class and association extraction tasks, as well as statistical test outputs. |
 | **`thesis-artifacts/qualitative analysis/`** | Qualitative evaluation results | Contains manually labeled false-positive classes for each dataset. |
 
-### 📄 Additional Files
+## Additional Files
 
 | **File** | **Description** |
 |-----------|----------------|
