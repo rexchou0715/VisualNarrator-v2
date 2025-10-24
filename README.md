@@ -125,9 +125,6 @@ All data and experiment result files are organized under the **`thesis-artifacts
 | **`thesis-artifacts/Gold&Silver Standard.xlsx`** | Revised gold and silver standards adopted in the study. |
 | **`thesis-artifacts/Synonym List.xlsx`** | Synonym list used for normalization and comparison during evaluation. |
 
-> 🧾 These files collectively form the full experimental artifact for the thesis, ensuring transparency and reproducibility for both quantitative and qualitative analyses.
-
-
 ---
 
 ## Related
